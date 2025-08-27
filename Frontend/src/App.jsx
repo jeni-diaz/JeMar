@@ -2,18 +2,18 @@ import { useState } from 'react'
 
 import Header from './Components/Header/header';
 import Footer from './Components/Footer/footer';
-import ActionButtons from './Components/ActionButtons/action-buttons'
+import ActionButtons from './Components/ActionButtons/action-buttons';
 
 import './App.css'
 
-function App() {
+const App = () => {
   const [count, setCount] = useState(0)
 
   return (
     <>
       <Header />
       <ActionButtons />
-      <Footer />
+      <Footer />   
     </>
   )
 }

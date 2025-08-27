@@ -12,8 +12,8 @@ const Header = () => {
         </Navbar.Brand>
 
         <Nav className="ms-auto">
-          <Button className="btn-custom contacto me-2">Contacto</Button>
-          <Button className="btn-custom">Iniciar Sesión</Button>
+          <Button className="Button">Contacto</Button>
+          <Button className="Button">Iniciar Sesión</Button>
         </Nav>
       </Container>
     </Navbar>
