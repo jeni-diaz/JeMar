@@ -1,0 +1,33 @@
+.bottom-buttons {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  z-index: 1030;
+  background: transparent;
+}
+
+.btn-custom {
+  background-color: #000 !important;
+  color: #B07F11 !important;
+  font-size: 1.2rem;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 0 0 12px 12px;
+  cursor: pointer;
+  min-width: 120px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+}
+
+.btn-custom:hover {
+  background-color: #B07F11;
+  color: #000;
+}
+
+
+

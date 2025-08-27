@@ -1,0 +1,18 @@
+.footer-custom {
+  position: fixed;      
+  bottom: 0;         
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  box-shadow: 0 -10px 15px rgba(176, 127, 17, 0.8);
+  z-index: 1040;     
+  height: 30px;
+  line-height: 30px;
+}
+
+.footer-text {
+  color: #B07F11;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+

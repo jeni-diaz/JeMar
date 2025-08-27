@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import './App.css'
 
 import Header from './Components/Header/header';
 import Footer from './Components/Footer/footer';
+import ActionButtons from './Components/ActionButtons/action-buttons'
+
+import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -10,9 +12,8 @@ function App() {
   return (
     <>
       <Header />
-      
+      <ActionButtons />
       <Footer />
-
     </>
   )
 }

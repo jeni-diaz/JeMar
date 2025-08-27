@@ -1,0 +1,27 @@
+.navbar-custom {
+  background-color: #000000;
+  background-image:
+    linear-gradient(to bottom, #000000, #000000),
+    linear-gradient(to bottom, #B07F11, transparent);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 15px 12px 0 rgba(176, 127, 17, 0.8);
+  z-index: 1030;
+  height: 60px;
+  line-height: 60px;
+}
+
+.brand-text {
+  color: #B07F11;
+  font-size: 2rem;
+}
+
+.btn-custom {
+  background-color: transparent !important;
+  color: #B07F11 !important;          
+  font-size: 2rem;
+  border: none !important;        
+  text-decoration: none !important;
+  box-shadow: none !important;
+  padding: 0.375rem 0.75rem;
+}
