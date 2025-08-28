@@ -3,15 +3,13 @@ import { Envio } from "../models/envios.js";
 
 const router = Router();
 
-router.get("/envios/:id", (req, res) => {
+router.get("/envios/:id", async (req, res) => {
   const { id } = req.params;
-
-  const envio = Envio.findByPk(id);
-
+  const envio = await Envio.findByPk(id);
   res.json(envio);
 });
 
-router.post("/envios", (req, res) => {
+router.post("/envios", async (req, res) => {
   const {
     usuario_id,
     tipo_envio_id,
@@ -21,7 +19,8 @@ router.post("/envios", (req, res) => {
     estado,
     creado_en,
   } = req.body;
-  const new_envio = Envio.create({
+
+  const new_envio = await Envio.create({
     usuario_id,
     tipo_envio_id,
     origen,

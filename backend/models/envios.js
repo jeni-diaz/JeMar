@@ -8,10 +8,10 @@ export const Envio = sequelize.define("Envio", {
         primaryKey: true,
         autoIncrement: true,
     },
-    // usuario_id: {
-    // type: DataTypes.INTEGER,
-    // allowNull: false,
-    // },
+    usuario_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    },
     tipo_envio_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -31,9 +31,5 @@ export const Envio = sequelize.define("Envio", {
     estado: {
   type: DataTypes.ENUM('pendiente', 'en camino', 'entregado', 'cancelado'),
   defaultValue: 'pendiente'
-},
-creado_en: {
-  type: DataTypes.DATE,
-  defaultValue: DataTypes.NOW
-},
-});
+}
+})
