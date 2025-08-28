@@ -11,13 +11,15 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.bg-container {
+.fondo {
   background-attachment: fixed;
-  min-height: 100vh;
-  background-image: url('/Frontend/public/images/Imagen-1.svg');
+  min-height: 50vh;
+  background-image: url('/images/Imagen-1.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative; 
+  width: 100vw;
   height: 100vh;
   margin: 0;
 }

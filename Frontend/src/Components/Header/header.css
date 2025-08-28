@@ -1,10 +1,5 @@
-.navbar-custom {
+.Header {
   background-color: #000000;
-  background-image:
-    linear-gradient(to bottom, #000000, #000000),
-    linear-gradient(to bottom, #B07F11, transparent);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
   box-shadow: 0 15px 12px 0 rgba(176, 127, 17, 0.8);
   z-index: 1030;
   height: 60px;
@@ -16,10 +11,13 @@
   font-size: 2rem;
 }
 
-.button {
-  background-color: transparent !important;
-  color: #B07F11 !important;          
-  font-size: 1.2rem !important; ;
-  border: none !important;        
-  text-decoration: none !important;
+.Button {
+  color: #B07F11;          
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+}
+
+.Button:hover {
+  background-color: transparent;
 }
