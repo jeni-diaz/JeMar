@@ -1,4 +1,4 @@
-.fondo {
+.image-background {
   background-attachment: fixed;
   min-height: 50vh;
   background-image: url('/images/Imagen-1.svg');
@@ -12,7 +12,6 @@
 }
 
 .tracking-container {
-  gap: 5px;
   color: #B07F11;
 }
 
@@ -30,7 +29,7 @@
   color: #B07F11;
 }
 
-.Button-acction {
+.button-bar .Button-acction {
   width: 200px;
   height: 70px;
   border-radius: 20px 20px 0 0;
@@ -42,8 +41,10 @@
   margin-right: 5rem;
 }
 
-.Button-acction:hover {
+.button-bar .Button-acction:hover {
   background-color: #000000;
 }
 
-
+.button-bar .Button-acction.active {
+  background-color: #B07F11;
+}

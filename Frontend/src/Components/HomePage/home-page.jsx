@@ -1,14 +1,17 @@
+import { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './home-page.css';
 
 const HomePage = () => {
+  const [activeButton, setActiveButton] = useState(null);
+
   return (
-    <div className="fondo">
+    <div className="image-background">
       <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
 
         <Container className="tracking-container custom-box w-100">
-          <Row className="align-items-center justify-content-between">
-            <Col className="tracking-text text-center mb-3 mb-md-0">
+          <Row className="justify-content-center text-center">
+            <Col xs={6} md={4} className="tracking-text">
               <h2 className="m-0">
                 Hace el seguimiento
                 <br />
@@ -16,7 +19,7 @@ const HomePage = () => {
               </h2>
             </Col>
 
-            <Col className="shipping-select">
+            <Col xs={6} md={3} className="shipping-select text-center">
               <label className="form-label">Selecciona el tipo de envío</label>
               <select className="form-select">
                 <option> - </option>
@@ -31,13 +34,22 @@ const HomePage = () => {
         <Container className="button-bar position-fixed start-50 translate-middle-x" style={{ bottom: 30 }}>
           <Row className="justify-content-center">
             <Col xs="auto">
-              <Button className="Button-acction">Cotizar</Button>
+              <Button
+                className={`Button-acction ${activeButton === 'quote' ? 'active' : ''}`}
+                onClick={() => setActiveButton('quote')}
+              >Cotizar</Button>
             </Col>
             <Col xs="auto">
-              <Button className="Button-acction">Realizar</Button>
+              <Button
+                className={`Button-acction ${activeButton === 'ship' ? 'active' : ''}`}
+                onClick={() => setActiveButton('ship')}
+              >Realizar</Button>
             </Col>
             <Col xs="auto">
-              <Button className="Button-acction">Rastrear</Button>
+              <Button
+                className={`Button-acction ${activeButton === 'track' ? 'active' : ''}`}
+                onClick={() => setActiveButton('track')}
+              >Rastrear</Button>
             </Col>
           </Row>
         </Container>
