@@ -10,6 +10,6 @@ import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './envios.db'
+  storage: 'envios.db'
 });
 
