@@ -1,0 +1,49 @@
+.fondo {
+  background-attachment: fixed;
+  min-height: 50vh;
+  background-image: url('/images/Imagen-1.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
+
+.tracking-container {
+  gap: 5px;
+  color: #B07F11;
+}
+
+.shipping-select .form-select {
+  background-color: #000000;
+  color: #B07F11;
+  box-shadow: 0 0 10px #B07F11;
+  border: none;
+}
+
+.shipping-select .form-select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #B07F11;
+  background-color: #000000;
+  color: #B07F11;
+}
+
+.Button-acction {
+  width: 200px;
+  height: 70px;
+  border-radius: 20px 20px 0 0;
+  color: #B07F11;
+  background-color: #000000;
+  border: none;
+  font-size: 2rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.Button-acction:hover {
+  background-color: #000000;
+}
+
+

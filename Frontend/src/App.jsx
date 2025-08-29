@@ -2,8 +2,7 @@ import { useState } from 'react'
 
 import Header from './Components/Header/header';
 import Footer from './Components/Footer/footer';
-import ActionButtons from './Components/ActionButtons/action-buttons';
-import Box from './Components/Box/box';
+import HomePage from './Components/HomePage/home-page';
 
 import './App.css';
 
@@ -12,13 +11,13 @@ const App = () => {
 
   return (
     <>
-      <div className='fondo'>
-        <Header />
-        <ActionButtons />
-        <Footer /> 
-      </div>  
+
+      <Header />
+      <HomePage />
+      <Footer />
+
     </>
   );
-}
+};
 
 export default App

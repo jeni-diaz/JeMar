@@ -11,13 +11,13 @@
   font-size: 2rem;
 }
 
-.Button {
+.navbar-custom .Button {
   color: #B07F11;          
   background-color: transparent;
   border: none;
   font-size: 1.2rem;
 }
 
-.Button:hover {
+.navbar-custom .Button:hover {
   background-color: transparent;
 }
