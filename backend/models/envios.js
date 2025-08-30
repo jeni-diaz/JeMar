@@ -32,4 +32,4 @@ export const Envio = sequelize.define("Envio", {
   type: DataTypes.ENUM('pendiente', 'en camino', 'entregado', 'cancelado'),
   defaultValue: 'pendiente'
 }
-})
+});
