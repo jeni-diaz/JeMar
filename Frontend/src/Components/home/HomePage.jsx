@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import Background from "../background/Background";
@@ -7,6 +8,25 @@ import './HomePage.css';
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
+  const navigate = useNavigate();
+
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+
+    switch(button) {
+      case 'quote':
+        navigate('/shipping');
+        break;
+      case 'ship':
+        navigate('/realizar'); // tu ruta para realizar envío
+        break;
+      case 'track':
+        navigate('/rastrear'); // tu ruta de rastreo
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <Background image="/images/ImageHome.svg">
@@ -39,7 +59,7 @@ const HomePage = () => {
             <Col xs="auto">
               <Button
                 className={`Button-acction ${activeButton === 'quote' ? 'active' : ''}`}
-                onClick={() => setActiveButton('quote')}
+                onClick={() => handleButtonClick('quote')}
               >Cotizar</Button>
             </Col>
             <Col xs="auto">
