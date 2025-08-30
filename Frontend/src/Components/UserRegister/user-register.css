@@ -1,0 +1,62 @@
+.image-background {
+  background-attachment: fixed;
+  min-height: 50vh;
+  background-image: url('/images/Imagen-3.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
+
+.small-container {
+  background-color: rgba(0, 0, 0, 0.75);
+  width: 25vw;
+  height: 70vh;
+  border-radius: 10px;
+}
+
+.text-center, .form-label {
+  color: #B07F11;
+}
+
+.imput-group .custom-input {
+  background-color: #000000;
+  color: #B07F11;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+
+.imput-group .custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #B07F11;
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.imput-group .custom-input::placeholder {
+  color: #6b6b6b;
+}
+
+.small-container .custom-button {
+  background-color: #B07F11;
+  color: #ffffff;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+
+.small-container .custom-button:hover {
+  background-color: #000000;
+  border-color: #ffffff;
+}
+
+.custom-link{
+  color: #B07F11;
+}
+
+.custom-link:hover{
+  color: #ffffff;
+}
