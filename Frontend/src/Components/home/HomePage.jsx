@@ -9,7 +9,7 @@ const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
 
   return (
-    <Background image="/images/Imagen-1.svg">
+    <Background image="/images/ImageHome.svg">
       <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
 
         <Container className="tracking-container custom-box w-100">

@@ -6,7 +6,7 @@ import './ShippingQuote.css';
 
 function ShippingQuote() {
     return (
-        <Background image="/images/Imagen-4.svg">
+        <Background image="/images/ImageShipping.svg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>

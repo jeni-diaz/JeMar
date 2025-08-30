@@ -7,7 +7,7 @@ import './login.css';
 
 function Login() {
     return (
-        <Background image="/images/Imagen-2.svg">
+        <Background image="/images/ImageLogin.svg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>

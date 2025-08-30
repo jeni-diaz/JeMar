@@ -6,7 +6,7 @@ import './UserRegister.css';
 
 function UserRegister() {
     return (
-        <Background image="/images/Imagen-3.svg">
+        <Background image="/images/ImagenRegister.svg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>

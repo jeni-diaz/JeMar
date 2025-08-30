@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import HomePage from './components/home/HomePage';
@@ -12,23 +12,29 @@ import Footer from './components/footer/Footer';
 
 import './App.css';
 
-const App = () => {
+const MainLayout = () => (
+  <>
+    <Header />
+    <Outlet />
+    <Footer />
+  </>
+);
 
+function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Header />
-        <Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
           <Route path='/' element={<HomePage />} />
           <Route path='/shipping' element={<ShippingQuote />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<UserRegister />} />
-          <Route path='*' element={<ErrorNotFound />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
+        </Route>
+
+        <Route path='*' element={<ErrorNotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
