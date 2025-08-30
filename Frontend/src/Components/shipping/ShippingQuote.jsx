@@ -1,11 +1,12 @@
-import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 
-import './shipping-quote.css';
+import Background from "../background/Background";
+
+import './ShippingQuote.css';
 
 function ShippingQuote() {
     return (
-        <div className="image-background">
+        <Background image="/images/Imagen-4.svg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>
@@ -30,11 +31,11 @@ function ShippingQuote() {
                             <Form.Control className="custom-input" type="text" placeholder="Ej: Buenos Aires" />
                         </Form.Group>
 
-                        <Button className="custom-button mx-auto w-50 d-flex justify-content-center mt-5">Continuar</Button>
+                        <Button className="custom-button mx-auto w-50 d-flex justify-content-center mt-5">Cotizar</Button>
                     </Form>
                 </div>
             </Container>
-        </div>
+        </Background>
     );
 }
 

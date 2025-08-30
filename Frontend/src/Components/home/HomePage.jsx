@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import './home-page.css';
+
+import Background from "../background/Background";
+
+import './HomePage.css';
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
 
   return (
-    <div className="image-background">
+    <Background image="/images/Imagen-1.svg">
       <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
 
         <Container className="tracking-container custom-box w-100">
@@ -55,7 +58,7 @@ const HomePage = () => {
         </Container>
 
       </Container>
-    </div>
+    </Background>
   );
 };
 

@@ -1,11 +1,13 @@
-import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
+
+import Background from "../background/Background";
+
 
 import './login.css';
 
 function Login() {
     return (
-        <div className="image-background">
+        <Background image="/images/Imagen-2.svg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>
@@ -33,7 +35,7 @@ function Login() {
                     </Form>
                 </div>
             </Container>
-        </div>
+        </Background>
     );
 }
 
