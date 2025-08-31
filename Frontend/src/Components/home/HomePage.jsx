@@ -10,18 +10,19 @@ const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const handleButtonClick = (button) => {
     setActiveButton(button);
 
-    switch(button) {
+    switch (button) {
       case 'quote':
-        navigate('/shipping');
-        break;
-      case 'ship':
-        navigate('/realizar'); // tu ruta para realizar envío
+        navigate('/quote');
         break;
       case 'track':
-        navigate('/rastrear'); // tu ruta de rastreo
+        navigate('/track');
         break;
       default:
         break;
@@ -29,9 +30,9 @@ const HomePage = () => {
   }
 
   return (
-    <Background image="/images/ImageHome.svg">
-      <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+    <Background image="/images/ImageHome.jpg">
 
+      <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
         <Container className="tracking-container custom-box w-100">
           <Row className="justify-content-center text-center">
             <Col xs={6} md={4} className="tracking-text">
@@ -49,7 +50,6 @@ const HomePage = () => {
                 <option>Estándar</option>
                 <option>Express</option>
               </select>
-              <i className="bi bi-caret-down-square-fill custom-icon"></i>
             </Col>
           </Row>
         </Container>
@@ -64,15 +64,11 @@ const HomePage = () => {
             </Col>
             <Col xs="auto">
               <Button
-                className={`Button-acction ${activeButton === 'ship' ? 'active' : ''}`}
-                onClick={() => setActiveButton('ship')}
-              >Realizar</Button>
-            </Col>
-            <Col xs="auto">
-              <Button
                 className={`Button-acction ${activeButton === 'track' ? 'active' : ''}`}
-                onClick={() => setActiveButton('track')}
-              >Rastrear</Button>
+                onClick={() => handleButtonClick('track')}
+              >
+                Rastrear
+              </Button>
             </Col>
           </Row>
         </Container>

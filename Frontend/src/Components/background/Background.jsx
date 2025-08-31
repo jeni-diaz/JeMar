@@ -1,4 +1,4 @@
-function Background({ image, children }) {
+const Background = ({ image, children }) => {
   return (
      <div
       style={{

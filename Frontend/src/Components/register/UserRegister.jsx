@@ -1,16 +1,17 @@
 import { Container, Form, Button } from 'react-bootstrap';
 
+
 import Background from "../background/Background";
 
 import './UserRegister.css';
 
 function UserRegister() {
     return (
-        <Background image="/images/ImagenRegister.svg">
+        <Background image="/images/ImageRegister.jpg">
             <Container className="d-flex align-items-center min-vh-100">
                 <div className="small-container">
                     <Form className='rounded-4 p-5'>
-                        <h2 className="text-center mb-4 fw-bold">REGISTRARME</h2>
+                        <h2 className="text-center mb-2 fw-bold">REGISTRARME</h2>
 
                         <Form.Group className="imput-group mb-3 w-bold">
                             <Form.Label>Nombre:</Form.Label>
