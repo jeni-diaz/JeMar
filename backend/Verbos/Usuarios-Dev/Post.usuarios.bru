@@ -1,0 +1,24 @@
+meta {
+  name: Post.usuarios
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/usuario
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombre": "jenifer",
+    "email": "jenifergoogle@hotmail.com",
+    "password": "12345678"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}
