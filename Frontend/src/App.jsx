@@ -12,8 +12,6 @@ import ShippingQuote from './components/quote/ShippingQuote';
 import UserRegister from './components/register/UserRegister';
 import ShippingTrack from './components/track/ShippingTrack';
 
-import './App.css';
-
 const MainLayout = () => (
   <>
     <Header />
