@@ -1,7 +1,7 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
-import './header.css';
+import '../style/GeneralStyles.css';
 
 const Header = () => {
   const navigate = useNavigate();

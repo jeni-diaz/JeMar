@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import Background from "../background/Background";
 
-import './HomePage.css';
+import '../style/GeneralStyles.css';
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);

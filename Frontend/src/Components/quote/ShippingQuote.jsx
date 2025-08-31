@@ -2,15 +2,15 @@ import { Container, Form, Button } from 'react-bootstrap';
 
 import Background from "../background/Background";
 
-import './ShippingQuote.css';
+import '../style/GeneralStyles.css';
 
 function ShippingQuote() {
     return (
         <Background image="/images/ImageQuote.jpg">
             <Container className="d-flex align-items-center min-vh-100">
-                <div className="small-container">
-                    <Form className='rounded-4 p-5'>
-                        <h2 className="text-center mb-4 fw-bold">COTIZAR ENVÍO</h2>
+                <div className="small-container d-flex flex-column justify-content-center">
+                    <Form className="rounded-4 p-5 mx-auto">
+                        <h2 className="text-center mb-2 fw-bold">COTIZAR ENVÍO</h2>
 
                         <Form.Group className="imput-group mb-3 w-bold">
                             <Form.Label>Tipo de envío:</Form.Label>

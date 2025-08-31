@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Background from "../background/Background";
 
-
-import './ShippingTrack.css';
+import '../style/GeneralStyles.css';
 
 function ShippingTrack() {
     return (

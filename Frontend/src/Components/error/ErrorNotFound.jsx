@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Background from "../background/Background";
 
-import './ErrorNotFound.css';
+import '../style/GeneralStyles.css';
 
 const ErrorNotFound = () => {
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ const ErrorNotFound = () => {
     }
 
     return (
-        <Background image="/images/ImageMistake.svg">
+        <Background image="/images/ImageMistake.jpg">
             <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
             <Container className="custom-box w-100">
                 <Row className="justify-content-space-between text-center">

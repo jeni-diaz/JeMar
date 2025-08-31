@@ -1,0 +1,177 @@
+/* Header */
+.Header {
+  background-color: #000000;
+  box-shadow: 0 15px 12px 0 rgba(176, 127, 17, 0.8);
+  z-index: 1030;
+  height: 60px;
+  line-height: 60px;
+}
+
+.brand-text {
+  color: #B07F11;
+  font-size: 2rem;
+}
+
+.navbar-custom .Button {
+  color: #B07F11;          
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+}
+
+.navbar-custom .Button:hover {
+  background-color: transparent;
+}
+
+/* Footer */
+.Footer {
+  background-color: #000000;
+  box-shadow: 0 -10px 15px rgba(176, 127, 17, 0.8);  
+  height: 30px;
+}
+
+.footer-text {
+  color: #B07F11;
+}
+
+/* Base común Forms */
+.small-container {
+  background-color: rgba(0, 0, 0, 0.75);
+  width: 25vw;
+  border-radius: 10px;
+}
+
+.small-container {
+  height: 70vh;
+}
+
+/* Inputs */
+.imput-group .custom-input {
+  background-color: #000000;
+  color: #B07F11;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+.imput-group .custom-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #B07F11;
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.imput-group .custom-input::placeholder {
+  color: #6b6b6b;
+}
+
+/* Select específico de ShippingQuote */
+.custom-input option {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+/* Checkbox específico de Login */
+.imput-group .custom-checkbox .form-check-input:checked {
+  background-color: #B07F11;
+  border-color: #ffffff;
+}
+.imput-group .custom-checkbox .form-check-input {
+  background-color: #000000;
+  border-color: #ffffff;
+}
+.imput-group .custom-checkbox .form-check-label {
+  color: #B07F11;
+}
+
+/* Botones */
+.small-container .custom-button {
+  background-color: #B07F11;
+  color: #ffffff;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+.small-container .custom-button:hover {
+  background-color: #000000;
+  border-color: #ffffff;
+}
+
+/* Links */
+.custom-link {
+  color: #B07F11;
+}
+.custom-link:hover {
+  color: #ffffff;
+}
+
+/* HomePage específicos */
+.tracking-container {
+  color: #B07F11;
+}
+.shipping-select .form-select {
+  background-color: #000000;
+  color: #B07F11;
+  box-shadow: 0 0 10px #B07F11;
+  border: none;
+}
+.shipping-select .form-select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #B07F11;
+  background-color: #000000;
+  color: #B07F11;
+}
+.button-bar .Button-acction {
+  width: 200px;
+  height: 70px;
+  border-radius: 20px 20px 0 0;
+  color: #B07F11;
+  background-color: #000000;
+  border: none;
+  font-size: 2rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+.button-bar .Button-acction:hover {
+  background-color: #000000;
+}
+.button-bar .Button-acction.active {
+  background-color: #B07F11;
+}
+
+/* ErrorNotFound específicos */
+.shipping-select .custom-button {
+  background-color: #B07F11;
+  color: #ffffff;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+
+.shipping-select .custom-button:hover {
+  background-color: #000000;
+  border-color: #ffffff;
+}
+
+.shipping-select .custom-link {
+  color: #B07F11;
+}
+
+.shipping-select .custom-link:hover {
+  color: #ffffff;
+}
+
+
+/* BackArrow específicos */
+.back-icon {
+  position: fixed;
+  top: 90px;
+  right: 50px;
+  font-size: 2.5rem;
+  color: #B07F11;
+  cursor: pointer;
+  z-index: 1050; 
+  transition: color 0.3s ease;
+}
+
+.back-icon:hover,
+.back-icon:focus {
+  color: #ffffff;
+  outline: none;
+}

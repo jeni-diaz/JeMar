@@ -1,9 +1,8 @@
 import { Container, Form, Button } from 'react-bootstrap';
 
-
 import Background from "../background/Background";
 
-import './UserRegister.css';
+import '../style/GeneralStyles.css';
 
 function UserRegister() {
     return (

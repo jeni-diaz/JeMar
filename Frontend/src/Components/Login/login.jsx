@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Background from "../background/Background";
 
-
-import './login.css';
+import '../style/GeneralStyles.css';
 
 function Login() {
     return (
