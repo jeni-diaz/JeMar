@@ -4,23 +4,10 @@
   box-shadow: 0 15px 12px 0 rgba(176, 127, 17, 0.8);
   z-index: 1030;
   height: 60px;
-  line-height: 60px;
 }
 
 .brand-text {
   color: #B07F11;
-  font-size: 2rem;
-}
-
-.navbar-custom .Button {
-  color: #B07F11;          
-  background-color: transparent;
-  border: none;
-  font-size: 1.2rem;
-}
-
-.navbar-custom .Button:hover {
-  background-color: transparent;
 }
 
 /* Footer */
@@ -43,6 +30,10 @@
 
 .small-container {
   height: 70vh;
+}
+  
+.titulo, label{
+  color: #B07F11;
 }
 
 /* Inputs */
@@ -110,7 +101,6 @@
   background-color: #000000;
   color: #B07F11;
   box-shadow: 0 0 10px #B07F11;
-  border: none;
 }
 .shipping-select .form-select:focus {
   outline: none;
@@ -124,10 +114,6 @@
   border-radius: 20px 20px 0 0;
   color: #B07F11;
   background-color: #000000;
-  border: none;
-  font-size: 2rem;
-  margin-left: 5rem;
-  margin-right: 5rem;
 }
 .button-bar .Button-acction:hover {
   background-color: #000000;
@@ -163,7 +149,6 @@
   position: fixed;
   top: 90px;
   right: 50px;
-  font-size: 2.5rem;
   color: #B07F11;
   cursor: pointer;
   z-index: 1050; 

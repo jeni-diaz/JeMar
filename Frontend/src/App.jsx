@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
 import BackArrow from './components/back/BackArrow'
 //ShippingChange
+import ContactForm from './components/contact/ContactForm';
 import ErrorNotFound from './components/error/ErrorNotFound';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
@@ -22,20 +23,23 @@ const MainLayout = () => (
 
 function App() {
   return (
-    <BrowserRouter>
-      <BackArrow />
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/quote' element={<ShippingQuote />} />
-          <Route path='/register' element={<UserRegister />} />
-          <Route path='/track' element={<ShippingTrack />} />
-        </Route>
+    <>
+      <BrowserRouter>
+        <BackArrow />
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/quote' element={<ShippingQuote />} />
+            <Route path='/register' element={<UserRegister />} />
+            <Route path='/track' element={<ShippingTrack />} />
+            <Route path='/contact' element={<ContactForm />} />
+          </Route>
 
-        <Route path='*' element={<ErrorNotFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path='*' element={<ErrorNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

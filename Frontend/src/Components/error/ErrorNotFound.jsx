@@ -13,18 +13,19 @@ const ErrorNotFound = () => {
     }
 
     return (
-        <Background image="/images/ImageMistake.jpg">
-            <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-            <Container className="custom-box w-100">
-                <Row className="justify-content-space-between text-center">
-                    <Col xs={6} md={6} className="shipping-select text-center">
-                        <h1 className="m-0">¡Ups! Página no encontrada</h1>
-                        <Button variant="" className="custom-button mx-auto w-25 d-flex justify-content-center mt-5" onClick={goBack}>Regresar</Button>
-                    </Col>
-                </Row>
-            </Container>
-             </Container>
-        </Background>
+        <>
+            <Background image="/images/ImageErrorNotFound.jpg">
+                <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+                    <Container className="custom-box w-100">
+                        <Row className="justify-content-space-between text-center">
+                            <Col xs={6} md={6} className="shipping-select text-center">
+                                <h1 className="m-0">¡Ups! Página no encontrada</h1>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Container>
+            </Background>
+        </>
     );
 };
 

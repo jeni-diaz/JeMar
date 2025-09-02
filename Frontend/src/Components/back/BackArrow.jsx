@@ -12,12 +12,8 @@ const BackArrow = () => {
 
   return (
     <i
-      className="bi bi-arrow-left-square-fill back-icon"
+      className="bi bi-arrow-left-square-fill back-icon fs-2"
       onClick={handleBackArrow}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && handleBackArrow()}
-      aria-label="Volver atrás"
     ></i>
   );
 };
