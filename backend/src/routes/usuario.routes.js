@@ -13,12 +13,14 @@ res.json(usuario);
 router.post("/usuario", async (req, res) => {
     const {
         nombre, 
+        apellido,
         email, 
         password,
     } = req.body;
 
     const new_usuario = await Usuario.create({
          nombre, 
+         apellido,
         email, 
         password,
     });

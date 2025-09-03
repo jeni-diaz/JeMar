@@ -1,0 +1,25 @@
+meta {
+  name: registro
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/registro
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombre": "jenifer", 
+    "apellido": "diaz",
+    "email": "jenif@hotmail.com",
+    "password": "12345685522"
+    
+  }
+}
+
+settings {
+  encodeUrl: true
+}

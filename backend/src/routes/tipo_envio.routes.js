@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Tipo_envio } from "../models/tipo.envio.js";
+import { Tipo_envio } from "../models/tipo_envio.js";
 
 const router = Router();
 

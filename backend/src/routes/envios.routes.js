@@ -3,9 +3,8 @@ import { Envio } from "../models/envios.js";
 
 const router = Router();
 
-router.get("/envios/:id", async (req, res) => {
-  const { id } = req.params;
-  const envio = await Envio.findByPk(id);
+router.get("/envios", async (req, res) => {
+  const envio = await Envio.findAll();
   res.json(envio);
 });
 

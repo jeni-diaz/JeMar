@@ -12,6 +12,10 @@ nombre: {
     type: DataTypes.STRING,
     allowNull: false
 },
+apellido: {
+    type: DataTypes.STRING,
+    allowNull: false
+},
 email: {
   type: DataTypes.STRING,
   allowNull: false,
@@ -21,7 +25,7 @@ email: {
 password: {
   type: DataTypes.STRING,
   allowNull: false,
-  validate: { len: [8, 30] }
+  validate: { len: [8, 240] }
 }}, {
   timestamps: false
 });
