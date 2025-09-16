@@ -5,7 +5,8 @@ import CustomCard from "../card/CustomCard";
 
 import '../style/Styles.css';
 
-function UserRegister() {
+const UserRegister = () => {
+  
   return (
     <>
       <Background image="/images/ImageRegister.jpg">
@@ -13,7 +14,7 @@ function UserRegister() {
           title="REGISTRATE"
           buttonText="Continuar"
         >
-          <Form.Group className="imput-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Nombre:</Form.Label>
             <Form.Control
               className="custom-input"
@@ -22,7 +23,7 @@ function UserRegister() {
             />
           </Form.Group>
 
-          <Form.Group className="imput-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Apellido:</Form.Label>
             <Form.Control
               className="custom-input"
@@ -31,7 +32,7 @@ function UserRegister() {
             />
           </Form.Group>
 
-          <Form.Group className="imput-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Correo Electrónico:</Form.Label>
             <Form.Control
               className="custom-input"
@@ -40,7 +41,7 @@ function UserRegister() {
             />
           </Form.Group>
 
-          <Form.Group className="imput-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Contraseña:</Form.Label>
             <Form.Control
               className="custom-input"

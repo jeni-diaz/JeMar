@@ -13,7 +13,7 @@ function ShippingTrack() {
                     title="RASTREAR ENVÍO"
                     buttonText="Rastrear"
                 >
-                    <Form.Group className="imput-group mb-3 w-bold ">
+                    <Form.Group className="inputs-group mb-3 w-bold ">
                         <Form.Label>Número de seguimiento:</Form.Label>
                         <Form.Control className="custom-input" type="number" placeholder="Ej: 123456" />
                     </Form.Group>
