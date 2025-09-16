@@ -24,6 +24,10 @@ const HomePage = () => {
       case 'track':
         navigate('/track');
         break;
+      case 'modify':
+        navigate('/modify');
+      case 'colsult':
+        navigate('/consult');
       default:
         break;
     }
@@ -75,7 +79,7 @@ const HomePage = () => {
               </Col>
               <Col xs="auto">
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === '' ? 'active' : ''}`}
+                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'modify' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('')}
                 >
                   Modificar
@@ -84,7 +88,7 @@ const HomePage = () => {
 
               <Col xs="auto">
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === '' ? 'active' : ''}`}
+                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'consult' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('')}
                 >
                   Consultar
