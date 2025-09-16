@@ -38,23 +38,24 @@ const HomePage = () => {
       <Background image="/images/ImageHome.jpg">
 
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-          <Container className="tracking-container custom-box w-100">
-            <Row className="justify-content-center text-center">
+          <Container className="tracking-container custom-box w-100 position-relative">
+            <Row className="justify-content-center align-items-center text-center">
+              <Col xs={6} md={3} className="position-relative">
+                <div className="robot-container">
+                  <img
+                    src="/images/ImageRobot.png"
+                    alt="Robot"
+                    className="robot-img"
+                  />
+                </div>
+              </Col>
+
               <Col xs={6} md={4} className="tracking-text">
-                <h2 className="m-0">
+                <h2>
                   Hace el seguimiento
                   <br />
                   de tus envíos
                 </h2>
-              </Col>
-
-              <Col xs={6} md={3} className="shipping-select text-center">
-                <label className="form-label">Selecciona el tipo de envío</label>
-                <select className="border-0 form-select">
-                  <option> - </option>
-                  <option>Estándar</option>
-                  <option>Express</option>
-                </select>
               </Col>
             </Row>
           </Container>

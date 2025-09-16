@@ -14,10 +14,14 @@ const Header = () => {
           <span className="brand-text fs-2">Envíos JeMar</span>
 
           <Nav className="ms-auto">
-            <div className="mt-2 text-center fs-4">
-              <Link to="/login" className="text-decoration-none custom-link mx-2">Iniciar Sesión</Link>
-              <Link to="/" className="text-decoration-none custom-link mx-2">Inicio</Link>
-              <Link to="/contact" className="text-decoration-none custom-link mx-2">Contacto</Link>
+            <div className="mt-1 text-center">
+              <Link to="/" className="text-decoration-none custom-link fs-3">
+                Inicio</Link>
+              <Link to="/contact" className="text-decoration-none custom-link mx-4 fs-3">
+                Contacto</Link>
+              <Link to="/login" className="text-decoration-none custom-link me-2 fs-2">
+                <i className="bi bi-person-circle"></i>
+              </Link>
             </div>
           </Nav>
         </Container>

@@ -160,3 +160,13 @@
 .inputs-group .custom-checkbox .form-check-label {
   color: #B07F11;
 }
+
+.robot-container {
+  position: relative;
+  top: -15px;
+  left: 8%;
+}
+
+.robot-img {
+  width: 300px;
+}
