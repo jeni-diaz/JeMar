@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
 import BackArrow from './components/back/BackArrow'
@@ -10,8 +9,8 @@ import Header from './components/header/Header';
 import HomePage from './components/home/HomePage';
 import Login from './components/login/Login';
 import ShippingQuote from './components/quote/ShippingQuote';
-import UserRegister from './components/register/UserRegister';
 import ShippingTrack from './components/track/ShippingTrack';
+import UserRegister from './components/register/UserRegister';
 
 const MainLayout = () => (
   <>

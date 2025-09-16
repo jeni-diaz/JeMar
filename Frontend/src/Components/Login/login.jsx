@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import Background from "../background/Background";
 import CustomCard from "../card/CustomCard";
 
-import "../style/GeneralStyles.css";
+import '../style/Styles.css';
 
 function Login() {
   return (

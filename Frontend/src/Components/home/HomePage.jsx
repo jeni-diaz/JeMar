@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import Background from "../background/Background";
 
-import '../style/GeneralStyles.css';
+import '../style/Styles.css';
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -59,7 +59,7 @@ const HomePage = () => {
             </Row>
           </Container>
 
-          <Container className="button-bar position-fixed start-50 translate-middle-x" style={{ bottom: 30 }}>
+          <Container className="button-bar position-fixed start-50 translate-middle-x">
             <Row className="justify-content-center">
               <Col xs="auto">
                 <Button
