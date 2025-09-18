@@ -2,13 +2,12 @@ const Background = ({ image, children }) => {
   return (
     <>
       <div
+      className="min-vh-100"
         style={{
           backgroundImage: `url(${image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          width: "100vw",
-          height: "100vh",
         }}
       >
         {children}

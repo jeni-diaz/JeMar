@@ -13,7 +13,7 @@ const CustomCard = ({ title, children, buttonText, buttonAction }) => {
           </Col>
         </Row>
 
-        <Row className="flex-grow-1 overflow-auto p-4">
+        <Row className="flex-grow p-4 ocultar-scroll">
           <Col>
             {children} {/* Muestra el contenido dinámico que se pasa dentro del componente */}
           </Col>

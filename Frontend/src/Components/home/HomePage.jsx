@@ -3,16 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import Background from "../background/Background";
+import CardOne from "./cards/CardOne";
+import CardTwo from './cards/CardTwo';
+import CardThree from './cards/CardThree';
+import CardFour from './cards/CardFour';
+import CardFive from './cards/CardFive';
+import CardSix from './cards/CardSix';
 
 import '../style/Styles.css';
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -40,66 +42,81 @@ const HomePage = () => {
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <Container className="tracking-container custom-box w-100 position-relative">
             <Row className="justify-content-center align-items-center text-center">
-              <Col xs={6} md={3} className="position-relative">
+              <Col xs={6} md={3}>
                 <div className="robot-container">
-                  <img
-                    src="/images/ImageRobot.png"
-                    alt="Robot"
-                    className="robot-img"
-                  />
+                  <img src="/images/ImageRobot.png" alt="Robot" className="robot-img" />
                 </div>
               </Col>
 
-              <Col xs={6} md={4} className="tracking-text">
-                <h2>
-                  Hace el seguimiento
-                  <br />
-                  de tus envíos
-                </h2>
+              <Col xs={6} md={4} className="tracking-text pt-5">
+                <h2 style={{ fontSize: '5rem' }}>Bienvenidos</h2>
               </Col>
             </Row>
           </Container>
 
-          <Container className="button-bar position-fixed start-50 translate-middle-x">
+          <Container className="button-bar mt-auto mb-4">
             <Row className="justify-content-center">
               <Col xs="auto">
                 <Button
                   className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'quote' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('quote')}
-                >
-                  Cotizar
-                </Button>
+                >Cotizar</Button>
               </Col>
               <Col xs="auto">
                 <Button
                   className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'track' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('track')}
-                >
-                  Rastrear
-                </Button>
+                >Rastrear</Button>
               </Col>
               <Col xs="auto">
                 <Button
                   className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'modify' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('')}
-                >
-                  Modificar
-                </Button>
+                >Modificar</Button>
               </Col>
 
               <Col xs="auto">
                 <Button
                   className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'consult' ? 'active' : ''}`}
                   onClick={() => handleButtonClick('')}
-                >
-                  Consultar
-                </Button>
+                >Consultar</Button>
               </Col>
-
             </Row>
           </Container>
-
         </Container>
+      </Background>
+
+      <div className="blackLine"></div>
+
+      <Background image="/images/ImageHome1.jpg">
+        <div className='color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column'>
+
+          <h2 className='title-card mt-5' style={{ fontSize: '2.5rem' }}>Recomendaciones para embalar tu paquete</h2>
+          <Row>
+            <Col>
+              <CardOne />
+            </Col>
+            <Col>
+              <CardTwo />
+            </Col>
+            <Col>
+              <CardThree />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <CardFour />
+            </Col>
+            <Col>
+              <CardFive />
+            </Col>
+            <Col>
+              <CardSix />
+            </Col>
+          </Row>
+
+        </div>
       </Background>
     </>
   );
