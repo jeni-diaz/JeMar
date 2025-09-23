@@ -11,7 +11,7 @@ const BackArrow = () => {
 
   return (
     <i
-      className="bi bi-arrow-left-square-fill back-icon fs-2"
+      className="bi bi-arrow-left-square-fill back-icon fs-1"
       onClick={handleBackArrow}
     ></i>
   );

@@ -39,22 +39,18 @@ const HomePage = () => {
     <>
       <Background image="/images/ImageHome.jpg">
 
-        <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-          <Container className="tracking-container custom-box w-100 position-relative">
-            <Row className="justify-content-center align-items-center text-center">
-              <Col xs={6} md={3}>
-                <div className="robot-container">
-                  <img src="/images/ImageRobot.png" alt="Robot" className="robot-img" />
-                </div>
-              </Col>
 
-              <Col xs={6} md={4} className="tracking-text pt-5">
-                <h2 style={{ fontSize: '5rem' }}>Bienvenidos</h2>
-              </Col>
+        <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+
+          <Container className="tracking-container">
+            <Row className="justify-content-end">
+              <Col md={6} className="tracking-text py-8">
+               <h2 style={{ fontSize: '5rem' }}>Bienvenidos</h2>
+               </Col>
             </Row>
           </Container>
 
-          <Container className="button-bar mt-auto mb-4">
+          <Container className="button-bar mt-auto mb-3">
             <Row className="justify-content-center">
               <Col xs="auto">
                 <Button

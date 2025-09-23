@@ -115,7 +115,7 @@
 }
 
 .button-bar{
-  bottom: 25px;
+  bottom: 50px;
 }
 
 .button-bar .Button-acction {
@@ -125,17 +125,18 @@
   color: #B07F11;
   background-color: #000000;
 }
+
 .button-bar .Button-acction:hover {
   background-color: #000000;
 }
+
 .button-bar .Button-acction.active {
   background-color: #B07F11;
 }
+
 .blackLine {
   background-color: #000000;
   height: 5px;
-  box-shadow: 0 -4px 5px rgba(176, 127, 17, 0.8), 0 4px 5px rgba(176, 127, 17, 0.8);
-  z-index: 1030;
 }
 
 
@@ -181,14 +182,4 @@
 }
 .inputs-group .custom-checkbox .form-check-label {
   color: #B07F11;
-}
-
-.robot-container {
-  position: relative;
-  top: 140px;
-  left: -8%;
-}
-
-.robot-img {
-  width: 300px;
 }
