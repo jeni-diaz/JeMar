@@ -37,18 +37,10 @@ const HomePage = () => {
 
   return (
     <>
-      <Background image="/images/ImageHome.jpg">
+      <Background image="/images/ImageHome.png">
 
 
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-
-          <Container className="tracking-container">
-            <Row className="justify-content-end">
-              <Col md={6} className="tracking-text py-8">
-               <h2 style={{ fontSize: '5rem' }}>Bienvenidos</h2>
-               </Col>
-            </Row>
-          </Container>
 
           <Container className="button-bar mt-auto mb-3">
             <Row className="justify-content-center">
@@ -84,7 +76,7 @@ const HomePage = () => {
 
       <div className="blackLine"></div>
 
-      <Background image="/images/ImageHome1.jpg">
+      <Background image="/images/ImageHome1.png">
         <div className='color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column'>
 
           <h2 className='title-card mt-5' style={{ fontSize: '2.5rem' }}>Recomendaciones para embalar tu paquete</h2>

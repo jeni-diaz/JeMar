@@ -9,7 +9,7 @@ const UserRegister = () => {
   
   return (
     <>
-      <Background image="/images/ImageRegister.jpg">
+      <Background image="/images/ImageRegister.png">
         <CustomCard
           title="REGISTRATE"
           buttonText="Continuar"

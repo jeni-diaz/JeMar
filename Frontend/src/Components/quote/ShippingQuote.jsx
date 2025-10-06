@@ -8,7 +8,7 @@ import '../style/Styles.css';
 const ShippingQuote = () => {
     return (
         <>
-            <Background image="/images/ImageQuote.jpg">
+            <Background image="/images/ImageQuote.png">
                 <CustomCard
                     title="COTIZAR ENVÍO"
                     buttonText="Cotizar"
