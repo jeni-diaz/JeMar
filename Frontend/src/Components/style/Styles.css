@@ -44,6 +44,13 @@ body {
   outline: none;
 }
 
+/* Background */
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat ;
+}
+
 /* CustomCard */
 .small-container {
   background-color: rgba(0, 0, 0, 0.75);
@@ -189,4 +196,10 @@ body {
 }
 .inputs-group .custom-checkbox .form-check-label {
   color: #B07F11;
+}
+
+/* Contact */ 
+.map-container{
+  width: 320px;
+  height: 250px;
 }
