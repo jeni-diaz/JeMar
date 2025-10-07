@@ -8,24 +8,17 @@ const ContactForm = () => {
   return (
     <Background image="/images/ImageContact.png">
       <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-        <Row className="g-4 justify-content-center w-100">
-          <Col md={5}>
+        <Row className="justify-content-center w-100">
+          <Col md={6}>
             <CustomCard title="HACE TU CONSULTA" buttonText="Enviar">
               <Form.Group className="inputs-group mb-3 w-bold">
-                <Form.Label>Nombre:</Form.Label>
+                <Form.Label>Nombre y Apellido:</Form.Label>
                 <Form.Control
                   className="custom-input"
                   type="text"
-                  placeholder="Ingrese su Nombre"
+                  placeholder="Ingrese su nombre completo"
                 />
-              </Form.Group>
-              <Form.Group className="inputs-group mb-3 w-bold">
-                <Form.Label>Apellido:</Form.Label>
-                <Form.Control
-                  className="custom-input"
-                  type="text"
-                  placeholder="Ingrese su Apellido"
-                />
+             
               </Form.Group>
               <Form.Group className="inputs-group mb-3 w-bold">
                 <Form.Label>Correo Electrónico:</Form.Label>
@@ -46,7 +39,7 @@ const ContactForm = () => {
             </CustomCard>
           </Col>
 
-          <Col md={5}>
+          <Col md={4}>
             <CustomCard title="CONTACTO">
               <label>
                 Dirección: Dorrego 453, Rosario, Santa Fe.
