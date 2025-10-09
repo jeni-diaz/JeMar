@@ -3,10 +3,8 @@ import { Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { initialErrors } from "./Login.data";
-
 import Background from "../background/Background";
 import CustomCard from "../card/CustomCard";
-
 import "../style/Styles.css";
 
 const Login = () => {
@@ -19,38 +17,30 @@ const Login = () => {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: false,
-    }));
+    setErrors((prevErrors) => ({ ...prevErrors, email: false }));
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      password: false,
-    }));
+    setErrors((prevErrors) => ({ ...prevErrors, password: false }));
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!email.length) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: true,
-      }));
+    if (!validateEmail(email)) {
+      setErrors((prevErrors) => ({ ...prevErrors, email: true }));
       emailRef.current.focus();
-
       return;
     }
 
-    if (!password.length) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        password: true,
-      }));
+    if (!password.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: true }));
       passwordRef.current.focus();
       return;
     }
@@ -58,20 +48,17 @@ const Login = () => {
     setErrors(initialErrors);
     setEmail("");
     setPassword("");
+  
   };
 
   return (
-    <>
-      <Background image="/images/ImageLogin.png">
-        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-          <Row>
-            <Col>
-              <CustomCard
-                title="INICIAR SESIÓN"
-                buttonText="Iniciar"
-                buttonAction={handleSubmit}
-              >
-                <Form.Group className="inputs-group mb-3 w-bold">
+    <Background image="/images/ImageLogin.png">
+      <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <Row>
+          <Col>
+            <CustomCard title="INICIAR SESIÓN" buttonText="Iniciar" buttonAction={handleSubmit}>
+              <Form>
+                <Form.Group className="inputs-group mb-3 fw-bold">
                   <Form.Label>Correo Electrónico:</Form.Label>
                   <Form.Control
                     ref={emailRef}
@@ -83,17 +70,15 @@ const Login = () => {
                     autoComplete="email"
                   />
                   {errors.email && (
-                    <p className="text-danger mt-1">Debe ingresar un correo</p>
+                    <p className="text-danger mt-1">Debe ingresar un correo electrónico</p>
                   )}
                 </Form.Group>
 
-                <Form.Group className="inputs-group mb-3 w-bold">
+                <Form.Group className="inputs-group mb-3 fw-bold">
                   <Form.Label>Contraseña:</Form.Label>
                   <Form.Control
                     ref={passwordRef}
-                    className={`custom-input ${
-                      errors.password ? "input-error" : ""
-                    }`}
+                    className={`custom-input ${errors.password}`}
                     type="password"
                     placeholder="********"
                     value={password}
@@ -101,9 +86,7 @@ const Login = () => {
                     autoComplete="current-password"
                   />
                   {errors.password && (
-                    <p className="text-danger mt-1">
-                      Debe ingresar una contraseña
-                    </p>
+                    <p className="text-danger mt-1">Debe ingresar una contraseña</p>
                   )}
                 </Form.Group>
 
@@ -117,20 +100,14 @@ const Login = () => {
 
                 <div className="inputs-group mb-3">
                   <Form.Label>No tengo cuenta - </Form.Label>
-                  <Link
-                    to="/register"
-                    className="text-decoration-none custom-link"
-                  >
-                    {" "}
-                    Registrarme
-                  </Link>
+                  <Link to="/register" className="text-decoration-none custom-link">Registrarme</Link>
                 </div>
-              </CustomCard>
-            </Col>
-          </Row>
-        </div>
-      </Background>
-    </>
+              </Form>
+            </CustomCard>
+          </Col>
+        </Row>
+      </div>
+    </Background>
   );
 };
 
