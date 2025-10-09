@@ -59,7 +59,7 @@ const ShippingQuote = () => {
                 buttonText="Aceptar"
                 onClick={() => setShowSecondCard(false)}
               >
-
+                
                 {/*Contedido*/}
               </CustomCard>
             )}
