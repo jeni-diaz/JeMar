@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import BackArrow from './components/back/BackArrow'
 //ShippingChange
 import ContactForm from './components/contact/ContactForm';
-import ErrorNotFound from './components/error/ErrorNotFound';
+import ErrorNotFound from './Components/error/ErrorNotFound';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HomePage from './components/home/HomePage';
