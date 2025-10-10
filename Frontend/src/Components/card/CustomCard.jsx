@@ -7,7 +7,7 @@ const CustomCard = ({ title, children, buttonText, buttonAction }) => {
     <Container className="d-flex align-items-center min-vh-100">
       <div className="small-container d-flex flex-column justify-content-center">
 
-        <Row mt-2>
+        <Row className="mt-2">
           <Col>
             <h2 className="titulo text-center mb-2 mt-3 fw-bold p-2">{title}</h2> {/* Texto del título*/}
           </Col>

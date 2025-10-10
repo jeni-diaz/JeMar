@@ -1,28 +1,25 @@
 import { useState, useRef } from "react";
-import { Form} from 'react-bootstrap';
-
-import { initialErrors } from "./Login.data";
-
+import { Form, Button } from 'react-bootstrap';
 import Background from "../background/Background";
 import CustomCard from "../card/CustomCard";
-
+import { initialErrors } from "./Login.data";
 import '../style/Styles.css';
 
 const Login = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState(initialErrors)
+  const [errors, setErrors] = useState(initialErrors);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+  // Mantengo tus handlers originales
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setErrors(prevErrors => ({
       ...prevErrors,
       email: false
-    }))
+    }));
   };
 
   const handlePasswordChange = (event) => {
@@ -30,19 +27,19 @@ const Login = () => {
     setErrors(prevErrors => ({
       ...prevErrors,
       password: false
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Validaciones
     if (!email.length) {
       setErrors(prevErrors => ({
         ...prevErrors,
         email: true
-      }))
+      }));
       emailRef.current.focus();
-
       return;
     }
 
@@ -50,29 +47,30 @@ const Login = () => {
       setErrors(prevErrors => ({
         ...prevErrors,
         password: true
-      }))
+      }));
       passwordRef.current.focus();
       return;
     }
 
     setErrors(initialErrors);
+
+    // Aquí podés agregar fetch para login real más adelante
+    console.log('Login simulado:', { email, password });
+
     setEmail('');
     setPassword('');
-  }
+  };
 
   return (
-    <>
-      <Background image="/images/ImageLogin.jpg">
-        <CustomCard
-          title="INICIAR SESIÓN"
-          buttonText="Iniciar"
-          buttonAction={handleSubmit}
-        >
+    <Background image="/images/ImageLogin.jpg">
+      <CustomCard title="INICIAR SESIÓN">
+        {/* Ahora el formulario envuelve todo */}
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Correo Electrónico:</Form.Label>
             <Form.Control
               ref={emailRef}
-              className={`custom-input ${errors.email}`}
+              className={`custom-input ${errors.email ? 'input-error' : ''}`}
               type="email"
               placeholder="abc@ejemplo.com"
               value={email}
@@ -82,7 +80,6 @@ const Login = () => {
             {errors.email && (
               <p className="text-danger mt-1">Debe ingresar un correo</p>
             )}
-
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 w-bold">
@@ -108,10 +105,12 @@ const Login = () => {
               label="Recordar mis datos"
             />
           </Form.Group>
-        </CustomCard>
-      </Background>
-    </>
+
+          <Button type="submit" className="w-100 mt-2">Iniciar</Button>
+        </Form>
+      </CustomCard>
+    </Background>
   );
-}
+};
 
 export default Login;
