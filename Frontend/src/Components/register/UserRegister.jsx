@@ -11,25 +11,30 @@ const UserRegister = () => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // evitar reload
+    event.preventDefault(); 
 
     const usuario = { nombre, apellido, email, password };
 
     try {
-      const response = await fetch('/usuario', {
+      const response = await fetch('/registro', { // <- Cambiado a /registro
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(usuario)
       });
 
       const data = await response.json();
-      console.log('Usuario registrado:', data);
+
+      if (!response.ok) {
+        alert(data.message); // Usuario existente o error
+        return;
+      }
+
+      alert(`Registro exitoso! ID: ${data}`);
 
       setNombre('');
       setApellido('');
       setEmail('');
       setPassword('');
-      alert('Registro exitoso!');
     } catch (error) {
       console.error('Error registrando usuario:', error);
       alert('Ocurrió un error al registrarse.');
@@ -92,3 +97,4 @@ const UserRegister = () => {
 };
 
 export default UserRegister;
+

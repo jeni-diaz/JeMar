@@ -13,7 +13,6 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  // Mantengo tus handlers originales
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setErrors(prevErrors => ({
@@ -30,41 +29,51 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validaciones
     if (!email.length) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        email: true
-      }));
+      setErrors(prevErrors => ({ ...prevErrors, email: true }));
       emailRef.current.focus();
       return;
     }
 
     if (!password.length) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        password: true
-      }));
+      setErrors(prevErrors => ({ ...prevErrors, password: true }));
       passwordRef.current.focus();
       return;
     }
 
     setErrors(initialErrors);
 
-    // Aquí podés agregar fetch para login real más adelante
-    console.log('Login simulado:', { email, password });
+    try {
+      const response = await fetch('/login', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-    setEmail('');
-    setPassword('');
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert('Login exitoso!');
+      localStorage.setItem('token', data); 
+
+      setEmail('');
+      setPassword('');
+    } catch (error) {
+      console.error('Error login:', error);
+      alert('Ocurrió un error al iniciar sesión.');
+    }
   };
 
   return (
     <Background image="/images/ImageLogin.jpg">
       <CustomCard title="INICIAR SESIÓN">
-        {/* Ahora el formulario envuelve todo */}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Correo Electrónico:</Form.Label>
@@ -77,9 +86,7 @@ const Login = () => {
               onChange={handleEmailChange}
               autoComplete="email"
             />
-            {errors.email && (
-              <p className="text-danger mt-1">Debe ingresar un correo</p>
-            )}
+            {errors.email && <p className="text-danger mt-1">Debe ingresar un correo</p>}
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 w-bold">
@@ -93,9 +100,7 @@ const Login = () => {
               onChange={handlePasswordChange}
               autoComplete="current-password"
             />
-            {errors.password && (
-              <p className="text-danger mt-1">Debe ingresar una contraseña</p>
-            )}
+            {errors.password && <p className="text-danger mt-1">Debe ingresar una contraseña</p>}
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3">

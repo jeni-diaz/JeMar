@@ -7,10 +7,10 @@ import ErrorNotFound from './Components/error/ErrorNotFound';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HomePage from './components/home/HomePage';
-import Login from './components/login/Login';
+import Login from './Components/Login/login';
 import ShippingQuote from './components/quote/ShippingQuote';
 import ShippingTrack from './components/track/ShippingTrack';
-import UserRegister from './components/register/UserRegister';
+import UserRegister from './Components/register/UserRegister';
 
 const MainLayout = () => (
   <>
