@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 import Background from "../background/Background";
 import CardOne from "./cards/CardOne";
-import CardTwo from './cards/CardTwo';
-import CardThree from './cards/CardThree';
-import CardFour from './cards/CardFour';
-import CardFive from './cards/CardFive';
-import CardSix from './cards/CardSix';
+import CardTwo from "./cards/CardTwo";
+import CardThree from "./cards/CardThree";
+import CardFour from "./cards/CardFour";
+import CardFive from "./cards/CardFive";
+import CardSix from "./cards/CardSix";
 
-import '../style/Styles.css';
+import "../style/Styles.css";
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -20,62 +20,70 @@ const HomePage = () => {
     setActiveButton(button);
 
     switch (button) {
-      case 'quote':
-        navigate('/quote');
+      case "quote":
+        navigate("/quote");
         break;
-      case 'track':
-        navigate('/track');
+      case "track":
+        navigate("/track");
         break;
-      case 'modify':
-        navigate('/modify');
-      case 'colsult':
-        navigate('/consult');
+      case "colsult":
+        navigate("/consult");
+        break;
+      case "settings":
+        navigate("/settings");
+        break;
       default:
         break;
     }
-  }
+  };
 
   return (
     <>
-      <Background image="/images/ImageHome.jpg">
-
-
+      <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-
-          <Container className="tracking-container">
-            <Row className="justify-content-end">
-              <Col md={6} className="tracking-text py-8">
-               <h2 style={{ fontSize: '5rem' }}>Bienvenidos</h2>
-               </Col>
-            </Row>
-          </Container>
-
           <Container className="button-bar mt-auto mb-3">
             <Row className="justify-content-center">
               <Col xs="auto">
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'quote' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('quote')}
-                >Cotizar</Button>
+                  className={`border-0 fs-3 mx-4 Button-acction ${
+                    activeButton === "quote" ? "active" : ""
+                  }`}
+                  onClick={() => handleButtonClick("quote")}
+                >
+                  Cotizar
+                </Button>
               </Col>
               <Col xs="auto">
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'track' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('track')}
-                >Rastrear</Button>
-              </Col>
-              <Col xs="auto">
-                <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'modify' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('')}
-                >Modificar</Button>
+                  className={`border-0 fs-3 mx-4 Button-acction ${
+                    activeButton === "track" ? "active" : ""
+                  }`}
+                  onClick={() => handleButtonClick("track")}
+                >
+                  Rastrear
+                </Button>
               </Col>
 
               <Col xs="auto">
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${activeButton === 'consult' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('')}
-                >Consultar</Button>
+                  className={`border-0 fs-3 mx-4 Button-acction ${
+                    activeButton === "consult" ? "active" : ""
+                  }`}
+                  onClick={() => handleButtonClick("")}
+                >
+                  Consultar
+                </Button>
+              </Col>
+
+              <Col xs="auto">
+                <Button
+                  className={`border-0 fs-3 mx-4 Button-acction ${
+                    activeButton === "settings" ? "active" : ""
+                  }`}
+                  onClick={() => handleButtonClick("")}
+                >
+                  Ajustes
+                </Button>
               </Col>
             </Row>
           </Container>
@@ -84,10 +92,11 @@ const HomePage = () => {
 
       <div className="blackLine"></div>
 
-      <Background image="/images/ImageHome1.jpg">
-        <div className='color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column'>
-
-          <h2 className='title-card mt-5' style={{ fontSize: '2.5rem' }}>Recomendaciones para embalar tu paquete</h2>
+      <Background image="/images/ImageHome1.png">
+        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+          <h2 className="title-card mt-5" style={{ fontSize: "2.5rem" }}>
+            Recomendaciones para embalar tu paquete
+          </h2>
           <Row>
             <Col>
               <CardOne />
@@ -111,7 +120,6 @@ const HomePage = () => {
               <CardSix />
             </Col>
           </Row>
-
         </div>
       </Background>
     </>

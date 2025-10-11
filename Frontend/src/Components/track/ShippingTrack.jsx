@@ -8,7 +8,7 @@ import '../style/Styles.css';
 function ShippingTrack() {
     return (
         <>
-            <Background image="/images/ImageTrack.jpg">
+            <Background image="/images/ImageTrack.png">
                 <CustomCard
                     title="RASTREAR ENVÍO"
                     buttonText="Rastrear"

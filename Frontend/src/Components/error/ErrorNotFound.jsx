@@ -14,7 +14,7 @@ const ErrorNotFound = () => {
 
     return (
         <>
-            <Background image="/images/ImageErrorNotFound.jpg">
+            <Background image="/images/ImageErrorNotFound.png">
                 <Container className="d-flex flex-column justify-content-end align-items-start min-vh-100 p-5">
                     <h1 className="titulo fw-bold">¡Ups! Página no encontrada</h1>
                 </Container>

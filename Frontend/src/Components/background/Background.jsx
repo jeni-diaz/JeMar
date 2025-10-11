@@ -1,19 +1,9 @@
 const Background = ({ image, children }) => {
   return (
-    <>
-      <div
-      className="min-vh-100"
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        {children}
-      </div>
-    </>
+    <div className="bg-image in-vh-100" style={{ backgroundImage: `url(${image})` }}>
+      {children}
+    </div>
   );
-}
+};
 
 export default Background;
