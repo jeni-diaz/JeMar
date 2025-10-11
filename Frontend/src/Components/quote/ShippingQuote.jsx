@@ -68,8 +68,8 @@ const ShippingQuote = () => {
 
   return (
     <Background image="/images/ImageQuote.jpg">
-      <CustomCard title="COTIZAR ENVÍO" buttonText="Cotizar">
-        <Form onSubmit={handleSubmit}>
+      <CustomCard title="COTIZAR ENVÍO" buttonText="Cotizar" onButtonClick={handleSubmit}>
+        <Form>
           <Form.Group className="inputs-group mb-3 w-bold">
             <Form.Label>Tipo de envío:</Form.Label>
             <Form.Select
@@ -107,10 +107,6 @@ const ShippingQuote = () => {
               onChange={(e) => setDestino(e.target.value)}
             />
           </Form.Group>
-
-          <Button type="submit" className="w-100 mt-2">
-            Cotizar
-          </Button>
         </Form>
       </CustomCard>
     </Background>
