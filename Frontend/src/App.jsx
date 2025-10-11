@@ -7,7 +7,7 @@ import ErrorNotFound from './Components/error/ErrorNotFound';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import HomePage from './components/home/HomePage';
-import Login from './Components/Login/login';
+import Login from './Components/login/Login';
 import ShippingQuote from './components/quote/ShippingQuote';
 import ShippingTrack from './components/track/ShippingTrack';
 import UserRegister from './Components/register/UserRegister';
@@ -26,7 +26,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <BackArrow />
         <Routes>
           <Route element={<MainLayout />}>
             <Route path='/' element={<HomePage />} />

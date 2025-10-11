@@ -92,13 +92,24 @@ body {
 }
 
 /* Buttons */
-.small-container .custom-button {
+.small-container .custom-button, .custom-button-nf {
   background-color: #B07F11;
   color: #ffffff;
   box-shadow: 0 0 10px #B07F11;
   border-color: #ffffff;
 }
-.small-container .custom-button:hover {
+.small-container .custom-button:hover, .custom-button-nf:hover {
+  background-color: #000000;
+  border-color: #ffffff;
+}
+
+button.custom-button-nf {
+  background-color: #B07F11;
+  color: #ffffff;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}
+button.custom-button-nf:hover {
   background-color: #000000;
   border-color: #ffffff;
 }
@@ -225,4 +236,14 @@ body {
 
 .custom-alert-message {
   font-size: 1.2rem;
+}
+
+.custom-alert-container {
+  max-width: 150px;
+  max-height: 100px;
+}
+
+.custom-alert-image{
+  max-width: 70px;
+  max-height: auto;
 }
