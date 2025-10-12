@@ -5,8 +5,8 @@ import CustomCard from "../card/CustomCard";
 import '../style/Styles.css';
 
 const UserRegister = () => {
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,7 +16,7 @@ const UserRegister = () => {
     const user = { firstName, lastName, email, password };
 
     try {
-      const response = await fetch('/register', { // <- Cambiado a /registro
+      const response = await fetch('/register', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -31,8 +31,8 @@ const UserRegister = () => {
 
       alert(`Registro exitoso! ID: ${data}`);
 
-      setNombre('');
-      setApellido('');
+      setFirstName('');
+      setLastName('');
       setEmail('');
       setPassword('');
     } catch (error) {
@@ -52,7 +52,7 @@ const UserRegister = () => {
               type="text"
               placeholder="Ingrese su Nombre"
               value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </Form.Group>
 
@@ -63,7 +63,7 @@ const UserRegister = () => {
               type="text"
               placeholder="Ingrese su Apellido"
               value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </Form.Group>
 

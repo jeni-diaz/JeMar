@@ -7,8 +7,8 @@ export default defineConfig({
     proxy: {
       '/register': 'http://localhost:3000',
       '/login': 'http://localhost:3000',
-      '/tipo_envio': 'http://localhost:3000',
-      '/envios': 'http://localhost:3000',
+      '/shipment_type': 'http://localhost:3000',
+      '/shipment': 'http://localhost:3000',
     },
   },
 });
