@@ -13,13 +13,13 @@ const UserRegister = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
-    const usuario = { nombre, apellido, email, password };
+    const user = { firstName, lastName, email, password };
 
     try {
-      const response = await fetch('/registro', { // <- Cambiado a /registro
+      const response = await fetch('/register', { // <- Cambiado a /registro
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuario)
+        body: JSON.stringify(user)
       });
 
       const data = await response.json();

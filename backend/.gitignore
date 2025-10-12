@@ -1,0 +1,20 @@
+# Dependencias
+node_modules/
+
+# Archivos de build
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Sistema operativo
+.DS_Store
+
+# Entorno
+.env
+
+# Editor
+.vscode/
+.idea/

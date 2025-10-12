@@ -1,37 +1,37 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 
-export const Envio = sequelize.define(
-  "Envio",
+export const Shipment = sequelize.define(
+  "Shipment",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    usuario_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    tipo_envio_id: {
+    shipment_type_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    origen: {
+    origin: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    destino: {
+    destination: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    fecha_envio: {
+    shipment_date: {
       type: DataTypes.DATE,
       // allowNull: false,
     },
-    estado: {
-      type: DataTypes.ENUM("pendiente", "en camino", "entregado", "cancelado"),
-      defaultValue: "pendiente",
+    status: {
+      type: DataTypes.ENUM("pending", "on the way", "delivered", "canceled"),
+      defaultValue: "pending",
     },
   },
   {

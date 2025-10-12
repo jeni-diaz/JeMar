@@ -1,11 +1,12 @@
-import { Usuario } from "./usuario.js";
-import { Envio } from "./envios.js";
-import { Tipo_envio } from "./tipo_envio.js";
+import { User } from "./user.js";
+import { Shipment } from "./shipment.js";
+import { ShipmentType } from "./shipment_type.js";
 
-Usuario.hasMany(Envio, { foreignKey: "usuario_id", onDelete: "CASCADE" });
-Envio.belongsTo(Usuario, { foreignKey: "usuario_id" });
+User.hasMany(Shipment, { foreignKey: "user_id", onDelete: "CASCADE" });
+Shipment.belongsTo(User, { foreignKey: "user_id" });
 
-Tipo_envio.hasMany(Envio, { foreignKey: "tipo_envio_id", onDelete: "CASCADE" });
-Envio.belongsTo(Tipo_envio, { foreignKey: "tipo_envio_id" });
+ShipmentType.hasMany(Shipment, { foreignKey: "shipment_type_id", onDelete: "CASCADE" });
+Shipment.belongsTo(ShipmentType, { foreignKey: "shipment_type_id" });
 
-export { Usuario, Envio, Tipo_envio };
+export { User, Shipment, ShipmentType };
+
