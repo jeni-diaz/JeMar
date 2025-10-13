@@ -10,11 +10,30 @@ import CardFour from "./cards/CardFour";
 import CardFive from "./cards/CardFive";
 import CardSix from "./cards/CardSix";
 
+import { AuthContext } from "./AuthContext";
+
 import "../style/Styles.css";
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
+
+  const { role } = useContext(AuthContext);
+
+   const buttonsByRole = {
+    sysadmin: ["quote", "track", "consult", "settings"],
+    admin: ["quote", "track", "consult"],
+    user: ["quote", "track"],
+  };
+
+   const allowedButtons = buttonsByRole[role] || [];
+
+    const buttons = [
+    { key: "quote", label: "Cotizar" },
+    { key: "track", label: "Rastrear" },
+    { key: "consult", label: "Consultar" },
+    { key: "settings", label: "Ajustes" },
+  ];
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -42,49 +61,21 @@ const HomePage = () => {
       <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <Container className="button-bar mt-auto mb-3">
-            <Row className="justify-content-center">
-              <Col xs="auto">
-                <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${
-                    activeButton === "quote" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("quote")}
-                >
-                  Cotizar
-                </Button>
-              </Col>
-              <Col xs="auto">
-                <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${
-                    activeButton === "track" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("track")}
-                >
-                  Rastrear
-                </Button>
-              </Col>
-
-              <Col xs="auto">
-                <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${
-                    activeButton === "consult" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("")}
-                >
-                  Consultar
-                </Button>
-              </Col>
-
-              <Col xs="auto">
-                <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${
-                    activeButton === "settings" ? "active" : ""
-                  }`}
-                  onClick={() => handleButtonClick("")}
-                >
-                  Ajustes
-                </Button>
-              </Col>
+           <Row className="justify-content-center">
+              {buttons
+                .filter((btn) => allowedButtons.includes(btn.key))
+                .map((btn) => (
+                  <Col xs="auto" key={btn.key}>
+                    <Button
+                      className={`border-0 fs-3 mx-4 Button-acction ${
+                        activeButton === btn.key ? "active" : ""
+                      }`}
+                      onClick={() => handleButtonClick(btn.key)}
+                    >
+                      {btn.label}
+                    </Button>
+                  </Col>
+                ))}
             </Row>
           </Container>
         </Container>
