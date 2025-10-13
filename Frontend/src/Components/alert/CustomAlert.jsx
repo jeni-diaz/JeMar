@@ -15,12 +15,12 @@ const CustomAlert = ({ show, onClose, message, type = "info", duration = 2000 })
 
   const bgColor =
     type === "success"
-      ? "#4CAF50"
+      ? "#3f7f07"
       : type === "error"
-      ? "#F44336"
+      ? "#b01b17"
       : type === "warning"
-      ? "#FF9800"
-      : "#2196F3";
+      ? "#dcae1d"
+      : "#056da2";
 
   return (
     <div
