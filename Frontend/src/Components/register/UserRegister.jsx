@@ -11,8 +11,8 @@ import CustomAlert from "../alert/CustomAlert";
 import "../style/Styles.css";
 
 const UserRegister = () => {
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(initialErrors);
@@ -22,19 +22,19 @@ const UserRegister = () => {
     type: "info",
   });
 
-  const nameRef = useRef(null);
-  const lastnameRef = useRef(null);
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-    setErrors((prev) => ({ ...prev, name: false }));
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+    setErrors((prev) => ({ ...prev, firstName: false }));
   };
 
-  const handleLastnameChange = (event) => {
-    setLastname(event.target.value);
-    setErrors((prev) => ({ ...prev, lastname: false }));
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+    setErrors((prev) => ({ ...prev, lastName: false }));
   };
 
   const handleEmailChange = (event) => {
@@ -48,19 +48,20 @@ const UserRegister = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!name.trim()) {
-      setErrors((prev) => ({ ...prev, name: true }));
-      nameRef.current.focus();
+    if (!firstName.trim()) {
+      setErrors((prev) => ({ ...prev, firstName: true }));
+      firstNameRef.current.focus();
       return;
     }
 
-    if (!lastname.trim()) {
-      setErrors((prev) => ({ ...prev, lastname: true }));
-      lastnameRef.current.focus();
+    if (!lastName.trim()) {
+      setErrors((prev) => ({ ...prev, lastName: true }));
+      lastNameRef.current.focus();
       return;
     }
 
@@ -70,19 +71,19 @@ const UserRegister = () => {
       return;
     }
 
-    if (!password.trim()) {
+    if (!validatePassword.trim()) {
       setErrors((prev) => ({ ...prev, password: true }));
       passwordRef.current.focus();
       return;
     }
 
-    const usuario = { nombre: name, apellido: lastname, email, password };
+    const user = { firstName, lastName, email, password };
 
     try {
-      const response = await fetch("/registro", {
+      const response = await fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify(user),
       });
 
       const data = await response.json();
@@ -102,11 +103,10 @@ const UserRegister = () => {
         type: "success",
       });
 
-      setName("");
-      setLastname("");
+      setFirstName("");
+      setLastName("");
       setEmail("");
       setPassword("");
-      setErrors(initialErrors);
     } catch (error) {
       console.error("Error registrando usuario:", error);
       setAlertData({
@@ -119,7 +119,7 @@ const UserRegister = () => {
 
   return (
     <Background image="/images/ImageRegister.png">
-       <BackArrow/>
+      <BackArrow />
       <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
         <CustomAlert
           show={alertData.show}
@@ -127,41 +127,49 @@ const UserRegister = () => {
           type={alertData.type}
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
-        <CustomCard title="REGISTRATE">
+        <CustomCard title="REGÍSTRATE">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Nombre:</Form.Label>
               <Form.Control
-                ref={nameRef}
-                className={`custom-input ${errors.name}`}
+                ref={firstNameRef}
+                className={`custom-input ${
+                  errors.firstName ? "is-invalid" : ""
+                }`}
                 type="text"
                 placeholder="Ingrese su Nombre"
-                value={name}
-                onChange={handleNameChange}
-                autoComplete="name"
+                value={firstName}
+                onChange={handleFirstNameChange}
+                autoComplete="given-name"
               />
-              {errors.name && <p className="text-danger mt-1">Debe ingresar un nombre</p>}
+              {errors.firstName && (
+                <p className="text-danger mt-1">Debe ingresar un nombre</p>
+              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Apellido:</Form.Label>
               <Form.Control
-                ref={lastnameRef}
-                className={`custom-input ${errors.lastname}`}
+                ref={lastNameRef}
+                className={`custom-input ${
+                  errors.lastName ? "is-invalid" : ""
+                }`}
                 type="text"
                 placeholder="Ingrese su Apellido"
-                value={lastname}
-                onChange={handleLastnameChange}
+                value={lastName}
+                onChange={handleLastNameChange}
                 autoComplete="family-name"
               />
-              {errors.lastname && <p className="text-danger mt-1">Debe ingresar un apellido</p>}
+              {errors.lastName && (
+                <p className="text-danger mt-1">Debe ingresar un apellido</p>
+              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Correo Electrónico:</Form.Label>
               <Form.Control
                 ref={emailRef}
-                className={`custom-input ${errors.email}`}
+                className={`custom-input ${errors.email ? "is-invalid" : ""}`}
                 type="email"
                 placeholder="abc@ejemplo.com"
                 value={email}
@@ -169,7 +177,9 @@ const UserRegister = () => {
                 autoComplete="email"
               />
               {errors.email && (
-                <p className="text-danger mt-1">Debe ingresar un correo electrónico válido</p>
+                <p className="text-danger mt-1">
+                  Debe ingresar un correo electrónico
+                </p>
               )}
             </Form.Group>
 
@@ -177,14 +187,18 @@ const UserRegister = () => {
               <Form.Label>Contraseña:</Form.Label>
               <Form.Control
                 ref={passwordRef}
-                className={`custom-input ${errors.password}`}
+                className={`custom-input ${
+                  errors.password ? "is-invalid" : ""
+                }`}
                 type="password"
                 placeholder="********"
                 value={password}
                 onChange={handlePasswordChange}
                 autoComplete="current-password"
               />
-              {errors.password && <p className="text-danger mt-1">Debe ingresar una contraseña</p>}
+              {errors.password && (
+                <p className="text-danger mt-1">Debe ingresar una contraseña</p>
+              )}
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">

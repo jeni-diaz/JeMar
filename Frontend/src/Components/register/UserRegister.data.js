@@ -1,6 +1,6 @@
 export const initialErrors = {
-  name: false,
-  lastname: false,
+  firstName: false,
+  lastName: false,
   email: false,
   password: false,
 };

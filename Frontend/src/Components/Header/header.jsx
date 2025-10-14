@@ -34,10 +34,10 @@ const Header = () => {
               </Link>
               <Link
                 to="/login"
-                className="text-decoration-none custom-link me-2 fs-2"
+                className="text-decoration-none custom-link me-2 fs-3"
               >
                 <i className="bi bi-person-circle"></i>{" "}
-                <span className="custom-link-text fs-4">Iniciar Sesión</span>
+                <span className="custom-link-text fs-3">Ingresar</span>
               </Link>
             </div>
           </Nav>
