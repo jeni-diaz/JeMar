@@ -10,7 +10,7 @@ import CardFour from "./cards/CardFour";
 import CardFive from "./cards/CardFive";
 import CardSix from "./cards/CardSix";
 
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../authContext/AuthContext";
 
 import "../style/Styles.css";
 
