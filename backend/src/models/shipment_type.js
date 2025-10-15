@@ -1,21 +1,23 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 
-export const ShipmentType = sequelize.define("ShipmentType", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+export const ShipmentType = sequelize.define(
+  "ShipmentType",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.ENUM("estandar", "express", "fragil"),
+      defaultValue: "estandar",
+    },
+    description: {
+      type: DataTypes.STRING,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.ENUM("standard", "express", "fragile"),
-    defaultValue: "standard",
-  },
-}, {
-  timestamps: false,
-});
-
+  {
+    timestamps: false,
+  }
+);

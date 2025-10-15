@@ -5,21 +5,21 @@ import jwt from "jsonwebtoken";
 export const userLogin = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({
-    where: {
-      email,
-    },
-  });
-  if (!user)
-    return res.status(401).send({ message: "User does not exist" });
+  const existingUser = await User.findOne({ where: { email } });
+  if (!existingUser)
+    return res.status(401).json({ message: "Usuario no existente" });
 
-  const comparison = await bcrypt.compare(password, user.password);
-
-  if (!comparison)
-    return res.status(401).send({ message: "Incorrect email and/or password" });
+  
+  const passwordMatch = await bcrypt.compare(password, existingUser.password);
+  if (!passwordMatch)
+    return res.status(401).json({ message: "Email y/o contraseña incorrecta" });
 
   const secretKey = "alagrandelepusecuca2025";
-  
-  const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
-  return res.json(token);
+  const token = jwt.sign(
+    { id: existingUser.id, email: existingUser.email },
+    secretKey,
+    { expiresIn: "1h" }
+  );
+
+  return res.json({ token });
 };

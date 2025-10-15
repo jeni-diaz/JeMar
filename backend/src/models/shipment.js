@@ -9,11 +9,11 @@ export const Shipment = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    shipment_type_id: {
+    shipmentTypeId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -25,13 +25,9 @@ export const Shipment = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    shipment_date: {
-      type: DataTypes.DATE,
-      // allowNull: false,
-    },
     status: {
-      type: DataTypes.ENUM("pending", "on the way", "delivered", "canceled"),
-      defaultValue: "pending",
+      type: DataTypes.ENUM("pendiente", "en camino", "entregado", "cancelado"),
+      defaultValue: "pendiente",
     },
   },
   {

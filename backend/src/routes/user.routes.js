@@ -10,31 +10,31 @@ router.get("/user/:id", async (req, res) => {
 });
 
 router.post("/user", async (req, res) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    password,
-  } = req.body;
+  try {
+    const { firstName, lastName, email, password } = req.body;
 
-  const newUser = await User.create({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
-  res.json(newUser);
+    res.json(newUser);
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({ error: error.message });
+  }
 });
 
 router.put("/user/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Updating user with id... ${id}`);
+  res.send(`Actualizando usuario con id... ${id}`);
 });
 
 router.delete("/user/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Deleting user with id... ${id}`);
+  res.send(`Borrando el usuario con id... ${id}`);
 });
 
 export default router;

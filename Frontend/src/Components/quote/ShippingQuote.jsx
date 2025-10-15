@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Background from "../background/Background";
 import CustomCard from "../card/CustomCard";
 import "../style/Styles.css";
@@ -10,29 +10,28 @@ const ShippingQuote = () => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
 
-  // Load shipment types
   useEffect(() => {
     fetch("/shipment_type")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Shipment types loaded:", data);
+        console.log("Tipos cargados:", data);
         setShipmentTypes(data);
       })
-      .catch((err) => console.error("Error loading shipment types:", err));
+      .catch((err) => console.error("Error cargando tipos de envío:", err));
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-
     let userId = null;
+
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
         userId = payload.id;
       } catch (error) {
-        console.error("Error decoding token:", error);
+        console.error("Error decodificando token:", error);
       }
     }
 
@@ -41,8 +40,7 @@ const ShippingQuote = () => {
       shipment_type_id: shipmentTypeId,
       origin,
       destination,
-      shipment_date: new Date(),
-      status: "pending",
+      status: "pendiente",
     };
 
     try {
@@ -56,30 +54,31 @@ const ShippingQuote = () => {
       });
 
       const data = await response.json();
-      console.log("Shipment created:", data);
-      alert("Shipment quote created successfully!");
+      console.log("Envío creado:", data);
+      alert("¡Cotización generada con éxito!");
 
-      // Clear form
+      // Resetear formulario
       setShipmentTypeId("");
       setOrigin("");
       setDestination("");
     } catch (error) {
-      console.error("Error creating shipment:", error);
-      alert("An error occurred while creating the shipment.");
+      console.error("Error creando envío:", error);
+      alert("Ocurrió un error al generar la cotización.");
     }
   };
 
   return (
-    <Background image="/images/ImageQuote.jpg">
-      <CustomCard title="COTIZAR ENVIO" buttonText="Cotizar" onButtonClick={handleSubmit}> 
+    <Background image="/images/ImageQuote.png">
+      <CustomCard title="COTIZAR ENVÍO" buttonText="Cotizar" onButtonClick={handleSubmit}>
         <Form>
-          <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Tipo de envío:</Form.Label> 
+          <Form.Group className="inputs-group mb-3 fw-bold">
+            <Form.Label>Tipo de envío:</Form.Label>
             <Form.Select
               className="custom-input"
               value={shipmentTypeId}
               onChange={(e) => setShipmentTypeId(e.target.value)}
             >
+              <option value="">Seleccione un tipo</option>
               {shipmentTypes.map((type) => (
                 <option key={type.id} value={type.id}>
                   {type.description}
@@ -88,23 +87,23 @@ const ShippingQuote = () => {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Origen:</Form.Label> 
+          <Form.Group className="inputs-group mb-3 fw-bold">
+            <Form.Label>Origen:</Form.Label>
             <Form.Control
               className="custom-input"
               type="text"
-              placeholder="Ej: Rosario" 
+              placeholder="Ej: Rosario"
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Destino:</Form.Label> 
+          <Form.Group className="inputs-group mb-3 fw-bold">
+            <Form.Label>Destino:</Form.Label>
             <Form.Control
               className="custom-input"
               type="text"
-              placeholder="Ej: Buenos Aires" 
+              placeholder="Ej: Buenos Aires"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
             />

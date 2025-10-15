@@ -9,6 +9,17 @@ router.get("/shipment_type/:id", async (req, res) => {
   res.json(shipmentType);
 });
 
+router.get("/shipment_type", async (req, res) => {
+  try {
+    const types = await ShipmentType.findAll();
+    res.json(types);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error obteniendo tipos de envío" });
+  }
+});
+
+
 router.post("/shipment_type", async (req, res) => {
   const { name, description } = req.body;
 
@@ -22,12 +33,12 @@ router.post("/shipment_type", async (req, res) => {
 
 router.put("/shipment_type/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Updating shipment type with id... ${id}`);
+  res.send(`Actualizando tipo de envío con id... ${id}`);
 });
 
 router.delete("/shipment_type/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Deleting shipment type with id... ${id}`);
+  res.send(`Borrando el tipo de envío con id... ${id}`);
 });
 
 export default router;
