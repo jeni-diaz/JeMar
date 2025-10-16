@@ -37,7 +37,7 @@ export const registerUser = async (req, res) => {
       message: "Usuario creado exitosamente",
       user: {
         id: newUser.id,
-        firstName: newUser.nombre,
+        firstName: newUser.firstName,
         email: newUser.email,
       },
       token,

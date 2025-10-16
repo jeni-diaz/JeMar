@@ -15,11 +15,12 @@ export const userLogin = async (req, res) => {
     return res.status(401).json({ message: "Email y/o contraseña incorrecta" });
 
   const secretKey = "alagrandelepusecuca2025";
+
   const token = jwt.sign(
-    { id: existingUser.id, email: existingUser.email },
-    secretKey,
-    { expiresIn: "1h" }
-  );
+  { id: existingUser.id, email: existingUser.email, role: existingUser.role },
+  secretKey,
+  { expiresIn: "1h" }
+);
 
   return res.json({ token });
 };

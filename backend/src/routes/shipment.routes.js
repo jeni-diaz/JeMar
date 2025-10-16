@@ -4,7 +4,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = Router();
 
-// GET /api/shipment
+
 router.get("/", async (req, res) => {
   try {
     const shipments = await Shipment.findAll();

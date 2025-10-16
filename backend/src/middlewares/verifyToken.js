@@ -12,7 +12,8 @@ export const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, "alagrandelepusecuca2025");
 
-    req.userId = decoded.id; 
+    req.userId = decoded.id;
+    req.userRole = decoded.role; 
     next();
   } catch (error) {
     res.status(401).json({ error: "Token inválido o expirado" });
