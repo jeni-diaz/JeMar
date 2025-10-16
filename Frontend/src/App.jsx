@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 
-import ContactForm from './components/contact/ContactForm';
+import ContactForm from './Components/contact/ContactForm';
 import ErrorNotFound from './Components/error/ErrorNotFound';
-import Footer from './components/footer/Footer';
-import Header from './components/header/Header';
-import HomePage from './components/home/HomePage';
+import Footer from './Components/footer/Footer';
+import Header from './Components/header/Header';
+import HomePage from './Components/home/HomePage';
 import Login from './Components/login/Login';
-import ShippingQuote from './components/quote/ShippingQuote';
-import ShippingTrack from './components/track/ShippingTrack';
+import ShippingQuote from './Components/quote/ShippingQuote.jsx';
+import ShippingTrack from './Components/track/ShippingTrack';
 import UserRegister from './Components/register/UserRegister';
 
 import "./Components/style/Styles.css";

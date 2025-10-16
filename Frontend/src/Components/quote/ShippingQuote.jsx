@@ -11,7 +11,7 @@ const ShippingQuote = () => {
   const [destination, setDestination] = useState("");
 
   useEffect(() => {
-    fetch("/shipment_type")
+    fetch("http://localhost:3000/api/shipment_type")
       .then((res) => res.json())
       .then((data) => {
         console.log("Tipos cargados:", data);
@@ -44,14 +44,14 @@ const ShippingQuote = () => {
     };
 
     try {
-      const response = await fetch("/shipment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify(shipment),
-      });
+  const response = await fetch("http://localhost:3000/api/shipments", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: JSON.stringify(shipment),
+  });
 
       const data = await response.json();
       console.log("Envío creado:", data);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 
 import { initialErrors } from "./UserRegister.data.js";
@@ -48,7 +48,8 @@ const UserRegister = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(password);
+  const validatePassword = (password) =>
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(password);
 
 
   const handleSubmit = async (event) => {
@@ -72,20 +73,20 @@ const UserRegister = () => {
       return;
     }
 
-    if (!validatePassword.trim()) {
-      setErrors((prev) => ({ ...prev, password: true }));
-      passwordRef.current.focus();
-      return;
-    }
+    if (!validatePassword(password.trim())) {
+  setErrors((prev) => ({ ...prev, password: true }));
+  passwordRef.current.focus();
+  return;
+}
 
     const user = { firstName, lastName, email, password };
 
     try {
-      const response = await fetch("/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
+  const response = await fetch("http://localhost:3000/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(user),
+  });
 
       const data = await response.json();
 

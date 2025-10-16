@@ -4,24 +4,29 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = Router();
 
-router.get("/shipment", async (req, res) => {
-  const shipment = await  Shipment.findAll();
-  res.json(shipment);
+// GET /api/shipment
+router.get("/", async (req, res) => {
+  try {
+    const shipments = await Shipment.findAll();
+    res.json(shipments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error obteniendo envíos" });
+  }
 });
 
-router.post("/shipment", verifyToken, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   try {
     const { shipmentTypeId, origin, destination, status } = req.body;
-
     const userId = req.userId;
 
     const newShipment = await Shipment.create({
-    userId,
-    shipmentTypeId,
-    origin,
-    destination,
-    status,
-  });
+      userId,
+      shipmentTypeId,
+      origin,
+      destination,
+      status,
+    });
 
     res.json(newShipment);
   } catch (error) {
@@ -30,14 +35,14 @@ router.post("/shipment", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/shipment/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Actualizando el envio con id... ${id}`);
+  res.send(`Actualizando el envío con id... ${id}`);
 });
 
-router.delete("/shipment/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  res.send(`Borrando el envio con id... ${id}`);
+  res.send(`Borrando el envío con id... ${id}`);
 });
 
 export default router;

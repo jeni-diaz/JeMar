@@ -1,45 +1,47 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from "react-bootstrap";
 import Background from "../background/Background";
-import BackArrow from "../back/BackArrow"
+import BackArrow from "../back/BackArrow";
 import CustomAlert from "../alert/CustomAlert";
 import CustomCard from "../card/CustomCard";
 import { initialErrors } from "./Login.data";
-import '../style/Styles.css';
+import "../style/Styles.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(initialErrors);
   const [alertData, setAlertData] = useState({
     show: false,
     message: "",
-    type: "info",
-  });
+    type: "info",
+  });
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
-      email: false
+      email: false,
     }));
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
-      password: false
+      password: false,
     }));
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(password);
-
+  const validatePassword = (password) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(
+      password
+    );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,21 +55,21 @@ const Login = () => {
     if (!validatePassword(password)) {
       setErrors((prevErrors) => ({ ...prevErrors, password: true }));
       passwordRef.current.focus();
-      return;
-    }
+      return;
+    }
 
     setErrors(initialErrors);
 
     try {
-      const response = await fetch('/login', { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
-     if (!response.ok) {
+      if (!response.ok) {
         setAlertData({
           show: true,
           message: data.message || "Error al iniciar sesión",
@@ -80,11 +82,11 @@ const Login = () => {
         show: true,
         message: "¡Login exitoso!",
         type: "success",
-      });
+      });
 
-      localStorage.setItem('token', data.token); 
+      localStorage.setItem("token", data.token);
 
-    setEmail("");
+      setEmail("");
       setPassword("");
     } catch (error) {
       console.error("Login error:", error);
@@ -92,14 +94,14 @@ const Login = () => {
         show: true,
         message: "Ocurrió un error al iniciar sesión.",
         type: "error",
-      });
-    }
-  };
+      });
+    }
+  };
 
   return (
     <Background image="/images/ImageLogin.png">
       <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-        <BackArrow/>
+        <BackArrow />
         <CustomAlert
           show={alertData.show}
           message={alertData.message}
@@ -122,7 +124,9 @@ const Login = () => {
                     autoComplete="email"
                   />
                   {errors.email && (
-                    <p className="text-danger mt-1">Debe ingresar un correo electrónico</p>
+                    <p className="text-danger mt-1">
+                      Debe ingresar un correo electrónico
+                    </p>
                   )}
                 </Form.Group>
 
@@ -138,7 +142,9 @@ const Login = () => {
                     autoComplete="current-password"
                   />
                   {errors.password && (
-                    <p className="text-danger mt-1">Debe ingresar una contraseña</p>
+                    <p className="text-danger mt-1">
+                      Debe ingresar una contraseña
+                    </p>
                   )}
                 </Form.Group>
 
@@ -176,4 +182,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;

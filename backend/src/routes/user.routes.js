@@ -3,13 +3,13 @@ import { User } from "../models/user.js";
 
 const router = Router();
 
-router.get("/user/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const user = await User.findByPk(id);
   res.json(user);
 });
 
-router.post("/user", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
@@ -27,12 +27,12 @@ router.post("/user", async (req, res) => {
   }
 });
 
-router.put("/user/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const { id } = req.params;
   res.send(`Actualizando usuario con id... ${id}`);
 });
 
-router.delete("/user/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
   res.send(`Borrando el usuario con id... ${id}`);
 });

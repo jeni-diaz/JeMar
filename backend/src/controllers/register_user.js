@@ -20,8 +20,8 @@ export const registerUser = async (req, res) => {
 
   
     const newUser = await User.create({
-      nombre: firstName,
-      apellido: lastName,
+      firstName: firstName,
+      lastName: lastName,
       email,
       password: hashedPassword,
     });
