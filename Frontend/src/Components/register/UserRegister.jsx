@@ -48,8 +48,7 @@ const UserRegister = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) =>
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(password);
+  const validatePassword = (password) =>/^[A-Za-z\d]{8,}$/.test(password);
 
 
   const handleSubmit = async (event) => {
@@ -171,7 +170,7 @@ const UserRegister = () => {
               <Form.Label>Correo Electrónico:</Form.Label>
               <Form.Control
                 ref={emailRef}
-                className={`custom-input ${errors.email ? "is-invalid" : ""}`}
+                className={`custom-input ${errors.email}`}
                 type="email"
                 placeholder="abc@ejemplo.com"
                 value={email}

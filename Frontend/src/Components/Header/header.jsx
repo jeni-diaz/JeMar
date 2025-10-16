@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <>
       <Navbar expand="lg" fixed="top" className="navbar-custom">
-        <Container fluid className="Header d-flex justify-content-center position-fixed top-0 start-50 translate-middle-x">
+        <Container fluid className="header d-flex justify-content-center position-fixed top-0 start-50 translate-middle-x">
           <img src="./public/images/Icon.svg" alt="Icono" height={40} className="me-2" />
           <span className="brand-text fs-2">Envíos JeMar</span>
 
@@ -19,8 +19,12 @@ const Header = () => {
                 Inicio</Link>
               <Link to="/contact" className="text-decoration-none custom-link mx-4 fs-3">
                 Contacto</Link>
-              <Link to="/login" className="text-decoration-none custom-link me-2 fs-2">
-                <i className="bi bi-person-circle"></i>
+              <Link
+                to="/login"
+                className="text-decoration-none custom-link me-2 fs-3"
+              >
+                <i className="bi bi-person-circle"></i>{" "}
+                <span className="custom-link-text fs-3">Ingresar</span>
               </Link>
             </div>
           </Nav>
