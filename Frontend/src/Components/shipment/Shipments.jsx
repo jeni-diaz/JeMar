@@ -13,7 +13,7 @@ import "../style/Styles.css";
 
 const Shipments = () => {
   return (
-    <Background image="/images/ImageQuote.png">
+    <Background image="/images/ImageShipment.png">
       <BackArrow />
       <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
         <Row>

@@ -17,39 +17,40 @@ import "../style/Styles.css";
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
+  const { role, token } = useContext(AuthContext);
 
-  const { role } = useContext(AuthContext);
+  if (!token) {
+    navigate("/login");
+    return null;
+  }
 
-   const buttonsByRole = {
-    sysadmin: ["shipment", "consult", "planel"],
-    admin: ["shipment", "consult"],
-    user: ["shipment"],
+  if (!role) return <div>Cargando...</div>;
+
+  const buttonsByRole = {
+    superAdmin: ["shipment", "modify", "Panel"],
+    empleado: ["shipment", "modify"],
+    usuario: ["shipment"],
   };
 
-   const allowedButtons = buttonsByRole[role] || [];
+  const allowedButtons = buttonsByRole[role] || [];
 
-    const buttons = [
+  // Configuración de botones y rutas
+  const buttons = [
     { key: "shipment", label: "Envios" },
-    { key: "consult", label: "Modificar" },
-    { key: "planel", label: "Panel" },
+    { key: "modify", label: "Modificar" },
+    { key: "Panel", label: "Panel" },
   ];
 
-  const handleButtonClick = (button) => {
-    setActiveButton(button);
+  const routes = {
+    shipment: "/shipment",
+    modify: "/modify",
+    panel: "/panel",
+  };
 
-    switch (button) {
-      case "shipment":
-        navigate("/shipment");
-        break;
-      case "colsult":
-        navigate("/consult");
-        break;
-      case "planel":
-        navigate("/planel");
-        break;
-      default:
-        break;
-    }
+  const handleButtonClick = (buttonKey) => {
+    setActiveButton(buttonKey);
+    const route = routes[buttonKey];
+    if (route) navigate(route);
   };
 
   return (
@@ -57,7 +58,7 @@ const HomePage = () => {
       <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <Container className="button-bar mt-auto mb-3">
-           <Row className="justify-content-center">
+            <Row className="justify-content-center">
               {buttons
                 .filter((btn) => allowedButtons.includes(btn.key))
                 .map((btn) => (
@@ -85,27 +86,14 @@ const HomePage = () => {
             Recomendaciones para embalar tu paquete
           </h2>
           <Row>
-            <Col>
-              <CardOne />
-            </Col>
-            <Col>
-              <CardTwo />
-            </Col>
-            <Col>
-              <CardThree />
-            </Col>
+            <Col><CardOne /></Col>
+            <Col><CardTwo /></Col>
+            <Col><CardThree /></Col>
           </Row>
-
           <Row>
-            <Col>
-              <CardFour />
-            </Col>
-            <Col>
-              <CardFive />
-            </Col>
-            <Col>
-              <CardSix />
-            </Col>
+            <Col><CardFour /></Col>
+            <Col><CardFive /></Col>
+            <Col><CardSix /></Col>
           </Row>
         </div>
       </Background>

@@ -60,7 +60,11 @@ const ShippingQuote = () => {
 
       const data = await response.json();
       console.log("Envío creado:", data);
-      alert("¡Cotización generada con éxito!");
+      setAlertData({
+          show: true,
+          message: data.message || "¡Cotización generada con éxito!",
+          type: "success",
+        });
 
       // Resetear formulario
       setShipmentTypeId("");
@@ -68,7 +72,11 @@ const ShippingQuote = () => {
       setDestination("");
     } catch (error) {
       console.error("Error creando envío:", error);
-      alert("Ocurrió un error al generar la cotización.");
+       setAlertData({
+          show: true,
+          message: data.message || "Ocurrió un error al generar la cotización.",
+          type: "error",
+        });
     }
   };
 
@@ -123,7 +131,7 @@ const ShippingQuote = () => {
 
                 <div className="d-flex justify-content-center mt-3">
                   <Button type="submit" className="custom-button w-50">
-                    Continuar
+                    Cotizar
                   </Button>
                 </div>
               </Form>

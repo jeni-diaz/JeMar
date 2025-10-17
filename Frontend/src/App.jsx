@@ -8,9 +8,9 @@ import HomePage from './Components/home/HomePage';
 import Login from './Components/login/Login.jsx';
 import UserRegister from './Components/register/UserRegister';
 import Shipments from './Components/shipment/shipments.jsx';
+import Modify from './Components/modify/Modify.jsx';
 
 import "./Components/style/Styles.css";
-import DeleteShipping from './Components/shipment/delete/DeleteShipping.jsx';
 
 const MainLayout = () => (
   <>
@@ -31,6 +31,7 @@ function App() {
             <Route path='/register' element={<UserRegister />} />
             <Route path='/contact' element={<ContactForm />} />
             <Route path='/shipment' element={<Shipments/>} />
+            <Route path='/modify' element={<Modify/>}/>
           </Route>
 
           <Route path='*' element={<ErrorNotFound />} />

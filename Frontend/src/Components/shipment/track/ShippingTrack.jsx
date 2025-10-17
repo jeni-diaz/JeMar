@@ -21,7 +21,7 @@ function ShippingTrack() {
     setErrors((prevErrors) => ({ ...prevErrors, trackingNumber: false }));
   };
 
-  const validateTrackingNumber = (num) => /^\d{20}$/.test(num);
+  const validateTrackingNumber = (num) => /^\d{8}$/.test(num);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,7 +57,7 @@ function ShippingTrack() {
 
           <div className="d-flex justify-content-center mt-3">
             <Button type="submit" className="custom-button w-50">
-              Continuar
+              Rastrear
             </Button>
           </div>
         </Form>

@@ -1,39 +1,59 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
 
-const tokenValue = localStorage.getItem('token');
-const roleValue = localStorage.getItem("role");
+const decodeJWT = (token) => {
+  try {
+    const payload = token.split(".")[1];    
+    return JSON.parse(atob(payload));           
+  } catch (error) {
+    console.error("Token inválido:", error);
+    return null;
+  }
+};
+
+const getInitialRole = () => {
+  const storedRole = localStorage.getItem("role");
+  if (storedRole) return storedRole;
+
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  const decoded = decodeJWT(token);
+  return decoded?.role || null;
+};
+
+const getInitialToken = () => localStorage.getItem("token");
 
 const AuthContextProvider = ({ children }) => {
-    const [token, setToken] = useState(tokenValue);
-     const [role, setRole] = useState(roleValue);
+  const [token, setToken] = useState(getInitialToken());
+  const [role, setRole] = useState(getInitialRole());
 
-    const handleLogin = (token, role) => {
-        setToken(token);
-         setRole(role);
-        localStorage.setItem('token', token);
-        localStorage.setItem("role", role);
-    };
+  const handleLogin = (token, role) => {
+    setToken(token);
+    setRole(role);
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+  };
 
-    const handleLogout = () => {
-        setToken(null);
-        setRole(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem("role");
-    };
+  const handleLogout = () => {
+    setToken(null);
+    setRole(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+  };
 
-    return (
-        <AuthContext.Provider
-            value={{
-                token,
-                role,
-                onLogin: handleLogin,
-                onLogout: handleLogout,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{
+        token,
+        role,
+        onLogin: handleLogin,
+        onLogout: handleLogout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContextProvider;
