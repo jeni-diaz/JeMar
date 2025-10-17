@@ -11,34 +11,26 @@ import CardFive from "./cards/CardFive";
 import CardSix from "./cards/CardSix";
 
 import { AuthContext } from "../authContext/AuthContext";
-
 import "../style/Styles.css";
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
-  const { role, token } = useContext(AuthContext);
+  const { role, token, user } = useContext(AuthContext);
 
-  if (!token) {
-    navigate("/login");
-    return null;
-  }
-
-  if (!role) return <div>Cargando...</div>;
-
+  // Configuración de roles y botones
   const buttonsByRole = {
-    superAdmin: ["shipment", "modify", "Panel"],
+    superAdmin: ["shipment", "modify", "panel"],
     empleado: ["shipment", "modify"],
     usuario: ["shipment"],
   };
 
   const allowedButtons = buttonsByRole[role] || [];
 
-  // Configuración de botones y rutas
   const buttons = [
-    { key: "shipment", label: "Envios" },
+    { key: "shipment", label: "Envíos" },
     { key: "modify", label: "Modificar" },
-    { key: "Panel", label: "Panel" },
+    { key: "panel", label: "Panel" },
   ];
 
   const routes = {
@@ -55,31 +47,46 @@ const HomePage = () => {
 
   return (
     <>
+      {/* Sección superior */}
       <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-          <Container className="button-bar mt-auto mb-3">
-            <Row className="justify-content-center">
-              {buttons
-                .filter((btn) => allowedButtons.includes(btn.key))
-                .map((btn) => (
-                  <Col xs="auto" key={btn.key}>
-                    <Button
-                      className={`border-0 fs-3 mx-4 Button-acction ${
-                        activeButton === btn.key ? "active" : ""
-                      }`}
-                      onClick={() => handleButtonClick(btn.key)}
-                    >
-                      {btn.label}
-                    </Button>
-                  </Col>
-                ))}
-            </Row>
-          </Container>
+          {/* Si hay sesión, mostrar saludo y botones */}
+          {token ? (
+            <>
+              <h2 className="text-light mb-4">
+                Bienvenido, {user?.name || "Usuario"}
+              </h2>
+              <Container className="button-bar mt-auto mb-3">
+                <Row className="justify-content-center">
+                  {buttons
+                    .filter((btn) =>
+                      allowedButtons.includes(btn.key.toLowerCase())
+                    )
+                    .map((btn) => (
+                      <Col xs="auto" key={btn.key}>
+                        <Button
+                          className={`border-0 fs-3 mx-4 Button-acction ${
+                            activeButton === btn.key ? "active" : ""
+                          }`}
+                          onClick={() => handleButtonClick(btn.key)}
+                        >
+                          {btn.label}
+                        </Button>
+                      </Col>
+                    ))}
+                </Row>
+              </Container>
+            </>
+          ) : (
+            // Si no hay sesión, mostrar solo título genérico
+            <h2 className="text-light mb-4">Bienvenido a JeMar</h2>
+          )}
         </Container>
       </Background>
 
       <div className="blackLine"></div>
 
+      {/* Sección inferior con las recomendaciones */}
       <Background image="/images/ImageHome1.png">
         <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <h2 className="title-card mt-5" style={{ fontSize: "2.5rem" }}>
@@ -101,4 +108,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HomePage;

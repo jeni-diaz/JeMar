@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
 import ContactForm from "./Components/contact/ContactForm";
 import ErrorNotFound from "./Components/error/ErrorNotFound";
@@ -28,32 +28,41 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          {/* Rutas públicas */}
+          {/* Páginas públicas */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<UserRegister />} />
 
-          {/* 🔒 Solo usuarios logueados */}
+          {/* Rutas protegidas: solo usuarios logueados */}
           <Route element={<Protected />}>
+            {/* Cotización visible a todos los roles logueados */}
             <Route path="/shipment" element={<Shipments />} />
 
-            {/* 🔒 Solo empleados o superAdmin */}
+            {/* Rutas solo para empleado y superAdmin */}
             <Route
-              element={<RoleProtected allowedRoles={["empleado", "superAdmin"]} />}
+              element={
+                <RoleProtected allowedRoles={["empleado", "superAdmin"]} />
+              }
             >
               <Route path="/modify" element={<Modify />} />
+              <Route path="/contact" element={<ContactForm />} />
             </Route>
+
+            {/* Rutas solo para superAdmin
+            <Route
+              element={<RoleProtected allowedRoles={["superAdmin"]} />}
+            >
+              <Route path="/panel" element={<AdminPanel />} />
+            </Route> */}
           </Route>
 
-          {/* Ruta de contacto (pública o protegida según prefieras) */}
-          <Route path="/contact" element={<ContactForm />} />
-
-          {/* Página 404 */}
+          {/* Página de error */}
           <Route path="*" element={<ErrorNotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
 }
+
 
 export default App;
