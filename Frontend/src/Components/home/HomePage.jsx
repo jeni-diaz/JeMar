@@ -21,35 +21,31 @@ const HomePage = () => {
   const { role } = useContext(AuthContext);
 
    const buttonsByRole = {
-    sysadmin: ["quote", "track", "consult", "settings"],
-    admin: ["quote", "track", "consult"],
-    user: ["quote", "track"],
+    sysadmin: ["shipment", "consult", "planel"],
+    admin: ["shipment", "consult"],
+    user: ["shipment"],
   };
 
    const allowedButtons = buttonsByRole[role] || [];
 
     const buttons = [
-    { key: "quote", label: "Cotizar" },
-    { key: "track", label: "Rastrear" },
-    { key: "consult", label: "Consultar" },
-    { key: "settings", label: "Ajustes" },
+    { key: "shipment", label: "Envios" },
+    { key: "consult", label: "Modificar" },
+    { key: "planel", label: "Panel" },
   ];
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
 
     switch (button) {
-      case "quote":
-        navigate("/quote");
-        break;
-      case "track":
-        navigate("/track");
+      case "shipment":
+        navigate("/shipment");
         break;
       case "colsult":
         navigate("/consult");
         break;
-      case "settings":
-        navigate("/settings");
+      case "planel":
+        navigate("/planel");
         break;
       default:
         break;

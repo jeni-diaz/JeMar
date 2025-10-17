@@ -1,3 +1,3 @@
 export const initialErrors = {
-    trackingNumber: false
+    trackingNumber: false
 }

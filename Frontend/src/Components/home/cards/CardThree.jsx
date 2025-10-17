@@ -1,5 +1,4 @@
 import CustomCard from '../../card/CustomCard';
-import '../../style/Styles.css';
 
 const CardThree = () => {
     return (

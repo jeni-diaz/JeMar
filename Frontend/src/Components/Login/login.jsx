@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
@@ -9,6 +9,8 @@ import { initialErrors } from "./Login.data";
 import "../style/Styles.css";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(initialErrors);
@@ -38,10 +40,7 @@ const Login = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,}$/.test(
-      password
-    );
+  const validatePassword = (password) => /^[A-Za-z\d]{8,}$/.test(password);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,6 +77,7 @@ const Login = () => {
         return;
       }
 
+      // Login exitoso
       setAlertData({
         show: true,
         message: "¡Login exitoso!",
@@ -88,6 +88,11 @@ const Login = () => {
 
       setEmail("");
       setPassword("");
+
+      // Redirigir después de 1 segundo para que el usuario vea el mensaje
+      setTimeout(() => {
+        navigate("/shipment");
+      }, 1000);
     } catch (error) {
       console.error("Login error:", error);
       setAlertData({
@@ -125,7 +130,7 @@ const Login = () => {
                   />
                   {errors.email && (
                     <p className="text-danger mt-1">
-                      Debe ingresar un correo electrónico
+                      Debe ingresar un correo electrónico válido
                     </p>
                   )}
                 </Form.Group>
@@ -143,7 +148,7 @@ const Login = () => {
                   />
                   {errors.password && (
                     <p className="text-danger mt-1">
-                      Debe ingresar una contraseña
+                      La contraseña debe tener al menos 8 caracteres
                     </p>
                   )}
                 </Form.Group>
