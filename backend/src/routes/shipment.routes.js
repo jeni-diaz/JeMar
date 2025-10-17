@@ -2,19 +2,51 @@ import { Router } from "express";
 import { Shipment } from "../models/shipment.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
+import { isEmpleado } from "../middlewares/verifyRol.js";
+
 
 const router = Router();
 
 
-router.get("/", async (req, res) => {
+// ✅ Obtener TODOS los envíos (solo empleados y superAdmin)
+router.get("/", verifyToken, isEmpleado, async (req, res) => {
   try {
-    const shipments = await Shipment.findAll();
+    const shipments = await Shipment.findAll({
+      include: [{ model: ShipmentType, attributes: ["name", "description"] }],
+    });
     res.json(shipments);
   } catch (error) {
-    console.error(error);
+    console.error("💥 Error obteniendo envíos:", error);
     res.status(500).json({ error: "Error obteniendo envíos" });
   }
 });
+
+// ✅ Consultar UN envío (cualquiera logueado)
+router.get("/:id", verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const shipment = await Shipment.findByPk(id, {
+      include: [{ model: ShipmentType, attributes: ["name", "description"] }],
+    });
+
+    if (!shipment) {
+      return res.status(404).json({ error: "Envío no encontrado" });
+    }
+
+    return res.json({
+      id: shipment.id,
+      status: shipment.status,
+      type: shipment.ShipmentType?.name,
+      destination: shipment.destination,
+      origin: shipment.origin,
+      price: shipment.price,
+    });
+  } catch (error) {
+    console.error("💥 Error consultando envío:", error);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 
 router.post("/", verifyToken, async (req, res) => {
   try {
@@ -67,9 +99,23 @@ router.put("/:id", (req, res) => {
   res.send(`Actualizando el envío con id... ${id}`);
 });
 
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Borrando el envío con id... ${id}`);
+router.delete("/:id", verifyToken, isEmpleado, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const shipment = await Shipment.findByPk(id);
+    if (!shipment) {
+      return res.status(404).json({ error: "Envío no encontrado" });
+    }
+
+    await shipment.destroy();
+
+    return res.json({ message: `Envío ${id} eliminado correctamente` });
+  } catch (error) {
+    console.error("💥 Error eliminando envío:", error);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
 });
+
 
 export default router;
