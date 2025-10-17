@@ -1,17 +1,17 @@
 import { jwtDecode } from "jwt-decode";
 
 export const IsTokenValid = (token) => {
-    if (!token) return false;
+  if (!token) return false;
 
-    try {
-        const decodedToken = jwtDecode(token);
+  try {
+    const decodedToken = jwtDecode(token);
 
-        const currentTime = Date.now() / 1000;
+    if (!decodedToken.exp || !decodedToken.role) return false;
 
-        return currentTime < decodedToken.exp;
-
-    } catch (error) {
-        console.error("Error decoding the token", error)
-        return false;
-    }
-}
+    const currentTime = Date.now() / 1000;
+    return currentTime < decodedToken.exp;
+  } catch (error) {
+    console.error("Error decodificando el token:", error);
+    return false;
+  }
+};

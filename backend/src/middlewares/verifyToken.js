@@ -4,18 +4,16 @@ export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Token no proporcionado" });
+    return res.status(401).json({ message: "Token no proporcionado" });
   }
 
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, "alagrandelepusecuca2025");
-
-    req.userId = decoded.id;
-    req.userRole = decoded.role; 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "alagrandelepusecuca2025");
+    req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ error: "Token inválido o expirado" });
+    res.status(401).json({ message: "Token inválido o expirado" });
   }
 };

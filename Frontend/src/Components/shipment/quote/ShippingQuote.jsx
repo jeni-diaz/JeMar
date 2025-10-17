@@ -25,60 +25,70 @@ const ShippingQuote = () => {
       .catch((err) => console.error("Error cargando tipos de envío:", err));
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    const token = localStorage.getItem("token");
-    let userId = null;
-
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        userId = payload.id;
-      } catch (error) {
-        console.error("Error decodificando token:", error);
-      }
-    }
-
-    const shipment = {
-      user_id: userId,
-      shipmentTypeId: shipmentTypeId,
-      origin,
-      destination,
-      status: "pendiente",
-    };
-
-    try {
-      const response = await fetch("http://localhost:3000/api/shipments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify(shipment),
-      });
-
-      const data = await response.json();
-      console.log("Envío creado:", data);
-      setAlertData({
-          show: true,
-          message: data.message || "¡Cotización generada con éxito!",
-          type: "success",
-        });
-
-      // Resetear formulario
-      setShipmentTypeId("");
-      setOrigin("");
-      setDestination("");
-    } catch (error) {
-      console.error("Error creando envío:", error);
-       setAlertData({
-          show: true,
-          message: data.message || "Ocurrió un error al generar la cotización.",
-          type: "error",
-        });
-    }
+    const shipmentPrices = {
+    estandar: 25000,
+    express: 40000,
+    fragil: 60000,
   };
+
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    setAlertData({
+      show: true,
+      message: "Debes iniciar sesión para cotizar un envío.",
+      type: "error",
+    });
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/api/shipment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ shipmentTypeId, origin, destination }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Error al generar la cotización");
+    }
+
+    // Buscar el tipo seleccionado para mostrar el precio
+    const selectedType = shipmentTypes.find(
+      (type) => type.id === parseInt(shipmentTypeId)
+    );
+    const price = shipmentPrices[selectedType.name];
+
+    setAlertData({
+  show: true,
+  message: `✅ Cotización generada con éxito.\nEnvío N° ${data.shipment.id} — Precio: $${data.shipment.price.toLocaleString("es-AR")}`,
+  type: "success",
+});
+
+
+    setShipmentTypeId("");
+    setOrigin("");
+    setDestination("");
+  } catch (error) {
+    console.error("Error creando envío:", error);
+    setAlertData({
+      show: true,
+      message: "Ocurrió un error al generar la cotización.",
+      type: "error",
+    });
+  }
+};
+
 
   return (
     <>
