@@ -188,14 +188,17 @@ label,
   border-radius: 20px;
   color: #B07F11;
   background-color: #000000;
+  box-shadow: 0 0 10px #B07F11;
 }
 
 .button-bar .Button-acction:hover {
   background-color: #000000;
+  box-shadow: 0 0 10px #ffffff;
 }
 
 .button-bar .Button-acction.active {
   background-color: #B07F11;
+   box-shadow: 0 0 10px #ffffff;
 }
 
 /*Ubicación*/

@@ -134,14 +134,21 @@ const ShippingQuote = () => {
             show={showModal}
             onHide={() => setShowModal(false)}
             title="¡Pedido realizado con éxito!"
-            body={`Envío N° ${modalData.id}\nPrecio: $${modalData.price.toLocaleString("es-AR")}`}
-            buttons={[
-              {
-                label: "Continuar",
-                variant: "primary",
-                onClick: () => setShowModal(false),
-              },
-            ]}
+            body={
+              <div>
+                {[
+                  { label: "Envío N°: ", value: modalData.id },
+                  {
+                    label: "Precio: ",
+                    value: `$${modalData.price.toLocaleString("es-AR")}`,
+                  },
+                ].map((item, index) => (
+                  <div key={index}>
+                    {item.label} {item.value}
+                  </div>
+                ))}
+              </div>
+            }
           />
         )}
       </div>

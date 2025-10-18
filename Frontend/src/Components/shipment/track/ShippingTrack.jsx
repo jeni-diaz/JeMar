@@ -95,7 +95,7 @@ function ShippingTrack() {
       <CustomCard title="CONSULTAR ENVÍO">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 fw-bold">
-            <Form.Label>Número de ID del envío:</Form.Label>
+            <Form.Label>Número de envío:</Form.Label>
             <Form.Control
               ref={trackingNumberRef}
               className={`custom-input ${
@@ -108,7 +108,7 @@ function ShippingTrack() {
             />
             {errors.trackingNumber && (
               <p className="text-danger mt-1">
-                Debe ingresar un ID numérico válido
+                Debe ingresar un número
               </p>
             )}
           </Form.Group>
@@ -121,7 +121,6 @@ function ShippingTrack() {
         </Form>
       </CustomCard>
 
-      {/* Modal */}
       {modalData && (
         <CustomModal
           show={showModal}
@@ -146,12 +145,7 @@ function ShippingTrack() {
               ))}
             </div>
           }
-          buttons={[
-            {
-              label: "Continuar",
-              onClick: () => setShowModal(false),
-            },
-          ]}
+         
         />
       )}
       </div>

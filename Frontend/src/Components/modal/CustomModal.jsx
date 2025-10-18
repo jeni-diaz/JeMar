@@ -1,29 +1,23 @@
 import { Modal, Button } from "react-bootstrap";
 
-const CustomModal = ({ show, onHide, title, body, button }) => {
+const CustomModal = ({ show, onHide, title, body, onContinue }) => {
   return (
-    <>
-      <Modal className="container-modal" show={show} onHide={onHide} centered>
-        <div>
-          <Modal.Header closeButton className="titulo">
-            <Modal.Title className="titulo">{title}</Modal.Title>
-          </Modal.Header>
+    <Modal className="container-modal" show={show} onHide={onHide} centered>
+      <Modal.Header closeButton className="titulo">
+        <Modal.Title className="titulo">{title}</Modal.Title>
+      </Modal.Header>
 
-          <Modal.Body className="sub-titulo">{body}</Modal.Body>
+      <Modal.Body className="sub-titulo">{body}</Modal.Body>
 
-          <Modal.Footer>
-            <Button
-              onClick={button?.onClick || onHide}
-              className={button?.className || "custom-button"}
-            >
-              {button?.label || "Cerrar"}
-            </Button>
-          </Modal.Footer>
-        </div>
-      </Modal>
-    </>
+      <Modal.Footer>
+        <Button onClick={onContinue || onHide} className="custom-button">
+          Continuar
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
 export default CustomModal;
+
 

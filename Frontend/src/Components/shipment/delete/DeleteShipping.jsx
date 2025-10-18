@@ -3,14 +3,20 @@ import { Form, Button } from "react-bootstrap";
 
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
+import CustomModal from "../../modal/CustomModal";
 
 const DeleteShipping = () => {
   const [shipmentId, setShipmentId] = useState("");
+  const [errors, setErrors] = useState({ shipmentId: false });
   const [alertData, setAlertData] = useState({
     show: false,
     message: "",
     type: "info",
   });
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
 
   const shipmentRef = useRef(null);
 
@@ -19,9 +25,8 @@ const DeleteShipping = () => {
 
     if (!shipmentId.trim()) {
       setAlertData({
-
         show: true,
-        message: "Debes ingresar un número de envío válido.",
+        message: "Debes ingresar un número de envío.",
         type: "error",
       });
       shipmentRef.current.focus();
@@ -57,11 +62,8 @@ const DeleteShipping = () => {
         throw new Error(data.error || "Error al eliminar el envío");
       }
 
-      setAlertData({
-        show: true,
-        message: data.message || "Envío eliminado correctamente.",
-        type: "success",
-      });
+      setModalData(data);
+      setShowModal(true);
 
       setShipmentId("");
     } catch (error) {
@@ -84,11 +86,10 @@ const DeleteShipping = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
 
-
         <CustomCard title="ELIMINAR ENVÍO">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número de envío</Form.Label>
+              <Form.Label>Número de envío:</Form.Label>
               <Form.Control
                 ref={shipmentRef}
                 className="custom-input"
@@ -97,6 +98,11 @@ const DeleteShipping = () => {
                 value={shipmentId}
                 onChange={(e) => setShipmentId(e.target.value)}
               />
+              {errors.shipmentId && (
+                <p className="text-danger mt-1">
+                  Debe ingresar un número
+                </p>
+              )}
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">
@@ -107,6 +113,24 @@ const DeleteShipping = () => {
           </Form>
         </CustomCard>
 
+        {modalData && (
+          <CustomModal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            title="Envío eliminado"
+            body={
+              <div>
+                El envío fue eliminado correctamente.
+              </div>
+            }
+            buttons={[
+              {
+                label: "Cerrar",
+                onClick: () => setShowModal(false),
+              },
+            ]}
+          />
+        )}
       </div>
     </>
   );
