@@ -8,7 +8,6 @@ import { isEmpleado } from "../middlewares/verifyRol.js";
 const router = Router();
 
 
-// ✅ Obtener TODOS los envíos (solo empleados y superAdmin)
 router.get("/", verifyToken, isEmpleado, async (req, res) => {
   try {
     const shipments = await Shipment.findAll({
@@ -51,7 +50,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   try {
     const { shipmentTypeId, origin, destination } = req.body;
-    const userId = req.userId;
+    const userId = req.user.id;
 
     console.log("✅ Nuevo envío recibido:", req.body);
     console.log("🧍 Usuario ID:", userId);
@@ -68,9 +67,9 @@ router.post("/", verifyToken, async (req, res) => {
 
     // Definir precios fijos según tipo
     const priceMap = {
-      estandar: 2500,
-      express: 4000,
-      fragil: 6000,
+      estandar: 25000,
+      express: 40000,
+      fragil: 60000,
     };
 
     const price = priceMap[shipmentType.name] || 0;
@@ -89,7 +88,7 @@ router.post("/", verifyToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error("💥 Error al crear envío:", error);
+    console.error("Error al crear envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
@@ -99,23 +98,30 @@ router.put("/:id", (req, res) => {
   res.send(`Actualizando el envío con id... ${id}`);
 });
 
-router.delete("/:id", verifyToken, isEmpleado, async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
-
     const shipment = await Shipment.findByPk(id);
+
     if (!shipment) {
       return res.status(404).json({ error: "Envío no encontrado" });
     }
+    if (
+      shipment.userId !== req.user.id &&
+      req.user.role !== "superAdmin" &&
+      req.user.role !== "empleado"
+    ) {
+      return res.status(403).json({ error: "No tienes permiso para eliminar este envío" });
+    }
 
     await shipment.destroy();
-
     return res.json({ message: `Envío ${id} eliminado correctamente` });
   } catch (error) {
-    console.error("💥 Error eliminando envío:", error);
+    console.error("Error eliminando envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
 
 
 export default router;

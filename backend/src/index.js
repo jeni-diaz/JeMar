@@ -2,6 +2,7 @@ import express from "express";
 import { PORT } from "./config.js";
 import { sequelize } from "./db.js";
 import cors from "cors";
+import "./models/index.js"
 
 import shipmentRoutes from "./routes/shipment.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -34,7 +35,7 @@ try {
     await ShipmentType.bulkCreate([
       { name: "estandar", description: "Envío estándar" },
       { name: "express", description: "Envío rápido" },
-      { name: "fragil", description: "Manejar con cuidado" },
+      { name: "fragil", description: "Frágil" },
     ]);
     console.log("✅ Tipos de envío iniciales creados");
   } else {

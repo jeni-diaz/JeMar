@@ -2,11 +2,10 @@ import { User } from "./user.js";
 import { Shipment } from "./shipment.js";
 import { ShipmentType } from "./shipment_type.js";
 
-User.hasMany(Shipment, { foreignKey: "user_id", onDelete: "CASCADE" });
-Shipment.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Shipment, { foreignKey: "userId", onDelete: "CASCADE" });
+Shipment.belongsTo(User, { foreignKey: "userId" });
 
-ShipmentType.hasMany(Shipment, { foreignKey: "shipment_type_id", onDelete: "CASCADE" });
-Shipment.belongsTo(ShipmentType, { foreignKey: "shipment_type_id" });
+ShipmentType.hasMany(Shipment, { foreignKey: "shipmentTypeId", onDelete: "CASCADE" });
+Shipment.belongsTo(ShipmentType, { foreignKey: "shipmentTypeId" });
 
 export { User, Shipment, ShipmentType };
-
