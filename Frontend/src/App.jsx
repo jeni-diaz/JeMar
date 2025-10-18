@@ -32,6 +32,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<UserRegister />} />
+          <Route path="/contact" element={<ContactForm />} />
 
           <Route element={<Protected />}>
             <Route path="/shipment" element={<Shipments />} />
@@ -55,7 +56,6 @@ function App() {
                 <RoleProtected allowedRoles={["empleado", "superAdmin"]} />
               }
             >
-              <Route path="/contact" element={<ContactForm />} />
             </Route>
           </Route>
 

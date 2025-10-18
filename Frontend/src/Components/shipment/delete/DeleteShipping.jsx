@@ -39,7 +39,6 @@ const DeleteShipping = () => {
     }
 
     try {
-      if (!window.confirm(`¿Seguro que deseas eliminar el envío N° ${shipmentId}?`)) return;
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
