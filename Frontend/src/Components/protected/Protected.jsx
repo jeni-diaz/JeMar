@@ -13,4 +13,4 @@ const Protected = () => {
     return <Outlet />
 }
 
-export default Protected
+export default Protected;

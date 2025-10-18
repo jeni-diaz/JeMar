@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 
 import { AuthContext } from "../authContext/AuthContext";
 
@@ -68,21 +68,45 @@ const Modify = () => {
       setAlertData({
         show: true,
         message: error.message || "Error desconocido al actualizar el envío.",
-      type: "error",
+        type: "error",
       });
     }
   };
+
+  const modalTitle = `Detalle del envío N°${modalData.id || ""}`;
+  const modalBody = (
+    <>
+      <p><strong>Estado:</strong> {modalData.status || ""}</p>
+      <p><strong>Tipo:</strong> {modalData.type || ""}</p>
+      <p><strong>Origen:</strong> {modalData.origin || ""}</p>
+      <p><strong>Destino:</strong> {modalData.destination || ""}</p>
+      <p><strong>Precio:</strong> ${modalData.price ?? ""}</p>
+    </>
+  );
+  const modalButtons = [
+    {
+      label: "Cerrar",
+      onClick: () => setShowModal(false),
+      className: "btn-secondary",
+    },
+  ];
 
   return (
     <Backgrpund image="/images/ImageModify.png">
       <BackArrow />
       <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+
         <CustomAlert
           {...alertData}
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
-        <CustomCard title="MODIFICAR ESTADO">
-          <Form onSubmit={handleSubmit}>
+
+        <form onSubmit={handleSubmit} className="w-100">
+          <CustomCard
+            title="MODIFICAR ESTADO"
+            buttonText="Actualizar"
+            buttonType="submit"
+          >
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>ID del envío:</Form.Label>
               <Form.Control
@@ -108,14 +132,18 @@ const Modify = () => {
                 <option value="cancelado">Cancelado</option>
               </Form.Select>
             </Form.Group>
+          </CustomCard>
+        </form>
 
-            <div className="d-flex justify-content-center mt-3">
-              <Button type="submit" className="custom-button w-50">
-                Actualizar
-              </Button>
-            </div>
-          </Form>
-        </CustomCard>
+        {showModal && (
+          <CustomModal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            title={modalTitle}
+            body={modalBody}
+            buttons={modalButtons}
+          />
+        )}
       </div>
     </Backgrpund>
   );

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import { initialErrors } from "./UserRegister.data.js";
 
@@ -27,6 +28,8 @@ const UserRegister = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const navigate = useNavigate();
+
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
     setErrors((prev) => ({ ...prev, firstName: false }));
@@ -49,21 +52,21 @@ const UserRegister = () => {
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password) => {
-  if (!password.trim()) {
-    return "Debe ingresar una contraseña";
-  }
+    if (!password.trim()) {
+      return "Debe ingresar una contraseña";
+    }
 
-  const regex = /^[A-Za-z\d]{8,}$/; 
-  if (!regex.test(password)) {
-    return "Debe tener al menos 8 caracteres - Solo letras y números";
-  }
+    const regex = /^[A-Za-z\d]{8,}$/;
+    if (!regex.test(password)) {
+      return "Debe tener al menos 8 caracteres - Solo letras y números";
+    }
 
-  return ""; // Sin errores
-};
+    return "";
+  };
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     if (!firstName.trim()) {
       setErrors((prev) => ({ ...prev, firstName: true }));
@@ -85,21 +88,21 @@ const UserRegister = () => {
 
     const errorMsg = validatePassword(password);
 
-  if (errorMsg) {
-    setErrors((prev) => ({ ...prev, password: errorMsg }));
-    passwordRef.current.focus();
-    return;
-  }
-  console.log("Contraseña válida!");
+    if (errorMsg) {
+      setErrors((prev) => ({ ...prev, password: errorMsg }));
+      passwordRef.current.focus();
+      return;
+    }
+    console.log("Contraseña válida!");
 
-    const user = { firstName, lastName, email, password };
+    const user = { firstName, lastName, email, password };
 
     try {
-  const response = await fetch("http://localhost:3000/api/auth/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user),
-  });
+      const response = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
 
       const data = await response.json();
 
@@ -122,6 +125,11 @@ const UserRegister = () => {
       setLastName("");
       setEmail("");
       setPassword("");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
     } catch (error) {
       console.error("Error registrando usuario:", error);
       setAlertData({
@@ -148,9 +156,8 @@ const UserRegister = () => {
               <Form.Label>Nombre:</Form.Label>
               <Form.Control
                 ref={firstNameRef}
-                className={`custom-input ${
-                  errors.firstName ? "is-invalid" : ""
-                }`}
+                className={`custom-input ${errors.firstName ? "is-invalid" : ""
+                  }`}
                 type="text"
                 placeholder="Ingrese su Nombre"
                 value={firstName}
@@ -166,9 +173,8 @@ const UserRegister = () => {
               <Form.Label>Apellido:</Form.Label>
               <Form.Control
                 ref={lastNameRef}
-                className={`custom-input ${
-                  errors.lastName ? "is-invalid" : ""
-                }`}
+                className={`custom-input ${errors.lastName ? "is-invalid" : ""
+                  }`}
                 type="text"
                 placeholder="Ingrese su Apellido"
                 value={lastName}
@@ -184,7 +190,7 @@ const UserRegister = () => {
               <Form.Label>Correo Electrónico:</Form.Label>
               <Form.Control
                 ref={emailRef}
-                className={`custom-input ${errors.email}`}
+                className={`custom-input ${errors.email ? "is-invalid" : ""}`}
                 type="email"
                 placeholder="abc@ejemplo.com"
                 value={email}
@@ -193,7 +199,7 @@ const UserRegister = () => {
               />
               {errors.email && (
                 <p className="text-danger mt-1">
-                  Debe ingresar un correo electrónico
+                  Debe ingresar un correo electrónico válido
                 </p>
               )}
             </Form.Group>
@@ -202,9 +208,8 @@ const UserRegister = () => {
               <Form.Label>Contraseña:</Form.Label>
               <Form.Control
                 ref={passwordRef}
-                className={`custom-input ${
-                  errors.password ? "is-invalid" : ""
-                }`}
+                className={`custom-input ${errors.password ? "is-invalid" : ""
+                  }`}
                 type="password"
                 placeholder=""
                 value={password}
@@ -212,8 +217,8 @@ const UserRegister = () => {
                 autoComplete="current-password"
               />
               {errors.password && (
-    <p className="text-danger mt-1">{errors.password}</p>
-  )}
+                <p className="text-danger mt-1">{errors.password}</p>
+              )}
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">
@@ -228,5 +233,4 @@ const UserRegister = () => {
   );
 };
 
-export default UserRegister;
-
+export default UserRegister;

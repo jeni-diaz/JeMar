@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useRef, useState } from "react";
 
 import { initialErrors } from "./Contact.data";
@@ -7,8 +7,6 @@ import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
 import CustomCard from "../card/CustomCard";
 import CustomAlert from "../alert/CustomAlert";
-
-import "../style/Styles.css";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
@@ -25,11 +23,9 @@ const ContactForm = () => {
   const emailRef = useRef(null);
   const messageRef = useRef(null);
 
-  // Validaciones
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validateMessage = (msg) => msg.trim() !== "";
 
-  // Handlers
   const handleNameChange = (event) => {
     setName(event.target.value);
     setErrors((prev) => ({ ...prev, name: false }));
@@ -90,65 +86,62 @@ const ContactForm = () => {
         />
         <Row className="justify-content-center w-100">
           <Col md={6}>
-            <CustomCard title="HACE TU CONSULTA">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="inputs-group mb-3 w-bold">
-                  <Form.Label>Nombre y Apellido:</Form.Label>
-                  <Form.Control
-                    ref={nameRef}
-                    className={`custom-input ${errors.name}`}
-                    type="text"
-                    placeholder="Ingrese su nombre completo"
-                    value={name}
-                    onChange={handleNameChange}
-                  />
-                  {errors.name && (
-                    <p className="text-danger mt-1">
-                      Debe ingresar un nombre y apellido
-                    </p>
-                  )}
-                </Form.Group>
+            <CustomCard
+              title="HACE TU CONSULTA"
+              buttonText="Enviar"
+              buttonType="submit"
+              onSubmit={handleSubmit}
+            >
+              <Form.Group className="inputs-group mb-3 w-bold">
+                <Form.Label>Nombre y Apellido:</Form.Label>
+                <Form.Control
+                  ref={nameRef}
+                  className={`custom-input ${errors.name ? "is-invalid" : ""}`}
+                  type="text"
+                  placeholder="Ingrese su nombre completo"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+                {errors.name && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un nombre y apellido
+                  </p>
+                )}
+              </Form.Group>
 
-                <Form.Group className="inputs-group mb-3 w-bold">
-                  <Form.Label>Correo Electrónico:</Form.Label>
-                  <Form.Control
-                    ref={emailRef}
-                    className={`custom-input ${errors.email}`}
-                    type="email"
-                    placeholder="abc@ejemplo.com"
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-                  {errors.email && (
-                    <p className="text-danger mt-1">
-                      Debe ingresar un correo electrónico
-                    </p>
-                  )}
-                </Form.Group>
+              <Form.Group className="inputs-group mb-3 w-bold">
+                <Form.Label>Correo Electrónico:</Form.Label>
+                <Form.Control
+                  ref={emailRef}
+                  className={`custom-input ${errors.email ? "is-invalid" : ""}`}
+                  type="email"
+                  placeholder="abc@ejemplo.com"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                {errors.email && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un correo electrónico válido
+                  </p>
+                )}
+              </Form.Group>
 
-                <Form.Group className="inputs-group mb-3 w-bold">
-                  <Form.Label>Consulta:</Form.Label>
-                  <Form.Control
-                    ref={messageRef}
-                    className={`custom-input ${
-                      errors.message ? "is-invalid" : ""
-                    }`}
-                    as="textarea"
-                    placeholder="Escribe tu consulta aquí..."
-                    value={message}
-                    onChange={handleMessageChange}
-                  />
-                  {errors.message && (
-                    <p className="text-danger mt-1">Debe ingresar un mensaje</p>
-                  )}
-                </Form.Group>
-
-                <div className="d-flex justify-content-center mt-3">
-                  <Button type="submit" className="custom-button w-50">
-                    Enviar
-                  </Button>
-                </div>
-              </Form>
+              <Form.Group className="inputs-group mb-3 w-bold">
+                <Form.Label>Consulta:</Form.Label>
+                <Form.Control
+                  ref={messageRef}
+                  className={`custom-input ${
+                    errors.message ? "is-invalid" : ""
+                  }`}
+                  as="textarea"
+                  placeholder="Escribe tu consulta aquí..."
+                  value={message}
+                  onChange={handleMessageChange}
+                />
+                {errors.message && (
+                  <p className="text-danger mt-1">Debe ingresar un mensaje</p>
+                )}
+              </Form.Group>
             </CustomCard>
           </Col>
 
@@ -157,7 +150,7 @@ const ContactForm = () => {
               <label>
                 Dirección: Dorrego 453, Rosario, Santa Fe.
                 <br />
-                Telefono: +54 123 4567890
+                Teléfono: +54 123 4567890
                 <br />
                 Celular: +54 098 7654321
                 <br />
@@ -179,3 +172,4 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+

@@ -58,9 +58,8 @@ function App() {
             >
             </Route>
           </Route>
-
-          <Route path="*" element={<ErrorNotFound />} />
         </Route>
+        <Route path="*" element={<ErrorNotFound />} />
       </Routes>
     </BrowserRouter>
   );

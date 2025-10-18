@@ -1,8 +1,13 @@
 import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
+
+import { AuthContext } from "../authContext/AuthContext";
+
+import Background from "../background/Background";
+import BackArrow from "../back/BackArrow";
 import CustomCard from "../card/CustomCard";
 import CustomAlert from "../alert/CustomAlert";
-import { AuthContext } from "../authContext/AuthContext";
+
 
 const Dashboard = () => {
   const { role, token } = useContext(AuthContext);
@@ -32,7 +37,7 @@ const Dashboard = () => {
 
       setAlertData({
         show: true,
-        message: `✅ Rol del usuario ${email} actualizado a: ${newRole}`,
+        message: `Rol del usuario ${email} actualizado a: ${newRole}`,
         type: "success",
       });
 
@@ -49,9 +54,12 @@ const Dashboard = () => {
   };
 
   return (
+    <>
+    <Background image="/images/ImageDashboard.png">
+      <BackArrow />
     <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
       <CustomAlert {...alertData} onClose={() => setAlertData({ ...alertData, show: false })} />
-      <CustomCard title="PANEL DE ADMINISTRADOR">
+      <CustomCard title="CAMBIAR ROL">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Email del usuario:</Form.Label>
@@ -80,12 +88,14 @@ const Dashboard = () => {
 
           <div className="d-flex justify-content-center mt-3">
             <Button type="submit" className="custom-button w-50">
-              Cambiar rol
+              Cambiar
             </Button>
           </div>
         </Form>
       </CustomCard>
     </div>
+    </Background>
+    </>
   );
 };
 

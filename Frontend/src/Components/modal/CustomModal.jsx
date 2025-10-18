@@ -1,6 +1,6 @@
 import { Modal, Button } from "react-bootstrap";
 
-const CustomModal = ({ show, onHide, title, body, buttons }) => {
+const CustomModal = ({ show, onHide, title, body, button }) => {
   return (
     <Modal className="container-modal" show={show} onHide={onHide} centered>
       <div>
@@ -11,15 +11,12 @@ const CustomModal = ({ show, onHide, title, body, buttons }) => {
         <Modal.Body className="sub-titulo">{body}</Modal.Body>
 
         <Modal.Footer>
-          {buttons.map((btn, i) => (
-            <Button
-              key={i}
-              onClick={btn.onClick || onHide}
-              className={btn.className || "custom-button"}
-            >
-              {btn.label}
-            </Button>
-          ))}
+          <Button
+            onClick={button?.onClick || onHide}
+            className={button?.className || "custom-button"}
+          >
+            {button?.label || "Cerrar"}
+          </Button>
         </Modal.Footer>
       </div>
     </Modal>
@@ -27,3 +24,4 @@ const CustomModal = ({ show, onHide, title, body, buttons }) => {
 };
 
 export default CustomModal;
+

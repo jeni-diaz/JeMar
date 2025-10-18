@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import Background from "../background/Background";
 
-import "../style/Styles.css";
-
 const ErrorNotFound = () => {
   const navigate = useNavigate();
 
@@ -30,4 +28,4 @@ const ErrorNotFound = () => {
   );
 };
 
-export default ErrorNotFound;
+export default ErrorNotFound;

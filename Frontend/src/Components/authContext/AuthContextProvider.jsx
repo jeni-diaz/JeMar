@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { AuthContext } from "./AuthContext";
-import { useEffect } from "react";
 import { IsTokenValid } from "../protected/Protected.helpers";
 
 const decodeJWT = (token) => {
