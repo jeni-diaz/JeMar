@@ -1,4 +1,4 @@
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import { useRef, useState } from "react";
 
 import { initialErrors } from "./Contact.data";
@@ -75,6 +75,7 @@ const ContactForm = () => {
   };
 
   return (
+    <>
     <Background image="/images/ImageContact.png">
       <BackArrow />
       <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
@@ -86,17 +87,13 @@ const ContactForm = () => {
         />
         <Row className="justify-content-center w-100">
           <Col md={6}>
-            <CustomCard
-              title="HACE TU CONSULTA"
-              buttonText="Enviar"
-              buttonType="submit"
-              onSubmit={handleSubmit}
-            >
+          <Form onSubmit={handleSubmit}>
+            <CustomCard title="HACE TU CONSULTA">
               <Form.Group className="inputs-group mb-3 w-bold">
                 <Form.Label>Nombre y Apellido:</Form.Label>
                 <Form.Control
                   ref={nameRef}
-                  className={`custom-input ${errors.name ? "is-invalid" : ""}`}
+                  className={`custom-input ${errors.name}`}
                   type="text"
                   placeholder="Ingrese su nombre completo"
                   value={name}
@@ -113,7 +110,7 @@ const ContactForm = () => {
                 <Form.Label>Correo Electrónico:</Form.Label>
                 <Form.Control
                   ref={emailRef}
-                  className={`custom-input ${errors.email ? "is-invalid" : ""}`}
+                  className={`custom-input ${errors.email}`}
                   type="email"
                   placeholder="abc@ejemplo.com"
                   value={email}
@@ -131,8 +128,7 @@ const ContactForm = () => {
                 <Form.Control
                   ref={messageRef}
                   className={`custom-input ${
-                    errors.message ? "is-invalid" : ""
-                  }`}
+                    errors.message}`}
                   as="textarea"
                   placeholder="Escribe tu consulta aquí..."
                   value={message}
@@ -142,7 +138,14 @@ const ContactForm = () => {
                   <p className="text-danger mt-1">Debe ingresar un mensaje</p>
                 )}
               </Form.Group>
+
+              <div className="d-flex justify-content-center mt-3">
+                  <Button type="submit" className="custom-button w-50">
+                    Iniciar
+                  </Button>
+                </div>
             </CustomCard>
+            </Form>
           </Col>
 
           <Col md={4}>
@@ -168,6 +171,7 @@ const ContactForm = () => {
         </Row>
       </div>
     </Background>
+    </>
   );
 };
 

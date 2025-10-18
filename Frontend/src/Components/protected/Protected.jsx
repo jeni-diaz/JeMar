@@ -10,7 +10,7 @@ const Protected = () => {
     if (!IsTokenValid(token)) {
         return <Navigate to='/login' replace />
     }
-    return <Outlet />
+    return <Outlet />;
 }
 
 export default Protected;

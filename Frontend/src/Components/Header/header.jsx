@@ -10,7 +10,6 @@ const Header = () => {
   const { token, onLogout } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
 
-  // 🔁 Se actualiza cuando cambia el token
   useEffect(() => {
     setIsLoggedIn(!!token);
   }, [token]);
@@ -27,7 +26,6 @@ const Header = () => {
           fluid
           className="header d-flex justify-content-center position-fixed top-0 start-50 translate-middle-x"
         >
-          {/* Logo y marca */}
           <img
             src="./public/images/Icon.svg"
             alt="Icono"
@@ -36,7 +34,6 @@ const Header = () => {
           />
           <span className="brand-text fs-2">Envíos JeMar</span>
 
-          {/* Navegación */}
           <Nav className="ms-auto">
             <div className="mt-1 text-center">
               <Link
@@ -53,7 +50,6 @@ const Header = () => {
                 Contacto
               </Link>
 
-              {/* 🔄 Botón dinámico de login/logout */}
               {isLoggedIn ? (
                 <Link
                   onClick={handleLogout}

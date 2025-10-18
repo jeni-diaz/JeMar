@@ -12,10 +12,11 @@ import { AuthContext } from "../authContext/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { onLogin } = useContext(AuthContext); 
+  const { onLogin } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState(initialErrors);
   const [alertData, setAlertData] = useState({
     show: false,
@@ -80,11 +81,9 @@ const Login = () => {
         return;
       }
 
-      // ✅ Decodificar el token para obtener el rol
       const payload = JSON.parse(atob(data.token.split(".")[1]));
       const role = payload.role;
 
-      // ✅ Guardar token y rol en el contexto y localStorage
       onLogin(data.token, role);
 
       setAlertData({
@@ -110,77 +109,90 @@ const Login = () => {
   };
 
   return (
-    <Background image="/images/ImageLogin.png">
-      <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+    <>
+      <Background image="/images/ImageLogin.png">
         <BackArrow />
-        <CustomAlert
-          show={alertData.show}
-          message={alertData.message}
-          type={alertData.type}
-          onClose={() => setAlertData({ ...alertData, show: false })}
-        />
-        <Row>
-          <Col>
-            <CustomCard title="INICIAR SESIÓN">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="inputs-group mb-3 fw-bold">
-                  <Form.Label>Correo Electrónico:</Form.Label>
-                  <Form.Control
-                    ref={emailRef}
-                    className={`custom-input ${errors.email}`}
-                    type="email"
-                    placeholder="abc@ejemplo.com"
-                    value={email}
-                    onChange={handleEmailChange}
-                    autoComplete="email"
-                  />
-                  {errors.email && (
-                    <p className="text-danger mt-1">
-                      Debe ingresar un correo electrónico válido
-                    </p>
-                  )}
-                </Form.Group>
+        <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+          <CustomAlert
+            show={alertData.show}
+            message={alertData.message}
+            type={alertData.type}
+            onClose={() => setAlertData({ ...alertData, show: false })}
+          />
+          <Row>
+            <Col>
+              <CustomCard title="INICIAR SESIÓN">
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="inputs-group mb-3 fw-bold">
+                    <Form.Label>Correo Electrónico:</Form.Label>
+                    <Form.Control
+                      ref={emailRef}
+                      className={`custom-input ${errors.email}`}
+                      type="email"
+                      placeholder="abc@ejemplo.com"
+                      value={email}
+                      onChange={handleEmailChange}
+                      autoComplete="email"
+                    />
+                    {errors.email && (
+                      <p className="text-danger mt-1">
+                        Debe ingresar un correo electrónico válido
+                      </p>
+                    )}
+                  </Form.Group>
 
-                <Form.Group className="inputs-group mb-3 fw-bold">
-                  <Form.Label>Contraseña:</Form.Label>
-                  <Form.Control
-                    ref={passwordRef}
-                    className={`custom-input ${errors.password}`}
-                    type="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    autoComplete="current-password"
-                  />
-                  {errors.password && (
-                    <p className="text-danger mt-1">
-                      La contraseña debe tener al menos 8 caracteres
-                    </p>
-                  )}
-                </Form.Group>
-
-                <div className="d-flex justify-content-center mt-3">
-                  <Button type="submit" className="custom-button w-50">
-                    Iniciar
-                  </Button>
-                </div>
-
-                <div className="inputs-group mt-3 text-center">
-                  <Form.Label>
-                    No tengo cuenta -{" "}
-                    <Link
-                      to="/register"
-                      className="text-decoration-none custom-link"
+                  <Form.Group className="inputs-group mb-3 fw-bold position-relative">
+                    <Form.Label>Contraseña:</Form.Label>
+                    <Form.Control
+                      ref={passwordRef}
+                      className={`custom-input ${errors.password}`}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="********"
+                      value={password}
+                      onChange={handlePasswordChange}
+                      autoComplete="current-password"
+                    />
+                    <span
+                      className="password-toggle-icon"
+                      onClick={() => setShowPassword(!showPassword)}
                     >
-                      Registrarme
-                    </Link>
-                  </Form.Label>
-                </div>
-              </Form>
-            </CustomCard>
-          </Col>
-        </Row>
-      </div>
-    </Background>
+                      {showPassword ? (
+                        <i className="bi bi-eye-slash-fill" />
+                      ) : (
+                        <i className="bi bi-eye-fill" />
+                      )}
+                    </span>
+                    {errors.password && (
+                      <p className="text-danger mt-1">
+                        La contraseña debe tener al menos 8 caracteres
+                      </p>
+                    )}
+                  </Form.Group>
+
+                  <div className="d-flex justify-content-center mt-3">
+                    <Button type="submit" className="custom-button w-50">
+                      Iniciar
+                    </Button>
+                  </div>
+
+                  <div className="inputs-group mt-3 text-center">
+                    <Form.Label>
+                      No tengo cuenta -{" "}
+                      <Link
+                        to="/register"
+                        className="text-decoration-none custom-link"
+                      >
+                        Registrarme
+                      </Link>
+                    </Form.Label>
+                  </div>
+                </Form>
+              </CustomCard>
+            </Col>
+          </Row>
+        </div>
+      </Background>
+    </>
   );
 };
 

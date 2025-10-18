@@ -107,6 +107,15 @@ form .inputs-group .custom-checkbox .form-check-label {
   color: #B07F11;
 }
 
+form .password-toggle-icon {
+  position: absolute;
+  top: 38px;
+  right: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  z-index: 10;
+}
+
 /*Texts*/
 .titulo,
 label,
@@ -164,7 +173,7 @@ label,
 .small-container {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 10px;
-  height: 75vh;
+  height: 60vh;
   width: 25vw;
 }
 
@@ -192,7 +201,7 @@ label,
 /*Ubicación*/
 .map-container {
   width: 320px;
-  height: 250px;
+  height: 200px;
 }
 
 /*CustomAlert */

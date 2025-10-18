@@ -19,7 +19,7 @@ const DeleteShipping = () => {
 
     if (!shipmentId.trim()) {
       setAlertData({
-      
+
         show: true,
         message: "Debes ingresar un número de envío válido.",
         type: "error",
@@ -75,35 +75,40 @@ const DeleteShipping = () => {
   };
 
   return (
-    <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-      <CustomAlert
-        show={alertData.show}
-        message={alertData.message}
-        type={alertData.type}
-        onClose={() => setAlertData({ ...alertData, show: false })}
-      />
-      <CustomCard title="ELIMINAR ENVÍO">
-        <Form onSubmit={handleSubmit}>
-         <Form.Group className="inputs-group mb-3 fw-bold">
-            <Form.Label>Número de envío</Form.Label>
-            <Form.Control
-              ref={shipmentRef}
-              className="custom-input"
-              type="text"
-              placeholder="Ej: 1"
-              value={shipmentId}
-              onChange={(e) => setShipmentId(e.target.value)}
-            />
-          </Form.Group>
+    <>
+      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+        <CustomAlert
+          show={alertData.show}
+          message={alertData.message}
+          type={alertData.type}
+          onClose={() => setAlertData({ ...alertData, show: false })}
+        />
 
-          <div className="d-flex justify-content-center mt-3">
-            <Button type="submit" className="custom-button w-50">
-              Eliminar
-            </Button>
-          </div>
-        </Form>
-      </CustomCard>
-    </div>
+
+        <CustomCard title="ELIMINAR ENVÍO">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="inputs-group mb-3 fw-bold">
+              <Form.Label>Número de envío</Form.Label>
+              <Form.Control
+                ref={shipmentRef}
+                className="custom-input"
+                type="text"
+                placeholder="Ej: 1"
+                value={shipmentId}
+                onChange={(e) => setShipmentId(e.target.value)}
+              />
+            </Form.Group>
+
+            <div className="d-flex justify-content-center mt-3">
+              <Button type="submit" className="custom-button w-50">
+                Eliminar
+              </Button>
+            </div>
+          </Form>
+        </CustomCard>
+
+      </div>
+    </>
   );
 };
 

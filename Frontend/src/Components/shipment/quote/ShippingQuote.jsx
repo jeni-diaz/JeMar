@@ -55,7 +55,6 @@ const ShippingQuote = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Error al generar la cotización");
 
-      // ✅ Guardamos los datos del envío en el modal
       setModalData(data.shipment);
       setShowModal(true);
 
@@ -74,8 +73,7 @@ const ShippingQuote = () => {
 
   return (
     <>
-      <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-        {/* Alert solo para errores */}
+      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
         <CustomAlert
           show={alertData.show}
           message={alertData.message}
@@ -131,7 +129,6 @@ const ShippingQuote = () => {
           </Form>
         </CustomCard>
 
-        {/* ✅ Modal de éxito */}
         {modalData && (
           <CustomModal
             show={showModal}

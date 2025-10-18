@@ -64,7 +64,6 @@ function ShippingTrack() {
         throw new Error(data.error || "No se encontró el envío");
       }
 
-      // Guardamos los datos del envío y mostramos el modal
       setModalData(data);
       setShowModal(true);
       setTrackingNumber("");
@@ -85,6 +84,7 @@ function ShippingTrack() {
 
   return (
     <>
+    <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
       <CustomAlert
         show={alertData.show}
         message={alertData.message}
@@ -92,7 +92,7 @@ function ShippingTrack() {
         onClose={() => setAlertData({ ...alertData, show: false })}
       />
 
-      <CustomCard title="RASTREAR ENVÍO">
+      <CustomCard title="CONSULTAR ENVÍO">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Número de ID del envío:</Form.Label>
@@ -115,7 +115,7 @@ function ShippingTrack() {
 
           <div className="d-flex justify-content-center mt-3">
             <Button type="submit" className="custom-button w-50">
-              Consultar Estado
+              Consultar
             </Button>
           </div>
         </Form>
@@ -154,6 +154,7 @@ function ShippingTrack() {
           ]}
         />
       )}
+      </div>
     </>
   );
 }

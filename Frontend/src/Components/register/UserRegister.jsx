@@ -16,6 +16,7 @@ const UserRegister = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState(initialErrors);
   const [alertData, setAlertData] = useState({
     show: false,
@@ -141,95 +142,108 @@ const UserRegister = () => {
   };
 
   return (
-    <Background image="/images/ImageRegister.png">
-      <BackArrow />
-      <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
-        <CustomAlert
-          show={alertData.show}
-          message={alertData.message}
-          type={alertData.type}
-          onClose={() => setAlertData({ ...alertData, show: false })}
-        />
-        <CustomCard title="REGÍSTRATE">
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Nombre:</Form.Label>
-              <Form.Control
-                ref={firstNameRef}
-                className={`custom-input ${errors.firstName ? "is-invalid" : ""
-                  }`}
-                type="text"
-                placeholder="Ingrese su Nombre"
-                value={firstName}
-                onChange={handleFirstNameChange}
-                autoComplete="given-name"
-              />
-              {errors.firstName && (
-                <p className="text-danger mt-1">Debe ingresar un nombre</p>
-              )}
-            </Form.Group>
+    <>
+      <Background image="/images/ImageRegister.png">
+        <BackArrow />
+        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+          <CustomAlert
+            show={alertData.show}
+            message={alertData.message}
+            type={alertData.type}
+            onClose={() => setAlertData({ ...alertData, show: false })}
+          />
+          <Form onSubmit={handleSubmit}></Form>
+          <CustomCard title="REGÍSTRATE">
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="inputs-group mb-3 fw-bold">
+                <Form.Label>Nombre:</Form.Label>
+                <Form.Control
+                  ref={firstNameRef}
+                  className={`custom-input ${errors.firstName ? "is-invalid" : ""
+                    }`}
+                  type="text"
+                  placeholder="Ingrese su Nombre"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                  autoComplete="given-name"
+                />
+                {errors.firstName && (
+                  <p className="text-danger mt-1">Debe ingresar un nombre</p>
+                )}
+              </Form.Group>
 
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Apellido:</Form.Label>
-              <Form.Control
-                ref={lastNameRef}
-                className={`custom-input ${errors.lastName ? "is-invalid" : ""
-                  }`}
-                type="text"
-                placeholder="Ingrese su Apellido"
-                value={lastName}
-                onChange={handleLastNameChange}
-                autoComplete="family-name"
-              />
-              {errors.lastName && (
-                <p className="text-danger mt-1">Debe ingresar un apellido</p>
-              )}
-            </Form.Group>
+              <Form.Group className="inputs-group mb-3 fw-bold">
+                <Form.Label>Apellido:</Form.Label>
+                <Form.Control
+                  ref={lastNameRef}
+                  className={`custom-input ${errors.lastName ? "is-invalid" : ""
+                    }`}
+                  type="text"
+                  placeholder="Ingrese su Apellido"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                  autoComplete="family-name"
+                />
+                {errors.lastName && (
+                  <p className="text-danger mt-1">Debe ingresar un apellido</p>
+                )}
+              </Form.Group>
 
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Correo Electrónico:</Form.Label>
-              <Form.Control
-                ref={emailRef}
-                className={`custom-input ${errors.email ? "is-invalid" : ""}`}
-                type="email"
-                placeholder="abc@ejemplo.com"
-                value={email}
-                onChange={handleEmailChange}
-                autoComplete="email"
-              />
-              {errors.email && (
-                <p className="text-danger mt-1">
-                  Debe ingresar un correo electrónico válido
-                </p>
-              )}
-            </Form.Group>
+              <Form.Group className="inputs-group mb-3 fw-bold">
+                <Form.Label>Correo Electrónico:</Form.Label>
+                <Form.Control
+                  ref={emailRef}
+                  className={`custom-input ${errors.email ? "is-invalid" : ""}`}
+                  type="email"
+                  placeholder="abc@ejemplo.com"
+                  value={email}
+                  onChange={handleEmailChange}
+                  autoComplete="email"
+                />
+                {errors.email && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un correo electrónico válido
+                  </p>
+                )}
+              </Form.Group>
 
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Contraseña:</Form.Label>
-              <Form.Control
-                ref={passwordRef}
-                className={`custom-input ${errors.password ? "is-invalid" : ""
-                  }`}
-                type="password"
-                placeholder=""
-                value={password}
-                onChange={handlePasswordChange}
-                autoComplete="current-password"
-              />
-              {errors.password && (
-                <p className="text-danger mt-1">{errors.password}</p>
-              )}
-            </Form.Group>
+              <Form.Group className="inputs-group mb-3 fw-bold position-relative">
+                <Form.Label>Contraseña:</Form.Label>
+                <Form.Control
+                  ref={passwordRef}
+                  className={`custom-input ${errors.password ? "is-invalid" : ""
+                    }`}
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  autoComplete="current-password"
+                />
+                <span
+                      className="password-toggle-icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <i className="bi bi-eye-slash-fill" />
+                      ) : (
+                        <i className="bi bi-eye-fill" />
+                      )}
+                    </span>
+                {errors.password && (
+                  <p className="text-danger mt-1">{errors.password}</p>
+                )}
+              </Form.Group>
 
-            <div className="d-flex justify-content-center mt-3">
-              <Button type="submit" className="custom-button w-50">
-                Continuar
-              </Button>
-            </div>
-          </Form>
-        </CustomCard>
-      </div>
-    </Background>
+              <div className="d-flex justify-content-center mt-3">
+                <Button type="submit" className="custom-button w-50">
+                  Continuar
+                </Button>
+              </div>
+            </Form>
+          </CustomCard>
+        </div>
+      </Background>
+    </>
   );
 };
 

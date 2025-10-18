@@ -21,38 +21,38 @@ const HomePage = () => {
   const { role, token, user } = useContext(AuthContext);
 
   const buttonsByRole = {
-  superAdmin: ["shipment", "modify", "dashboard"],
-  empleado: ["shipment", "modify"],
-  usuario: ["shipment"],
-};
+    superAdmin: ["shipment", "modify", "dashboard"],
+    empleado: ["shipment", "modify"],
+    usuario: ["shipment"],
+  };
 
-const allowedButtons = token ? buttonsByRole[role] || [] : []; 
+  const allowedButtons = token ? buttonsByRole[role] || [] : [];
 
-const buttons = [
-  { key: "shipment", label: "Envíos" },
-  { key: "modify", label: "Modificar" },
-  { key: "dashboard", label: "Panel" },
-];
+  const buttons = [
+    { key: "shipment", label: "Envíos" },
+    { key: "modify", label: "Modificar" },
+    { key: "dashboard", label: "Panel" },
+  ];
 
-const routes = {
-  shipment: "/shipment",
-  modify: "/modify",
-  dashboard: "/dashboard", 
-};
+  const routes = {
+    shipment: "/shipment",
+    modify: "/modify",
+    dashboard: "/dashboard",
+  };
 
-const handleButtonClick = (buttonKey) => {
-  setActiveButton(buttonKey);
-  const route = routes[buttonKey];
-  if (route) navigate(route);
-};
-console.log("TOKEN:", token);
-console.log("VALIDO:", IsTokenValid(token));
-console.log("ROLE:", role);
+  const handleButtonClick = (buttonKey) => {
+    setActiveButton(buttonKey);
+    const route = routes[buttonKey];
+    if (route) navigate(route);
+  };
+  console.log("TOKEN:", token);
+  console.log("VALIDO:", IsTokenValid(token));
+  console.log("ROLE:", role);
   return (
     <>
       <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-        {IsTokenValid(token) ? (
+          {IsTokenValid(token) ? (
             <>
               <h2 className="text-light mb-4">
                 Bienvenido, {user?.name || "Usuario"}
@@ -66,9 +66,8 @@ console.log("ROLE:", role);
                     .map((btn) => (
                       <Col xs="auto" key={btn.key}>
                         <Button
-                          className={`border-0 fs-3 mx-4 Button-acction ${
-                            activeButton === btn.key ? "active" : ""
-                          }`}
+                          className={`border-0 fs-3 mx-4 Button-acction ${activeButton === btn.key ? "active" : ""
+                            }`}
                           onClick={() => handleButtonClick(btn.key)}
                         >
                           {btn.label}
@@ -91,7 +90,7 @@ console.log("ROLE:", role);
           <h2 className="title-card mt-5" style={{ fontSize: "2.5rem" }}>
             Recomendaciones para embalar tu paquete
           </h2>
-          <Row>
+          <Row className="mb-5">
             <Col><CardOne /></Col>
             <Col><CardTwo /></Col>
             <Col><CardThree /></Col>
@@ -107,4 +106,4 @@ console.log("ROLE:", role);
   );
 };
 
-export default HomePage;
+export default HomePage;

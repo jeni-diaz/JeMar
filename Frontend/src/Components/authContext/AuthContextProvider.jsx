@@ -5,8 +5,8 @@ import { IsTokenValid } from "../protected/Protected.helpers";
 
 const decodeJWT = (token) => {
   try {
-    const payload = token.split(".")[1];    
-    return JSON.parse(atob(payload));           
+    const payload = token.split(".")[1];
+    return JSON.parse(atob(payload));
   } catch (error) {
     console.error("Token inválido:", error);
     return null;
@@ -30,13 +30,13 @@ const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(getInitialToken());
   const [role, setRole] = useState(getInitialRole());
   useEffect(() => {
-  if (token && !IsTokenValid(token)) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    setToken(null);
-    setRole(null);
-  }
-}, [token]);
+    if (token && !IsTokenValid(token)) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      setToken(null);
+      setRole(null);
+    }
+  }, [token]);
 
   const handleLogin = (token, role) => {
     setToken(token);
@@ -53,16 +53,18 @@ const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        role,
-        onLogin: handleLogin,
-        onLogout: handleLogout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider
+        value={{
+          token,
+          role,
+          onLogin: handleLogin,
+          onLogout: handleLogout,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </>
   );
 };
 

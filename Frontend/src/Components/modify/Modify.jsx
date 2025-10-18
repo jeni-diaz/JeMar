@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Form} from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import { AuthContext } from "../authContext/AuthContext";
 
@@ -92,60 +92,62 @@ const Modify = () => {
   ];
 
   return (
-    <Backgrpund image="/images/ImageModify.png">
-      <BackArrow />
-      <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+    <>
+      <Backgrpund image="/images/ImageModify.png">
+        <BackArrow />
+        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
 
-        <CustomAlert
-          {...alertData}
-          onClose={() => setAlertData({ ...alertData, show: false })}
-        />
-
-        <form onSubmit={handleSubmit} className="w-100">
-          <CustomCard
-            title="MODIFICAR ESTADO"
-            buttonText="Actualizar"
-            buttonType="submit"
-          >
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>ID del envío:</Form.Label>
-              <Form.Control
-                className="custom-input"
-                type="text"
-                value={shipmentId}
-                onChange={(e) => setShipmentId(e.target.value)}
-                placeholder="Ej: 3"
-              />
-            </Form.Group>
-
-            <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Nuevo estado:</Form.Label>
-              <Form.Select
-                className="custom-input"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="">Seleccione un estado</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="en camino">En camino</option>
-                <option value="entregado">Entregado</option>
-                <option value="cancelado">Cancelado</option>
-              </Form.Select>
-            </Form.Group>
-          </CustomCard>
-        </form>
-
-        {showModal && (
-          <CustomModal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            title={modalTitle}
-            body={modalBody}
-            buttons={modalButtons}
+          <CustomAlert
+            {...alertData}
+            onClose={() => setAlertData({ ...alertData, show: false })}
           />
-        )}
-      </div>
-    </Backgrpund>
+
+          <form onSubmit={handleSubmit} className="w-100">
+            <CustomCard
+              title="MODIFICAR ESTADO"
+              buttonText="Actualizar"
+              buttonType="submit"
+            >
+              <Form.Group className="inputs-group mb-3 fw-bold">
+                <Form.Label>ID del envío:</Form.Label>
+                <Form.Control
+                  className="custom-input"
+                  type="text"
+                  value={shipmentId}
+                  onChange={(e) => setShipmentId(e.target.value)}
+                  placeholder="Ej: 3"
+                />
+              </Form.Group>
+
+              <Form.Group className="inputs-group mb-3 fw-bold">
+                <Form.Label>Nuevo estado:</Form.Label>
+                <Form.Select
+                  className="custom-input"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="">Seleccione un estado</option>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="en camino">En camino</option>
+                  <option value="entregado">Entregado</option>
+                  <option value="cancelado">Cancelado</option>
+                </Form.Select>
+              </Form.Group>
+            </CustomCard>
+          </form>
+
+          {showModal && (
+            <CustomModal
+              show={showModal}
+              onHide={() => setShowModal(false)}
+              title={modalTitle}
+              body={modalBody}
+              buttons={modalButtons}
+            />
+          )}
+        </div>
+      </Backgrpund>
+    </>
   );
 };
 
