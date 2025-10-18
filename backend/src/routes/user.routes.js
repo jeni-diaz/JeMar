@@ -28,11 +28,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Actualizando usuario con id... ${id}`);
-});
-
 router.put("/changeRole", verifyToken, async (req, res) => {
   try {
     const { email, newRole } = req.body;
@@ -52,6 +47,11 @@ router.put("/changeRole", verifyToken, async (req, res) => {
     console.error("Error cambiando rol:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
+});
+
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  res.send(`Actualizando usuario con id... ${id}`);
 });
 
 
