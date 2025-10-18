@@ -56,6 +56,7 @@ const Dashboard = () => {
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Email del usuario:</Form.Label>
             <Form.Control
+              className="custom-input"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -65,7 +66,11 @@ const Dashboard = () => {
 
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Nuevo rol:</Form.Label>
-            <Form.Select value={newRole} onChange={(e) => setNewRole(e.target.value)}>
+            <Form.Select
+              className="custom-input"
+              value={newRole}
+              onChange={(e) => setNewRole(e.target.value)}
+            >
               <option value="">Seleccione un rol</option>
               <option value="usuario">Usuario</option>
               <option value="empleado">Empleado</option>

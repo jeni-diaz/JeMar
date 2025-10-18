@@ -127,19 +127,30 @@ function ShippingTrack() {
           show={showModal}
           onHide={() => setShowModal(false)}
           title="Seguimiento de envío"
-          body={`Envío N° ${modalData.id}
-Estado: ${modalData.status}
-Tipo: ${modalData.type}
-Origen: ${modalData.origin}
-Destino: ${modalData.destination}
-Precio: $${modalData.price.toLocaleString("es-AR")}`}
+          body={
+            <div>
+              {[
+                { label: "Envío N°: ", value: modalData.id },
+                { label: "Estado: ", value: modalData.status },
+                { label: "Tipo: ", value: modalData.type },
+                { label: "Origen: ", value: modalData.origin },
+                { label: "Destino: ", value: modalData.destination },
+                {
+                  label: "Precio: ",
+                  value: `$${modalData.price.toLocaleString("es-AR")}`,
+                },
+              ].map((item, index) => (
+                <div key={index}>
+                  {item.label} {item.value}
+                </div>
+              ))}
+            </div>
+          }
           buttons={[
             {
-              label: "Cancelar",
-              variant: "secondary",
+              label: "Continuar",
               onClick: () => setShowModal(false),
             },
-            { label: "Eliminar", variant: "danger", onClick: handleDelete },
           ]}
         />
       )}
@@ -147,4 +158,4 @@ Precio: $${modalData.price.toLocaleString("es-AR")}`}
   );
 }
 
-export default ShippingTrack;
+export default ShippingTrack;

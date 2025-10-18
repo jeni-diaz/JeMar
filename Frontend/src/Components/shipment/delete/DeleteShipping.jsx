@@ -39,7 +39,6 @@ const DeleteShipping = () => {
     }
 
     try {
-      if (!window.confirm(`¿Seguro que deseas eliminar el envío N° ${shipmentId}?`)) return;
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
@@ -65,7 +64,7 @@ const DeleteShipping = () => {
 
       setShipmentId("");
     } catch (error) {
-      console.error("💥 Error eliminando envío:", error);
+      console.error("Error eliminando envío:", error);
       setAlertData({
         show: true,
         message: error.message || "Ocurrió un error al eliminar el envío.",
@@ -84,7 +83,7 @@ const DeleteShipping = () => {
       />
       <CustomCard title="ELIMINAR ENVÍO">
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="inputs-group mb-3 fw-bold">
+         <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Número de envío</Form.Label>
             <Form.Control
               ref={shipmentRef}
@@ -108,4 +107,3 @@ const DeleteShipping = () => {
 };
 
 export default DeleteShipping;
-

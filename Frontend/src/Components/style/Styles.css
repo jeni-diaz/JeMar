@@ -247,3 +247,33 @@ button.custom-button-nf:hover {
   max-width: 70px;
   max-height: auto;
 }
+
+/*CustomModal*/
+
+.container-modal{
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+}
+
+.container-modal .modal-content{
+  background-color: #000000;
+  box-shadow: 0 0 10px #B07F11;
+}
+
+.container-modal .titulo{
+  color:#B07F11;
+}
+
+.container-modal .btn-close {
+  background-color: #B07F11;
+}
+
+.container-modal .sub-titulo{
+  color:#ffffff;
+}
+.container-modal .custom-button{
+    background-color: #B07F11;
+  color: #ffffff;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
+}

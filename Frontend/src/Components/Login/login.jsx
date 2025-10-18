@@ -1,13 +1,14 @@
 import { useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
+
 import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
 import CustomAlert from "../alert/CustomAlert";
 import CustomCard from "../card/CustomCard";
+
 import { initialErrors } from "./Login.data";
 import { AuthContext } from "../authContext/AuthContext";
-import "../style/Styles.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const Login = () => {
 
   return (
     <Background image="/images/ImageLogin.png">
-      <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+      <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
         <BackArrow />
         <CustomAlert
           show={alertData.show}
