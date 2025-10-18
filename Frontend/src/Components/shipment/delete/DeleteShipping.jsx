@@ -19,6 +19,7 @@ const DeleteShipping = () => {
 
     if (!shipmentId.trim()) {
       setAlertData({
+      
         show: true,
         message: "Debes ingresar un número de envío válido.",
         type: "error",
@@ -64,7 +65,7 @@ const DeleteShipping = () => {
 
       setShipmentId("");
     } catch (error) {
-      console.error("💥 Error eliminando envío:", error);
+      console.error("Error eliminando envío:", error);
       setAlertData({
         show: true,
         message: error.message || "Ocurrió un error al eliminar el envío.",
