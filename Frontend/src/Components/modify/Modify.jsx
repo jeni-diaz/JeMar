@@ -67,8 +67,8 @@ const Modify = () => {
       console.error("Error actualizando envío:", error);
       setAlertData({
         show: true,
-        message: "Ocurrió un error al actualizar el estado del envío.",
-        type: "error",
+        message: error.message || "Error desconocido al actualizar el envío.",
+      type: "error",
       });
     }
   };
