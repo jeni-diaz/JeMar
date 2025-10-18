@@ -18,7 +18,7 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/changeRole", {
+      const response = await fetch("http://localhost:3000/api/user/changeRole", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
