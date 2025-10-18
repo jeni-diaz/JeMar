@@ -93,10 +93,33 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Actualizando el envío con id... ${id}`);
+router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ error: "El campo 'status' es obligatorio" });
+    }
+
+    const shipment = await Shipment.findByPk(id);
+    if (!shipment) {
+      return res.status(404).json({ error: "Envío no encontrado" });
+    }
+
+    shipment.status = status;
+    await shipment.save();
+
+    return res.json({
+      message: `Estado del envío #${id} actualizado correctamente a '${status}'`,
+      shipment,
+    });
+  } catch (error) {
+    console.error("Error actualizando envío:", error);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
 });
+
 
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
