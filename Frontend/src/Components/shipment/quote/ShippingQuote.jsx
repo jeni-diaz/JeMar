@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import CustomModal from "../../modal/CustomModal"
 
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
@@ -111,7 +112,7 @@ const ShippingQuote = () => {
                     <option value="">Seleccione un tipo</option>
                     {shipmentTypes.map((type) => (
                       <option key={type.id} value={type.id}>
-                        {type.description}
+                        {type.name}
                       </option>
                     ))}
                   </Form.Select>

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import Background from "../background/Background";
@@ -6,10 +6,12 @@ import BackArrow from "../back/BackArrow";
 import CustomAlert from "../alert/CustomAlert";
 import CustomCard from "../card/CustomCard";
 import { initialErrors } from "./Login.data";
+import { AuthContext } from "../authContext/AuthContext";
 import "../style/Styles.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { onLogin } = useContext(AuthContext); 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -77,19 +79,22 @@ const Login = () => {
         return;
       }
 
-      // Login exitoso
+      // ✅ Decodificar el token para obtener el rol
+      const payload = JSON.parse(atob(data.token.split(".")[1]));
+      const role = payload.role;
+
+      // ✅ Guardar token y rol en el contexto y localStorage
+      onLogin(data.token, role);
+
       setAlertData({
         show: true,
         message: "¡Login exitoso!",
         type: "success",
       });
 
-      localStorage.setItem("token", data.token);
-
       setEmail("");
       setPassword("");
 
-      // Redirigir después de 1 segundo para que el usuario vea el mensaje
       setTimeout(() => {
         navigate("/shipment");
       }, 1000);
@@ -141,7 +146,6 @@ const Login = () => {
                     ref={passwordRef}
                     className={`custom-input ${errors.password}`}
                     type="password"
-                    placeholder=""
                     value={password}
                     onChange={handlePasswordChange}
                     autoComplete="current-password"
@@ -151,14 +155,6 @@ const Login = () => {
                       La contraseña debe tener al menos 8 caracteres
                     </p>
                   )}
-                </Form.Group>
-
-                <Form.Group className="inputs-group mb-3">
-                  <Form.Check
-                    className="custom-checkbox"
-                    type="checkbox"
-                    label="Recordar mis datos"
-                  />
                 </Form.Group>
 
                 <div className="d-flex justify-content-center mt-3">

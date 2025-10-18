@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
+
 import Background from "../background/Background";
 import CardOne from "./cards/CardOne";
 import CardTwo from "./cards/CardTwo";
@@ -11,6 +12,7 @@ import CardFive from "./cards/CardFive";
 import CardSix from "./cards/CardSix";
 
 import { AuthContext } from "../authContext/AuthContext";
+import { IsTokenValid } from "../protected/Protected.helpers";
 import "../style/Styles.css";
 
 const HomePage = () => {
@@ -18,40 +20,39 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { role, token, user } = useContext(AuthContext);
 
-  // Configuración de roles y botones
   const buttonsByRole = {
-    superAdmin: ["shipment", "modify", "panel"],
-    empleado: ["shipment", "modify"],
-    usuario: ["shipment"],
-  };
+  superAdmin: ["shipment", "modify", "dashboard"],
+  empleado: ["shipment", "modify"],
+  usuario: ["shipment"],
+};
 
-  const allowedButtons = buttonsByRole[role] || [];
+const allowedButtons = token ? buttonsByRole[role] || [] : []; 
 
-  const buttons = [
-    { key: "shipment", label: "Envíos" },
-    { key: "modify", label: "Modificar" },
-    { key: "panel", label: "Panel" },
-  ];
+const buttons = [
+  { key: "shipment", label: "Envíos" },
+  { key: "modify", label: "Modificar" },
+  { key: "dashboard", label: "Panel" },
+];
 
-  const routes = {
-    shipment: "/shipment",
-    modify: "/modify",
-    panel: "/panel",
-  };
+const routes = {
+  shipment: "/shipment",
+  modify: "/modify",
+  dashboard: "/dashboard", 
+};
 
-  const handleButtonClick = (buttonKey) => {
-    setActiveButton(buttonKey);
-    const route = routes[buttonKey];
-    if (route) navigate(route);
-  };
-
+const handleButtonClick = (buttonKey) => {
+  setActiveButton(buttonKey);
+  const route = routes[buttonKey];
+  if (route) navigate(route);
+};
+console.log("TOKEN:", token);
+console.log("VALIDO:", IsTokenValid(token));
+console.log("ROLE:", role);
   return (
     <>
-      {/* Sección superior */}
       <Background image="/images/ImageHome.png">
         <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
-          {/* Si hay sesión, mostrar saludo y botones */}
-          {token ? (
+        {IsTokenValid(token) ? ( // ✅ validación robusta
             <>
               <h2 className="text-light mb-4">
                 Bienvenido, {user?.name || "Usuario"}
@@ -79,7 +80,7 @@ const HomePage = () => {
             </>
           ) : (
             // Si no hay sesión, mostrar solo título genérico
-            <h2 className="text-light mb-4">Bienvenido a JeMar</h2>
+            <h2 className="text-light mb-4"></h2>
           )}
         </Container>
       </Background>
@@ -108,4 +109,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HomePage;

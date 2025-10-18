@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 
 import CustomAlert from "../../alert/CustomAlert";
 import CustomCard from "../../card/CustomCard";
+import CustomModal from "../../modal/CustomModal";
 
 function ShippingTrack() {
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -12,6 +13,9 @@ function ShippingTrack() {
     message: "",
     type: "info",
   });
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   const trackingNumberRef = useRef(null);
 
@@ -60,21 +64,23 @@ function ShippingTrack() {
         throw new Error(data.error || "No se encontró el envío");
       }
 
-      setAlertData({
-        show: true,
-        message: `📦 Envío N° ${data.id}\nEstado: ${data.status}\nTipo: ${data.type}\nOrigen: ${data.origin}\nDestino: ${data.destination}\nPrecio: $${data.price.toLocaleString("es-AR")}`,
-        type: "success",
-      });
-
+      // Guardamos los datos del envío y mostramos el modal
+      setModalData(data);
+      setShowModal(true);
       setTrackingNumber("");
     } catch (error) {
-      console.error("💥 Error consultando envío:", error);
+      console.error("Error consultando envío:", error);
       setAlertData({
         show: true,
         message: error.message || "Error consultando el envío.",
         type: "error",
       });
     }
+  };
+
+  const handleDelete = () => {
+    console.log("Eliminar envío", modalData?.id);
+    setShowModal(false);
   };
 
   return (
@@ -92,14 +98,18 @@ function ShippingTrack() {
             <Form.Label>Número de ID del envío:</Form.Label>
             <Form.Control
               ref={trackingNumberRef}
-              className={`custom-input ${errors.trackingNumber ? "is-invalid" : ""}`}
+              className={`custom-input ${
+                errors.trackingNumber ? "is-invalid" : ""
+              }`}
               type="text"
               placeholder="Ej: 1"
               value={trackingNumber}
               onChange={handleTrackingNumberChange}
             />
             {errors.trackingNumber && (
-              <p className="text-danger mt-1">Debe ingresar un ID numérico válido</p>
+              <p className="text-danger mt-1">
+                Debe ingresar un ID numérico válido
+              </p>
             )}
           </Form.Group>
 
@@ -110,8 +120,31 @@ function ShippingTrack() {
           </div>
         </Form>
       </CustomCard>
+
+      {/* Modal */}
+      {modalData && (
+        <CustomModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          title="Seguimiento de envío"
+          body={`Envío N° ${modalData.id}
+Estado: ${modalData.status}
+Tipo: ${modalData.type}
+Origen: ${modalData.origin}
+Destino: ${modalData.destination}
+Precio: $${modalData.price.toLocaleString("es-AR")}`}
+          buttons={[
+            {
+              label: "Cancelar",
+              variant: "secondary",
+              onClick: () => setShowModal(false),
+            },
+            { label: "Eliminar", variant: "danger", onClick: handleDelete },
+          ]}
+        />
+      )}
     </>
   );
 }
 
-export default ShippingTrack;
+export default ShippingTrack;

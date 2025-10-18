@@ -4,47 +4,45 @@ import CustomCard from "../card/CustomCard";
 import CustomAlert from "../alert/CustomAlert";
 import { AuthContext } from "../authContext/AuthContext";
 
-const Modify = () => {
+const Dashboard = () => {
   const { role, token } = useContext(AuthContext);
-  const [shipmentId, setShipmentId] = useState("");
-  const [status, setStatus] = useState("");
+  const [email, setEmail] = useState("");
+  const [newRole, setNewRole] = useState("");
   const [alertData, setAlertData] = useState({ show: false, message: "", type: "info" });
 
-
-  if (role !== "empleado" && role !== "superAdmin") {
-    return <h3 className="text-center mt-5">No tenés permiso para acceder a esta sección.</h3>;
+  if (role !== "superAdmin") {
+    return <h3 className="text-center mt-5">Solo los super administradores pueden acceder al panel.</h3>;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/api/shipment/${shipmentId}`, {
+      const response = await fetch("http://localhost:3000/api/users/changeRole", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ email, newRole }),
       });
 
       const data = await response.json();
-
-      if (!response.ok) throw new Error(data.error || "Error al actualizar estado");
+      if (!response.ok) throw new Error(data.error || "Error al cambiar el rol");
 
       setAlertData({
         show: true,
-        message: `✅ Envío #${shipmentId} actualizado a estado: ${status}`,
+        message: `✅ Rol del usuario ${email} actualizado a: ${newRole}`,
         type: "success",
       });
 
-      setShipmentId("");
-      setStatus("");
+      setEmail("");
+      setNewRole("");
     } catch (error) {
-      console.error("Error actualizando envío:", error);
+      console.error("Error cambiando rol:", error);
       setAlertData({
         show: true,
-        message: "Ocurrió un error al actualizar el estado del envío.",
+        message: "Ocurrió un error al cambiar el rol del usuario.",
         type: "error",
       });
     }
@@ -53,32 +51,31 @@ const Modify = () => {
   return (
     <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
       <CustomAlert {...alertData} onClose={() => setAlertData({ ...alertData, show: false })} />
-      <CustomCard title="MODIFICAR ESTADO DE ENVÍO">
+      <CustomCard title="PANEL DE ADMINISTRADOR">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="inputs-group mb-3 fw-bold">
-            <Form.Label>ID del envío:</Form.Label>
+            <Form.Label>Email del usuario:</Form.Label>
             <Form.Control
-              type="text"
-              value={shipmentId}
-              onChange={(e) => setShipmentId(e.target.value)}
-              placeholder="Ej: 3"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="usuario@ejemplo.com"
             />
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 fw-bold">
-            <Form.Label>Nuevo estado:</Form.Label>
-            <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="">Seleccione un estado</option>
-              <option value="pendiente">Pendiente</option>
-              <option value="en camino">En camino</option>
-              <option value="entregado">Entregado</option>
-              <option value="cancelado">Cancelado</option>
+            <Form.Label>Nuevo rol:</Form.Label>
+            <Form.Select value={newRole} onChange={(e) => setNewRole(e.target.value)}>
+              <option value="">Seleccione un rol</option>
+              <option value="usuario">Usuario</option>
+              <option value="empleado">Empleado</option>
+              <option value="superAdmin">Super Admin</option>
             </Form.Select>
           </Form.Group>
 
           <div className="d-flex justify-content-center mt-3">
             <Button type="submit" className="custom-button w-50">
-              Actualizar
+              Cambiar rol
             </Button>
           </div>
         </Form>
@@ -87,4 +84,4 @@ const Modify = () => {
   );
 };
 
-export default Modify;
+export default Dashboard;

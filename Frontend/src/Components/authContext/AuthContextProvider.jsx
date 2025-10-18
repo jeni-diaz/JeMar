@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { useEffect } from "react";
+import { IsTokenValid } from "../protected/Protected.helpers";
 
 const decodeJWT = (token) => {
   try {
@@ -27,6 +29,14 @@ const getInitialToken = () => localStorage.getItem("token");
 const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(getInitialToken());
   const [role, setRole] = useState(getInitialRole());
+  useEffect(() => {
+  if (token && !IsTokenValid(token)) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    setToken(null);
+    setRole(null);
+  }
+}, [token]);
 
   const handleLogin = (token, role) => {
     setToken(token);

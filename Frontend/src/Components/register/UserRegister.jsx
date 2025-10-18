@@ -48,7 +48,18 @@ const UserRegister = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) =>/^[A-Za-z\d]{8,}$/.test(password);
+  const validatePassword = (password) => {
+  if (!password.trim()) {
+    return "Debe ingresar una contraseña";
+  }
+
+  const regex = /^[A-Za-z\d]{8,}$/; 
+  if (!regex.test(password)) {
+    return "Debe tener al menos 8 caracteres - Solo letras y números";
+  }
+
+  return ""; // Sin errores
+};
 
 
   const handleSubmit = async (event) => {
@@ -72,11 +83,14 @@ const UserRegister = () => {
       return;
     }
 
-    if (!validatePassword(password.trim())) {
-  setErrors((prev) => ({ ...prev, password: true }));
-  passwordRef.current.focus();
-  return;
-}
+    const errorMsg = validatePassword(password);
+
+  if (errorMsg) {
+    setErrors((prev) => ({ ...prev, password: errorMsg }));
+    passwordRef.current.focus();
+    return;
+  }
+  console.log("Contraseña válida!");
 
     const user = { firstName, lastName, email, password };
 
@@ -198,8 +212,8 @@ const UserRegister = () => {
                 autoComplete="current-password"
               />
               {errors.password && (
-                <p className="text-danger mt-1">Debe ingresar una contraseña</p>
-              )}
+    <p className="text-danger mt-1">{errors.password}</p>
+  )}
             </Form.Group>
 
             <div className="d-flex justify-content-center mt-3">
