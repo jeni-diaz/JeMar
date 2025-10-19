@@ -130,6 +130,11 @@ label,
   color: #ffffff;
 }
 
+.title-card {
+  color: #ffffff;
+  text-shadow: 4px 4px 3px rgba(0, 0, 0, 1.2);
+}
+
 /*General*/
 .bg-image {
   background-size: cover;

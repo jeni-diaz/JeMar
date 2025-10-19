@@ -202,7 +202,7 @@ const UserRegister = () => {
                 />
                 {errors.email && (
                   <p className="text-danger mt-1">
-                    Debe ingresar un correo electrónico válido
+                    Debe ingresar un correo electrónico
                   </p>
                 )}
               </Form.Group>

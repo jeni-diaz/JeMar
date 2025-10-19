@@ -90,7 +90,7 @@ const HomePage = () => {
           <h2 className="title-card mt-5" style={{ fontSize: "2.5rem" }}>
             Recomendaciones para embalar tu paquete
           </h2>
-          <Row className="mb-5">
+          <Row className="mb-5 mt-5">
             <Col><CardOne /></Col>
             <Col><CardTwo /></Col>
             <Col><CardThree /></Col>
