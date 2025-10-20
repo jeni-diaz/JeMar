@@ -1,10 +1,6 @@
 import { Container } from "react-bootstrap";
 
-import Background from "../background/Background";
-import BackArrow from "../back/BackArrow";
-
-
-const Dashboard = () => {
+const Shipments = () => {
 
     return (
         <>
@@ -37,4 +33,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Shipments;

@@ -15,15 +15,15 @@ const Modify = () => {
   const [activeComponent, setActiveComponent] = useState("");
 
   const buttonsByRole = {
-    superAdmin: ["state", "role"],
-    empleado: ["state"],
+    superAdmin: ["status", "roles"],
+    empleado: ["status"],
   };
 
     const allowedButtons = token ? buttonsByRole[role] || [] : [];
   
   const buttons = [
-    { key: "state", label: "Estados" },
-    { key: "role", label: "Roles" },
+    { key: "status", label: "Estados" },
+    { key: "roles", label: "Roles" },
   ];
 
 const visibleButtons = buttons.filter((btn) =>
@@ -39,8 +39,8 @@ const visibleButtons = buttons.filter((btn) =>
           <div className="d-flex p-5 mt-4 justify-content-start w-100">
             <Row>
               <Col>
-                {activeComponent === "state" && allowedButtons.includes("state") && <ModifyState />}
-                {activeComponent === "role" && allowedButtons.includes("role") && <ModifyRole />}
+                {activeComponent === "status" && allowedButtons.includes("status") && <ModifyState />}
+                {activeComponent === "roles" && allowedButtons.includes("roles") && <ModifyRole />}
               </Col>
             </Row>
           </div>
