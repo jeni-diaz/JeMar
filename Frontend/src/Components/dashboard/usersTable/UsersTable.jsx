@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -50,7 +51,7 @@ const UsersTable = () => {
   }, []);
 
   return (
-    <div className="d-flex justify-content-center align-items-center flex-column w-100">
+    <Container className="small-container-table d-flex justify-content-center align-items-center flex-column w-100">
       {loading && <p>Cargando usuarios...</p>}
 
       {alertData.show && (
@@ -85,9 +86,9 @@ const UsersTable = () => {
       )}
 
       {!loading && users.length === 0 && !alertData.show && (
-        <p>No hay usuarios disponibles.</p>
+        <p className="title-card">No hay usuarios disponibles.</p>
       )}
-    </div>
+    </Container>
   );
 };
 

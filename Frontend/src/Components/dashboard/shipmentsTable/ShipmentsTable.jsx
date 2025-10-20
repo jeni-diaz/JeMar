@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
 
 const ShipmentsTable = () => {
   const [shipments, setShipments] = useState([]);
@@ -51,7 +52,7 @@ const ShipmentsTable = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center flex-column w-100">
+      <Container className="small-container-table d-flex justify-content-center align-items-center flex-column w-100">
         {loading && <p>Cargando envíos...</p>}
 
         {alertData.show && (
@@ -61,7 +62,7 @@ const ShipmentsTable = () => {
         )}
 
         {!loading && shipments.length > 0 && (
-          <table className="table-container text-center">
+          <table className="table-container text-center w-75 mx-auto">
             <thead>
               <tr>
                 <th>Usuario</th>
@@ -90,9 +91,9 @@ const ShipmentsTable = () => {
         )}
 
         {!loading && shipments.length === 0 && !alertData.show && (
-          <p>No hay envíos disponibles.</p>
+          <p className="title-card">No hay envíos disponibles.</p>
         )}
-      </div>
+      </Container>
     </>
   );
 };
