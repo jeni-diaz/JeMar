@@ -37,9 +37,14 @@ const ModifyRole = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Error al cambiar el rol");
 
-      setModalData(data);
-      setShowModal(true);
+      setModalData({
+      show: true,
+      message: data.message,
+      email: data.user.email,
+      role: data.user.newRole,
+    });
 
+      setShowModal(true);
       setEmail("");
       setNewRole("");
     } catch (error) {
@@ -101,14 +106,9 @@ const ModifyRole = () => {
             title="¡Rol modificado con éxito!"
             body={
               <div>
-                {[
-                  { label: "Email: ", value: modalData?.user?.email },
-                  { label: "Rol: ", value: modalData?.user?.role },
-                ].map((item, index) => (
-                  <div key={index}>
-                    {item.label} {item.value}
-                  </div>
-                ))}
+                <p><strong>{modalData.message}</strong></p>
+                <p><strong>Email:</strong> {modalData.email}</p>
+                <p><strong>Nuevo Rol:</strong> {modalData.role}</p>
               </div>
             }
             buttons={[

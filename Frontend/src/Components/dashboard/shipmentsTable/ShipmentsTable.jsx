@@ -77,7 +77,7 @@ const ShipmentsTable = () => {
             <tbody>
               {shipments.map((envio) => (
                 <tr key={envio.id}>
-                  <td></td>
+                  <td>{envio.User?.email || "Desconocido"}</td>
                   <td>{envio.id}</td>
                   <td>{envio.status}</td>
                   <td>{envio.type}</td>
