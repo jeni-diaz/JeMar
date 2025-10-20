@@ -13,7 +13,6 @@ import CardSix from "./cards/CardSix";
 
 import { AuthContext } from "../authContext/AuthContext";
 import { IsTokenValid } from "../protected/Protected.helpers";
-import "../style/Styles.css";
 
 const HomePage = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -57,7 +56,7 @@ const HomePage = () => {
               <h2 className="text-light mb-4">
                 Bienvenido, {user?.name || "Usuario"}
               </h2>
-              <Container className="button-bar mt-auto mb-5">
+              <Container className="button-bar mt-auto mb-2">
                 <Row className="justify-content-center">
                   {buttons
                     .filter((btn) =>

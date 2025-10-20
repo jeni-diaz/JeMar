@@ -86,9 +86,12 @@ const ContactForm = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
         <Row className="justify-content-center w-100">
-          <Col md={6}>
+          <Col>
           <Form onSubmit={handleSubmit}>
-            <CustomCard title="HACE TU CONSULTA">
+            <CustomCard
+            title="HACE TU CONSULTA"
+            buttonText="Enviar"
+            buttonType="submit"> 
               <Form.Group className="inputs-group mb-3 w-bold">
                 <Form.Label>Nombre y Apellido:</Form.Label>
                 <Form.Control
@@ -138,17 +141,11 @@ const ContactForm = () => {
                   <p className="text-danger mt-1">Debe ingresar un mensaje</p>
                 )}
               </Form.Group>
-
-              <div className="d-flex justify-content-center mt-3">
-                  <Button type="submit" className="custom-button w-50">
-                    Iniciar
-                  </Button>
-                </div>
             </CustomCard>
             </Form>
           </Col>
 
-          <Col md={4}>
+          <Col>
             <CustomCard title="CONTACTO">
               <label>
                 Dirección: Dorrego 453, Rosario, Santa Fe.

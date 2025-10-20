@@ -1,151 +1,64 @@
 import { useState, useContext } from "react";
-import { Form } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 import { AuthContext } from "../authContext/AuthContext";
+import { IsTokenValid } from "../protected/Protected.helpers";
 
 import Backgrpund from "../background/Background";
 import BackArrow from "../back/BackArrow";
-import CustomCard from "../card/CustomCard";
-import CustomAlert from "../alert/CustomAlert";
-import CustomModal from "../modal/CustomModal";
+import ModifyState from "./state/ModifyState";
+import ModifyRole from "./role/ModifyRole";
+
 
 const Modify = () => {
   const { role, token } = useContext(AuthContext);
-  const [shipmentId, setShipmentId] = useState("");
-  const [status, setStatus] = useState("");
-  const [alertData, setAlertData] = useState({
-    show: false,
-    message: "",
-    type: "info",
-  });
+  const [activeComponent, setActiveComponent] = useState("");
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState({});
-
-  if (role !== "empleado" && role !== "superAdmin") {
-    return (
-      <h3 className="text-center mt-5">
-        No tenés permiso para acceder a esta sección.
-      </h3>
-    );
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/shipment/${shipmentId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok)
-        throw new Error(data.error || "Error al actualizar estado");
-
-      setModalData({
-        id: shipmentId,
-        status: status,
-        type: data.type || "N/A",
-        origin: data.origin || "N/A",
-        destination: data.destination || "N/A",
-        price: data.price || 0,
-      });
-      setShowModal(true);
-
-      setShipmentId("");
-      setStatus("");
-    } catch (error) {
-      console.error("Error actualizando envío:", error);
-      setAlertData({
-        show: true,
-        message: error.message || "Error desconocido al actualizar el envío.",
-        type: "error",
-      });
-    }
+  const buttonsByRole = {
+    superAdmin: ["state", "role"],
+    empleado: ["state"],
   };
 
-  const modalTitle = `Detalle del envío N°${modalData.id || ""}`;
-  const modalBody = (
-    <>
-      <p><strong>Estado:</strong> {modalData.status || ""}</p>
-      <p><strong>Tipo:</strong> {modalData.type || ""}</p>
-      <p><strong>Origen:</strong> {modalData.origin || ""}</p>
-      <p><strong>Destino:</strong> {modalData.destination || ""}</p>
-      <p><strong>Precio:</strong> ${modalData.price ?? ""}</p>
-    </>
-  );
-  const modalButtons = [
-    {
-      label: "Cerrar",
-      onClick: () => setShowModal(false),
-      className: "btn-secondary",
-    },
+    const allowedButtons = token ? buttonsByRole[role] || [] : [];
+  
+  const buttons = [
+    { key: "state", label: "Estados" },
+    { key: "role", label: "Roles" },
   ];
+
+const visibleButtons = buttons.filter((btn) =>
+    allowedButtons.includes(btn.key)
+  );
 
   return (
     <>
       <Backgrpund image="/images/ImageModify.png">
         <BackArrow />
-        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <Container className="d-flex align-items-center min-vh-100 flex-column">
 
-          <CustomAlert
-            {...alertData}
-            onClose={() => setAlertData({ ...alertData, show: false })}
-          />
-
-          <form onSubmit={handleSubmit} className="w-100">
-            <CustomCard
-              title="MODIFICAR ESTADO"
-              buttonText="Actualizar"
-              buttonType="submit"
-            >
-              <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>ID del envío:</Form.Label>
-                <Form.Control
-                  className="custom-input"
-                  type="text"
-                  value={shipmentId}
-                  onChange={(e) => setShipmentId(e.target.value)}
-                  placeholder="Ej: 3"
-                />
-              </Form.Group>
-
-              <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Nuevo estado:</Form.Label>
-                <Form.Select
-                  className="custom-input"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+          <div className="d-flex p-5 mt-4 justify-content-start w-100">
+            <Row>
+              <Col>
+                {activeComponent === "state" && allowedButtons.includes("state") && <ModifyState />}
+                {activeComponent === "role" && allowedButtons.includes("role") && <ModifyRole />}
+              </Col>
+            </Row>
+          </div>
+          <Row className="button-bar mt-auto mb-2">
+            {visibleButtons.map((btn) => (
+              <Col xs="auto" key={btn.key}>
+                <Button
+                  className={`border-0 fs-3 mx-4 Button-acction ${activeComponent === btn.key ? "active" : ""
+                    }`}
+                  onClick={() => setActiveComponent(btn.key)}
                 >
-                  <option value="">Seleccione un estado</option>
-                  <option value="pendiente">Pendiente</option>
-                  <option value="en camino">En camino</option>
-                  <option value="entregado">Entregado</option>
-                  <option value="cancelado">Cancelado</option>
-                </Form.Select>
-              </Form.Group>
-            </CustomCard>
-          </form>
+                  {btn.label}
+                </Button>
+              </Col>
+            ))}
+          </Row>
 
-          {showModal && (
-            <CustomModal
-              show={showModal}
-              onHide={() => setShowModal(false)}
-              title={modalTitle}
-              body={modalBody}
-              buttons={modalButtons}
-            />
-          )}
-        </div>
+        </Container>
       </Backgrpund>
     </>
   );

@@ -152,9 +152,11 @@ const UserRegister = () => {
             type={alertData.type}
             onClose={() => setAlertData({ ...alertData, show: false })}
           />
-          <Form onSubmit={handleSubmit}></Form>
-          <CustomCard title="REGÍSTRATE">
-            <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
+          <CustomCard
+            title="REGISTRATE"
+            buttonText="Continuar"
+            buttonType="submit">
               <Form.Group className="inputs-group mb-3 fw-bold">
                 <Form.Label>Nombre:</Form.Label>
                 <Form.Control
@@ -234,13 +236,8 @@ const UserRegister = () => {
                 )}
               </Form.Group>
 
-              <div className="d-flex justify-content-center mt-3">
-                <Button type="submit" className="custom-button w-50">
-                  Continuar
-                </Button>
-              </div>
-            </Form>
           </CustomCard>
+          </Form>
         </div>
       </Background>
     </>

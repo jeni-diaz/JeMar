@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import CustomModal from "../../modal/CustomModal";
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
@@ -65,7 +65,7 @@ const ShippingQuote = () => {
       console.error("Error creando envío:", error);
       setAlertData({
         show: true,
-        message: "Ocurrió un error al generar la cotización.",
+        message: "No se puedo generar la cotización.",
         type: "error",
       });
     }
@@ -80,9 +80,11 @@ const ShippingQuote = () => {
           type={alertData.type}
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
-
-        <CustomCard title="COTIZAR ENVÍO">
-          <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
+          <CustomCard
+            title="COTIZAR ENVÍO"
+            buttonText="Cotizar"
+            buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Tipo de envío:</Form.Label>
               <Form.Select
@@ -90,13 +92,14 @@ const ShippingQuote = () => {
                 value={shipmentTypeId}
                 onChange={(e) => setShipmentTypeId(e.target.value)}
               >
-                <option value="">Seleccione un tipo</option>
+                <option value="" disabled hidden>Seleccione un tipo</option>
                 {shipmentTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
+                  <option  key={type.id} value={type.id}>
                     {type.name}
                   </option>
                 ))}
               </Form.Select>
+   
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
@@ -120,14 +123,8 @@ const ShippingQuote = () => {
                 onChange={(e) => setDestination(e.target.value)}
               />
             </Form.Group>
-
-            <div className="d-flex justify-content-center mt-3">
-              <Button type="submit" className="custom-button w-50">
-                Cotizar
-              </Button>
-            </div>
-          </Form>
-        </CustomCard>
+          </CustomCard>
+        </Form>
 
         {modalData && (
           <CustomModal

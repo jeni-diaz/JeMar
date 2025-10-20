@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
@@ -86,8 +86,12 @@ const DeleteShipping = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
 
-        <CustomCard title="ELIMINAR ENVÍO">
+       
           <Form onSubmit={handleSubmit}>
+            <CustomCard
+            title="ELIMINAR ENVÍO"
+            buttonText="Eliminar"
+            buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Número de envío:</Form.Label>
               <Form.Control
@@ -104,14 +108,8 @@ const DeleteShipping = () => {
                 </p>
               )}
             </Form.Group>
-
-            <div className="d-flex justify-content-center mt-3">
-              <Button type="submit" className="custom-button w-50">
-                Eliminar
-              </Button>
-            </div>
+             </CustomCard>
           </Form>
-        </CustomCard>
 
         {modalData && (
           <CustomModal

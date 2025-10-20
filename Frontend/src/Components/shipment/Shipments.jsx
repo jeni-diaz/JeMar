@@ -7,10 +7,8 @@ import ShippingQuote from "./quote/ShippingQuote";
 import DeleteShipping from "./delete/DeleteShipping";
 import ShippingTrack from "./track/ShippingTrack";
 
-import "../style/Styles.css";
-
 const Shipments = () => {
-  const [activeComponent, setActiveComponent] = useState("quote");
+  const [activeComponent, setActiveComponent] = useState("");
 
   const buttons = [
     { key: "quote", label: "Cotizar" },
@@ -22,10 +20,10 @@ const Shipments = () => {
     <>
       <Background image="/images/ImageShipment.png">
         <BackArrow />
-        <Container className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <Container className="d-flex align-items-center min-vh-100 flex-column">
 
-          <div className="flex-grow-1 d-flex justify-content-center align-items-center w-100">
-            <Row className="w-100 justify-content-center">
+          <div className="d-flex p-5 mt-4 justify-content-start w-100">
+            <Row>
               <Col>
                 {activeComponent === "quote" && <ShippingQuote />}
                 {activeComponent === "delete" && <DeleteShipping />}
@@ -34,7 +32,7 @@ const Shipments = () => {
             </Row>
           </div>
 
-          <Row className="button-bar mt-auto mb-5">
+          <Row className="button-bar mt-auto mb-3">
             {buttons.map((btn) => (
               <Col xs="auto" key={btn.key}>
                 <Button

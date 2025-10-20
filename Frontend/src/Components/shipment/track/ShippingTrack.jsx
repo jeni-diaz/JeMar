@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import CustomAlert from "../../alert/CustomAlert";
 import CustomCard from "../../card/CustomCard";
@@ -91,9 +91,11 @@ function ShippingTrack() {
         type={alertData.type}
         onClose={() => setAlertData({ ...alertData, show: false })}
       />
-
-      <CustomCard title="CONSULTAR ENVÍO">
         <Form onSubmit={handleSubmit}>
+          <CustomCard
+            title="CONSULTAR ESTADO"
+            buttonText="Consultar"
+            buttonType="submit">
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Número de envío:</Form.Label>
             <Form.Control
@@ -112,14 +114,9 @@ function ShippingTrack() {
               </p>
             )}
           </Form.Group>
-
-          <div className="d-flex justify-content-center mt-3">
-            <Button type="submit" className="custom-button w-50">
-              Consultar
-            </Button>
-          </div>
+            </CustomCard>
         </Form>
-      </CustomCard>
+
 
       {modalData && (
         <CustomModal

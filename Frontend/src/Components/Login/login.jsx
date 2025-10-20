@@ -121,8 +121,11 @@ const Login = () => {
           />
           <Row>
             <Col>
-              <CustomCard title="INICIAR SESIÓN">
-                <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
+              <CustomCard
+            title="INICIAR SESIÓN"
+            buttonText="Iniciar"
+            buttonType="submit">
                   <Form.Group className="inputs-group mb-3 fw-bold">
                     <Form.Label>Correo Electrónico:</Form.Label>
                     <Form.Control
@@ -169,12 +172,6 @@ const Login = () => {
                     )}
                   </Form.Group>
 
-                  <div className="d-flex justify-content-center mt-3">
-                    <Button type="submit" className="custom-button w-50">
-                      Iniciar
-                    </Button>
-                  </div>
-
                   <div className="inputs-group mt-3 text-center">
                     <Form.Label>
                       No tengo cuenta -{" "}
@@ -186,8 +183,9 @@ const Login = () => {
                       </Link>
                     </Form.Label>
                   </div>
-                </Form>
+          
               </CustomCard>
+              </Form>
             </Col>
           </Row>
         </div>
