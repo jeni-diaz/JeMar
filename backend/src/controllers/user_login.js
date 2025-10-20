@@ -30,7 +30,7 @@ export const userLogin = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    return res.json({ message: "Login exitoso", token });
+    return res.json({ message: "Ingreso exitoso", token });
   } catch (error) {
     console.error("Error en userLogin:", error);
     return res.status(500).json({ message: "Error interno del servidor" });

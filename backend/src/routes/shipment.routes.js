@@ -1,26 +1,27 @@
 import { Router } from "express";
 import { Shipment } from "../models/shipment.js";
+import { User } from "../models/user.js"
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
 import { isEmpleado } from "../middlewares/verifyRol.js";
 
-
 const router = Router();
-
 
 router.get("/", verifyToken, isEmpleado, async (req, res) => {
   try {
     const shipments = await Shipment.findAll({
-      include: [{ model: ShipmentType, attributes: ["name", "description"] }],
+      include: [
+        { model: ShipmentType, attributes: ["name", "description"] },
+        { model: User, attributes: ["email"] }
+      ],
     });
     res.json(shipments);
   } catch (error) {
-    console.error("💥 Error obteniendo envíos:", error);
+    console.error("Error obteniendo envíos:", error);
     res.status(500).json({ error: "Error obteniendo envíos" });
   }
 });
 
-// ✅ Consultar UN envío (cualquiera logueado)
 router.get("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -41,31 +42,28 @@ router.get("/:id", verifyToken, async (req, res) => {
       price: shipment.price,
     });
   } catch (error) {
-    console.error("💥 Error consultando envío:", error);
+    console.error("Error consultando envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
 
 router.post("/", verifyToken, async (req, res) => {
   try {
     const { shipmentTypeId, origin, destination } = req.body;
     const userId = req.user.id;
 
-    console.log("✅ Nuevo envío recibido:", req.body);
-    console.log("🧍 Usuario ID:", userId);
+    console.log("Nuevo envío recibido:", req.body);
+    console.log("Usuario ID:", userId);
 
     if (!shipmentTypeId || !origin || !destination) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
 
-    // Obtener el tipo de envío (por nombre)
     const shipmentType = await ShipmentType.findByPk(shipmentTypeId);
     if (!shipmentType) {
       return res.status(400).json({ error: "Tipo de envío inválido" });
     }
 
-    // Definir precios fijos según tipo
     const priceMap = {
       estandar: 25000,
       express: 40000,
@@ -86,7 +84,6 @@ router.post("/", verifyToken, async (req, res) => {
       message: "Envío creado correctamente",
       shipment: newShipment,
     });
-
   } catch (error) {
     console.error("Error al crear envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
@@ -99,7 +96,9 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
     const { status } = req.body;
 
     if (!status) {
-      return res.status(400).json({ error: "El campo 'status' es obligatorio" });
+      return res
+        .status(400)
+        .json({ error: "El campo 'status' es obligatorio" });
     }
 
     const shipment = await Shipment.findByPk(id);
@@ -120,7 +119,6 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
   }
 });
 
-
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -134,7 +132,9 @@ router.delete("/:id", verifyToken, async (req, res) => {
       req.user.role !== "superAdmin" &&
       req.user.role !== "empleado"
     ) {
-      return res.status(403).json({ error: "No tienes permiso para eliminar este envío" });
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso para eliminar este envío" });
     }
 
     await shipment.destroy();
@@ -144,7 +144,5 @@ router.delete("/:id", verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
-
 
 export default router;

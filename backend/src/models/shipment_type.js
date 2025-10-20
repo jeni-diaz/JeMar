@@ -10,8 +10,8 @@ export const ShipmentType = sequelize.define(
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.ENUM("estandar", "express", "fragil"),
-      defaultValue: "estandar",
+      type: DataTypes.ENUM("estándar", "express", "frágil"),
+      defaultValue: "estándar",
     },
     description: {
       type: DataTypes.STRING,

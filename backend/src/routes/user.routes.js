@@ -4,10 +4,14 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = Router();
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findByPk(id);
+router.get("/", verifyToken, async (req, res) => {
+  try {
+  const user = await User.findAll({ attributes: ["id", "firstName", "lastName", "email", "role"] });
   res.json(user);
+  }catch(error) {
+    console.error("Error obteniendo usuarios:", error);
+    res.status(500).json({ error: "Error obteniendo usuarios" });
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -42,7 +46,12 @@ router.put("/changeRole", verifyToken, async (req, res) => {
     user.role = newRole;
     await user.save();
 
-    res.json({ message: `Rol actualizado a ${newRole}` });
+    res.json({ message: "Rol actualizado correctamente",
+      user: {
+        email: user.email,
+        newRole: user.role
+      }
+     });
   } catch (error) {
     console.error("Error cambiando rol:", error);
     res.status(500).json({ error: "Error interno del servidor" });
