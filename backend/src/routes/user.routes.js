@@ -58,11 +58,6 @@ router.put("/changeRole", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Actualizando usuario con id... ${id}`);
-});
-
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;

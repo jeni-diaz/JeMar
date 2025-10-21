@@ -37,9 +37,9 @@ try {
       { name: "express", description: "Envío rápido" },
       { name: "fragil", description: "Frágil" },
     ]);
-    console.log("✅ Tipos de envío iniciales creados");
+    console.log("Tipos de envío iniciales creados");
   } else {
-    console.log("⚙️ Tipos de envío ya existentes, no se crean duplicados");
+    console.log("Tipos de envío ya existentes, no se crean duplicados");
   }
 
   app.listen(PORT, () => {

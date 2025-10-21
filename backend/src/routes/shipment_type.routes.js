@@ -13,12 +13,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const shipmentType = await ShipmentType.findByPk(id);
-  res.json(shipmentType);
-});
-
 router.post("/", async (req, res) => {
   const { name, description } = req.body;
   const newShipmentType = await ShipmentType.create({ name, description });
