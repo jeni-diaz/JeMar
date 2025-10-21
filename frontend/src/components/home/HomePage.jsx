@@ -65,7 +65,7 @@ const HomePage = () => {
                     .map((btn) => (
                       <Col xs="auto" key={btn.key}>
                         <Button
-                          className={`border-0 fs-3 mx-4 Button-acction ${activeButton === btn.key ? "active" : ""
+                          className={`border-0 fs-4 mx-4 Button-acction ${activeButton === btn.key ? "active" : ""
                             }`}
                           onClick={() => handleButtonClick(btn.key)}
                         >

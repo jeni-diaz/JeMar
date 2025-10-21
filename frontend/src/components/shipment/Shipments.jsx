@@ -32,11 +32,11 @@ const Shipments = () => {
             </Row>
           </div>
 
-          <Row className="button-bar mt-auto mb-2">
+          <Row className="button-bar mt-auto mb-3">
             {buttons.map((btn) => (
               <Col xs="auto" key={btn.key}>
                 <Button
-                  className={`border-0 fs-3 mx-4 Button-acction ${
+                  className={`border-0 fs-4 mx-4 Button-acction ${
                     activeComponent === btn.key ? "active" : ""
                   }`}
                   onClick={() => setActiveComponent(btn.key)}
