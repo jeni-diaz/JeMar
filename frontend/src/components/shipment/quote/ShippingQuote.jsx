@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Form } from "react-bootstrap";
+
+import { initialErrors } from "./ShippingQuote.data";
+
 import CustomModal from "../../modal/CustomModal";
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
@@ -9,6 +12,7 @@ const ShippingQuote = () => {
   const [shipmentTypeId, setShipmentTypeId] = useState("");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
+  const [errors, setErrors] = useState(initialErrors);
 
   const [alertData, setAlertData] = useState({
     show: false,
@@ -18,6 +22,20 @@ const ShippingQuote = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+
+  const shipmentTypesRef = useRef(null);
+  const originRef = useRef(null);
+  const destinationRef = useRef(null);
+
+  const handleOriginChange = (event) => {
+    setOrigin(event.target.value);
+    setErrors((prev) => ({ ...prev, origin: false }));
+  };
+
+  const handleDestinationChange = (event) => {
+    setDestination(event.target.value);
+    setErrors((prev) => ({ ...prev, destination: false }));
+  };
 
   useEffect(() => {
     fetch("http://localhost:3000/api/shipment_type")
@@ -32,6 +50,18 @@ const ShippingQuote = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+
+    if (!origin.trim()) {
+      setErrors((prev) => ({ ...prev, origin: true }));
+      originRef.current.focus();
+      return;
+    }
+
+    if (!destination.trim()) {
+      setErrors((prev) => ({ ...prev, destination: true }));
+      destinationRef.current.focus();
+      return;
+    }
 
     if (!token) {
       setAlertData({
@@ -94,34 +124,46 @@ const ShippingQuote = () => {
               >
                 <option value="" disabled hidden>Seleccione un tipo</option>
                 {shipmentTypes.map((type) => (
-                  <option  key={type.id} value={type.id}>
+                  <option key={type.id} value={type.id}>
                     {type.name}
                   </option>
                 ))}
               </Form.Select>
-   
+
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Origen:</Form.Label>
               <Form.Control
-                className="custom-input"
+                ref={originRef}
+                className={`custom-input ${errors.origin}`}
                 type="text"
                 placeholder="Ej: Rosario"
                 value={origin}
-                onChange={(e) => setOrigin(e.target.value)}
+                onChange={handleOriginChange}
               />
+              {errors.origin && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un origen
+                  </p>
+                )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Destino:</Form.Label>
               <Form.Control
+                ref={destinationRef}
                 className="custom-input"
                 type="text"
                 placeholder="Ej: Buenos Aires"
                 value={destination}
-                onChange={(e) => setDestination(e.target.value)}
+                onChange={handleDestinationChange}
               />
+              {errors.destination && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un destino
+                  </p>
+                )}
             </Form.Group>
           </CustomCard>
         </Form>

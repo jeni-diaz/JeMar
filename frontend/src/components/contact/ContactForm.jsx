@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Container } from "react-bootstrap";
 import { useRef, useState } from "react";
 
 import { initialErrors } from "./Contact.data";
@@ -78,7 +78,9 @@ const ContactForm = () => {
     <>
     <Background image="/images/ImageContact.png">
       <BackArrow />
-      <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+      <Container className="d-flex align-items-center min-vh-100 flex-column">
+
+          <div className="screen d-flex justify-content-start w-100">
         <CustomAlert
           show={alertData.show}
           message={alertData.message}
@@ -168,6 +170,7 @@ const ContactForm = () => {
           </Col>
         </Row>
       </div>
+       </Container>
     </Background>
     </>
   );
