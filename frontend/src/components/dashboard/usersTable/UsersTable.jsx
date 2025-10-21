@@ -51,7 +51,7 @@ const UsersTable = () => {
   }, []);
 
   return (
-    <Container className="small-container-table d-flex justify-content-center align-items-center flex-column w-100">
+    <Container className="small-container-table d-flex justify-content-start w-100">
       {loading && <p>Cargando usuarios...</p>}
 
       {alertData.show && (
@@ -61,27 +61,29 @@ const UsersTable = () => {
       )}
 
       {!loading && users.length > 0 && (
-        <table className="table-container text-center">
+        <table className="table-container text-center caption-top">
+          <caption className="text-center">Lista de Usuarios</caption>
           <thead>
-            <tr>
-              <th>ID Usuario</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Email</th>
-              <th>Rol</th>
+            <tr className="p-1">
+              <th className="p-1">ID Usuario</th>
+              <th className="p-1">Nombre</th>
+              <th className="p-1">Apellido</th>
+              <th className="p-1">Email</th>
+              <th className="p-1">Rol</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
+                <td className="p-1">{user.id}</td>
+                <td className="p-1">{user.firstName}</td>
+                <td className="p-1">{user.lastName}</td>
+                <td className="p-1">{user.email}</td>
+                <td className="p-1">{user.role}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot className="text-center"> -- </tfoot>
         </table>
       )}
 

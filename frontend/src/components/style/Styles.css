@@ -27,7 +27,6 @@ body {
 
 /*Background*/
 .background {
-  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -174,6 +173,11 @@ label,
   outline: none;
 }
 
+.screen{
+  padding-top:120px;
+  padding-left: 50px;
+}
+
 /*SmallContainer*/
 .small-container {
   background-color: #000000;
@@ -199,12 +203,12 @@ label,
 
 .table-container th, 
 .table-container td {
-  border-right: 3px solid #B07F11;
+  border-right: 1px solid #B07F11;
   border-radius: 10px;
 }
 
 .table-container th {
-  border-bottom: 3px solid #B07F11;
+  border-bottom: 1px solid #B07F11;
 }
 
 .table-container th:last-child,
@@ -220,6 +224,10 @@ label,
   background-color: rgba(0, 0, 0, 0.75);
   color: #ffffff;
   border-radius: 10px;
+}
+
+.table-container caption{
+   color: #B07F11;
 }
 /*ButtonBar*/
 .button-bar {
@@ -245,10 +253,10 @@ label,
    box-shadow: 0 0 10px #ffffff;
 }
 
-/*Ubicación*/
+/*MapContainer*/
 .map-container {
   width: 320px;
-  height: 200px;
+  height: 300px;
 }
 
 /*CustomAlert */

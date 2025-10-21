@@ -133,6 +133,7 @@ const ContactForm = () => {
                   className={`custom-input ${
                     errors.message}`}
                   as="textarea"
+                  rows={5}
                   placeholder="Escribe tu consulta aquí..."
                   value={message}
                   onChange={handleMessageChange}

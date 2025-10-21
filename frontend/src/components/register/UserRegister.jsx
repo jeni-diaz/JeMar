@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { initialErrors } from "./UserRegister.data.js";
@@ -145,7 +145,7 @@ const UserRegister = () => {
     <>
       <Background image="/images/ImageRegister.png">
         <BackArrow />
-        <div className="color-bacground d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <div className="screen d-flex justify-content-start">
           <CustomAlert
             show={alertData.show}
             message={alertData.message}
@@ -153,10 +153,10 @@ const UserRegister = () => {
             onClose={() => setAlertData({ ...alertData, show: false })}
           />
           <Form onSubmit={handleSubmit}>
-          <CustomCard
-            title="REGISTRATE"
-            buttonText="Continuar"
-            buttonType="submit">
+            <CustomCard
+              title="REGISTRATE"
+              buttonText="Continuar"
+              buttonType="submit">
               <Form.Group className="inputs-group mb-3 fw-bold">
                 <Form.Label>Nombre:</Form.Label>
                 <Form.Control
@@ -213,30 +213,29 @@ const UserRegister = () => {
                 <Form.Label>Contraseña:</Form.Label>
                 <Form.Control
                   ref={passwordRef}
-                  className={`custom-input ${errors.password ? "is-invalid" : ""
-                    }`}
-                  type="password"
+                  className={`custom-input ${errors.password ? "is-invalid" : ""}`}
+                  type={showPassword ? "text" : "password"}
                   placeholder="********"
                   value={password}
                   onChange={handlePasswordChange}
                   autoComplete="current-password"
                 />
                 <span
-                      className="password-toggle-icon"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <i className="bi bi-eye-slash-fill" />
-                      ) : (
-                        <i className="bi bi-eye-fill" />
-                      )}
-                    </span>
+                  className="password-toggle-icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <i className="bi bi-eye-slash-fill" />
+                  ) : (
+                    <i className="bi bi-eye-fill" />
+                  )}
+                </span>
                 {errors.password && (
                   <p className="text-danger mt-1">{errors.password}</p>
                 )}
               </Form.Group>
 
-          </CustomCard>
+            </CustomCard>
           </Form>
         </div>
       </Background>

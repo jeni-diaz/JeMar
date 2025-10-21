@@ -52,7 +52,7 @@ const ShipmentsTable = () => {
 
   return (
     <>
-      <Container className="small-container-table d-flex justify-content-center align-items-center flex-column w-100">
+       <Container className="small-container-table d-flex justify-content-start w-100">
         {loading && <p>Cargando envíos...</p>}
 
         {alertData.show && (
@@ -62,31 +62,33 @@ const ShipmentsTable = () => {
         )}
 
         {!loading && shipments.length > 0 && (
-          <table className="table-container text-center w-75 mx-auto">
+           <table className="table-container text-center caption-top">
+          <caption className="text-center">Lista de Envíos</caption>
             <thead>
               <tr>
-                <th>Usuario</th>
-                <th>Número de envío</th>
-                <th>Estado</th>
-                <th>Tipo</th>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Precio</th>
+                <th className="p-1">Usuario</th>
+                <th className="p-1">Número de envío</th>
+                <th className="p-1">Estado</th>
+                <th className="p-1">Tipo</th>
+                <th className="p-1">Origen</th>
+                <th className="p-1">Destino</th>
+                <th className="p-1">Precio</th>
               </tr>
             </thead>
             <tbody>
               {shipments.map((envio) => (
-                <tr key={envio.id}>
-                  <td>{envio.User?.email || "Desconocido"}</td>
-                  <td>{envio.id}</td>
-                  <td>{envio.status}</td>
-                  <td>{envio.type}</td>
-                  <td>{envio.origin}</td>
-                  <td>{envio.destination}</td>
-                  <td>${envio.price.toLocaleString("es-AR")}</td>
+                <tr className="p-3" key={envio.id}>
+                  <td className="p-1">{envio.User?.email || "Desconocido"}</td>
+                  <td className="p-1">{envio.id}</td>
+                  <td className="p-1">{envio.status}</td>
+                  <td className="p-1">{envio.type}</td>
+                  <td className="p-1">{envio.origin}</td>
+                  <td className="p-1">{envio.destination}</td>
+                  <td className="p-1">${envio.price.toLocaleString("es-AR")}</td>
                 </tr>
               ))}
             </tbody>
+            <tfoot className="text-center"> -- </tfoot>
           </table>
         )}
 

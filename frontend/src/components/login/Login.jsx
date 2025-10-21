@@ -112,7 +112,7 @@ const Login = () => {
     <>
       <Background image="/images/ImageLogin.png">
         <BackArrow />
-        <div className="d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <div className="screen d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <CustomAlert
             show={alertData.show}
             message={alertData.message}

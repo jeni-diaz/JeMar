@@ -22,7 +22,7 @@ const Shipments = () => {
         <BackArrow />
         <Container className="d-flex align-items-center min-vh-100 flex-column">
 
-          <div className="d-flex p-5 mt-4 justify-content-start w-100">
+          <div className="screen d-flex justify-content-start w-100">
             <Row>
               <Col>
                 {activeComponent === "quote" && <ShippingQuote />}
@@ -32,7 +32,7 @@ const Shipments = () => {
             </Row>
           </div>
 
-          <Row className="button-bar mt-auto mb-3">
+          <Row className="button-bar mt-auto mb-2">
             {buttons.map((btn) => (
               <Col xs="auto" key={btn.key}>
                 <Button

@@ -20,7 +20,7 @@ function Dashboard() {
       <BackArrow />
       <Container className="d-flex align-items-center min-vh-100 flex-column">
 
-        <div className="small-container-ta d-flex flex-grow-1 justify-content-center align-items-center w-100">
+        <div className="d-flex flex-grow-1 justify-content-center align-items-center">
           <Row className="w-100">
             <Col>
               {activeComponent === "shipments" && <ShipmentsTable />}
@@ -29,7 +29,7 @@ function Dashboard() {
           </Row>
         </div>
 
-        <Row className="button-bar mt-auto mb-3">
+        <Row className="button-bar mt-auto mb-2">
           {buttons.map((btn) => (
             <Col xs="auto" key={btn.key}>
               <Button
