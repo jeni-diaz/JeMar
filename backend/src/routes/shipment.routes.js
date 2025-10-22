@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Shipment } from "../models/shipment.js";
-import { User } from "../models/user.js"
+import { User } from "../models/user.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
 import { isEmpleado } from "../middlewares/verifyRol.js";
@@ -12,7 +12,7 @@ router.get("/", verifyToken, isEmpleado, async (req, res) => {
     const shipments = await Shipment.findAll({
       include: [
         { model: ShipmentType, attributes: ["name", "description"] },
-        { model: User, attributes: ["email"] }
+        { model: User, attributes: ["email"] },
       ],
     });
     res.json(shipments);
@@ -25,12 +25,29 @@ router.get("/", verifyToken, isEmpleado, async (req, res) => {
 router.get("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const shipment = await Shipment.findByPk(id, {
-      include: [{ model: ShipmentType, attributes: ["name", "description"] }],
-    });
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    let shipment;
+
+    if (userRole === "superAdmin" || userRole === "empleado") {
+      shipment = await Shipment.findByPk(id, {
+        include: [
+          { model: ShipmentType, attributes: ["name", "description"] },
+          { model: User, attributes: ["email"] },
+        ],
+      });
+    } else {
+      shipment = await Shipment.findOne({
+        where: { id, userId },
+        include: [
+          { model: ShipmentType, attributes: ["name", "description"] },
+          { model: User, attributes: ["email"] },
+        ],
+      });
+    }
 
     if (!shipment) {
-      return res.status(404).json({ error: "Envío no encontrado" });
+      return res.status(404).json({ error: "No tenes permiso para ver este envío" });
     }
 
     return res.json({

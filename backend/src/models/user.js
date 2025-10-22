@@ -32,11 +32,14 @@ export const User = sequelize.define(
     role: {
       type: DataTypes.ENUM("superAdmin", "empleado", "usuario"),
       allowNull: false,
-      defaultValue: "usuario", 
+      defaultValue: "usuario",
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
   },
   {
     timestamps: false,
   }
 );
-

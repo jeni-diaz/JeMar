@@ -58,10 +58,40 @@ router.put("/changeRole", verifyToken, async (req, res) => {
   }
 });
 
+router.put("/activate/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(`Borrando el usuario con id... ${id}`);
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: "El usuario no existe" });
+
+    user.isActive = true;
+    await user.save();
+
+    res.json({ message: "Usuario activado correctamente" });
+  } catch (error) {
+    console.error("Error activando usuario:", error);
+    res.status(500).json({ error: "Error al activar usuario" });
+  }
 });
+
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: "El usuario no existe" });
+
+    user.isActive = false;
+    await user.save();
+
+    res.json({ message: "Usuario eliminado correctamente" });
+  } catch (error) {
+    console.error("Error eliminando usuario:", error);
+    res.status(500).json({ error: "Error al eliminar usuario" });
+  }
+});
+
 
 export default router;

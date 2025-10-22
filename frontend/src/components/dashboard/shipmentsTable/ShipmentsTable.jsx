@@ -4,7 +4,11 @@ import { Container } from "react-bootstrap";
 const ShipmentsTable = () => {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [alertData, setAlertData] = useState({ show: false, message: "", type: "" });
+  const [alertData, setAlertData] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
 
   const fetchShipments = async () => {
     const token = localStorage.getItem("token");
@@ -52,7 +56,7 @@ const ShipmentsTable = () => {
 
   return (
     <>
-       <Container className="small-container-table d-flex justify-content-start w-100">
+      <Container className="small-container-table d-flex justify-content-start w-100">
         {loading && <p>Cargando envíos...</p>}
 
         {alertData.show && (
@@ -62,8 +66,8 @@ const ShipmentsTable = () => {
         )}
 
         {!loading && shipments.length > 0 && (
-           <table className="table-container text-center caption-top">
-          <caption className="text-center">Lista de Envíos</caption>
+          <table className="table-container text-center caption-top">
+            <caption className="text-center">Lista de Envíos</caption>
             <thead>
               <tr>
                 <th className="p-1">Usuario</th>
@@ -78,17 +82,25 @@ const ShipmentsTable = () => {
             <tbody>
               {shipments.map((envio) => (
                 <tr className="p-3" key={envio.id}>
-                  <td className="p-1">{envio.User?.email || "Desconocido"}</td>
+                  <td className="p-1">{envio.User?.email}</td>
                   <td className="p-1">{envio.id}</td>
                   <td className="p-1">{envio.status}</td>
-                  <td className="p-1">{envio.type}</td>
+                  <td className="p-1">{envio.ShipmentType?.name}</td>
                   <td className="p-1">{envio.origin}</td>
                   <td className="p-1">{envio.destination}</td>
-                  <td className="p-1">${envio.price.toLocaleString("es-AR")}</td>
+                  <td className="p-1">
+                    ${envio.price.toLocaleString("es-AR")}
+                  </td>
                 </tr>
               ))}
             </tbody>
-            <tfoot className="text-center"> -- </tfoot>
+            <tfoot>
+              <tr>
+                <td colSpan="7" className="text-center">
+                  --
+                </td>
+              </tr>
+            </tfoot>
           </table>
         )}
 
