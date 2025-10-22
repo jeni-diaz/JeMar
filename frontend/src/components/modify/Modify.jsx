@@ -22,8 +22,8 @@ const Modify = () => {
     const allowedButtons = token ? buttonsByRole[role] || [] : [];
   
   const buttons = [
-    { key: "status", label: "Estados" },
-    { key: "roles", label: "Roles" },
+    { key: "status", label: "Modificar Estado" },
+    { key: "roles", label: "Modificar Rol" },
   ];
 
 const visibleButtons = buttons.filter((btn) =>
@@ -48,7 +48,7 @@ const visibleButtons = buttons.filter((btn) =>
             {visibleButtons.map((btn) => (
               <Col xs="auto" key={btn.key}>
                 <Button
-                  className={`border-0 fs-4 mx-4 Button-acction ${activeComponent === btn.key ? "active" : ""
+                  className={`border-0 fs-5 mx-4 Button-acction ${activeComponent === btn.key ? "active" : ""
                     }`}
                   onClick={() => setActiveComponent(btn.key)}
                 >

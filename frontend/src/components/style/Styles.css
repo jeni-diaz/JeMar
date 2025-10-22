@@ -91,6 +91,12 @@ form .custom-input option {
   background-color: #000000;
 }
 
+ul{
+  color: #ffffff;
+  background-color: #000000;
+  max-height: 150px;
+}
+
 /* Checkboxes */
 form .inputs-group .custom-checkbox .form-check-input {
   background-color: #000000;
@@ -196,19 +202,20 @@ label,
 
 /*TableContainer*/
 .table-container{
-  background-color: rgba(0, 0, 0, 0.75);
+  border-collapse: separate;
   border-radius: 10px;
   color: #B07F11;
+  border-spacing: 0 10px;
+}
+
+.table-container tr {
+  box-shadow: 0 4px 8px rgba(126, 126, 126, 0.75);
+  background-color: #000000;
 }
 
 .table-container th, 
 .table-container td {
   border-right: 1px solid #B07F11;
-  border-radius: 10px;
-}
-
-.table-container th {
-  border-bottom: 1px solid #B07F11;
 }
 
 .table-container th:last-child,
@@ -221,21 +228,25 @@ label,
 }
 
 .table-container tbody{
-  background-color: rgba(0, 0, 0, 0.75);
   color: #ffffff;
-  border-radius: 10px;
 }
 
-.table-container caption{
-   color: #B07F11;
+.table-container tbody tr:hover {
+  background-color: #B07F11;
+  cursor: pointer; 
 }
+
+.cross-icon{
+  color:#C0392B
+}
+
 /*ButtonBar*/
 .button-bar {
   bottom: 50px;
 }
 
 .button-bar .Button-acction {
-  width: 180px;
+  width: 200px;
   height: 60px;
   border-radius: 20px;
   color: #B07F11;

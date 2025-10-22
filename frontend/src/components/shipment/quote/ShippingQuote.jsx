@@ -22,19 +22,72 @@ const ShippingQuote = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [originSuggestions, setOriginSuggestions] = useState([]);
+  const [destinationSuggestions, setDestinationSuggestions] = useState([]);
 
-  const shipmentTypesRef = useRef(null);
   const originRef = useRef(null);
   const destinationRef = useRef(null);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/api/shipment_type")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Tipos cargados:", data);
+        setShipmentTypes(data);
+      })
+      .catch((err) => console.error("Error cargando tipos de envío:", err));
+  }, []);
+
+  const fetchLocalities = (query, type) => {
+    if (!query.trim()) {
+      if (type === "origin") {
+        setOriginSuggestions([]);
+      } else {
+        setDestinationSuggestions([]);
+      }
+      return;
+    }
+
+    fetch(`https://apis.datos.gob.ar/georef/api/localidades?nombre=${query}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const localities = data.localidades || [];
+        const formattedLocalities = localities.map((loc) => ({
+          nombre: loc.nombre,
+          provincia: loc.provincia.nombre,
+        }));
+        if (type === "origin") {
+          setOriginSuggestions(formattedLocalities);
+        } else {
+          setDestinationSuggestions(formattedLocalities);
+        }
+      })
+      .catch((err) => console.error("Error obteniendo localidades:", err));
+  };
+
   const handleOriginChange = (event) => {
-    setOrigin(event.target.value);
+    const value = event.target.value;
+    setOrigin(value);
     setErrors((prev) => ({ ...prev, origin: false }));
+    fetchLocalities(value, "origin");
   };
 
   const handleDestinationChange = (event) => {
-    setDestination(event.target.value);
+    const value = event.target.value;
+    setDestination(value);
     setErrors((prev) => ({ ...prev, destination: false }));
+    fetchLocalities(value, "destination");
+  };
+
+  const handleSuggestionSelect = (suggestion, type) => {
+    const fullName = `${suggestion.nombre}, ${suggestion.provincia}, Argentina`;
+    if (type === "origin") {
+      setOrigin(fullName);
+      setOriginSuggestions([]);
+    } else {
+      setDestination(fullName);
+      setDestinationSuggestions([]);
+    }
   };
 
   useEffect(() => {
@@ -103,7 +156,7 @@ const ShippingQuote = () => {
 
   return (
     <>
-      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+      <div className="d-flex justify-content-center align-items-center flex-column">
         <CustomAlert
           show={alertData.show}
           message={alertData.message}
@@ -112,8 +165,8 @@ const ShippingQuote = () => {
         />
         <Form onSubmit={handleSubmit}>
           <CustomCard
-            title="COTIZAR ENVÍO"
-            buttonText="Cotizar"
+            title="CREAR ENVÍO"
+            buttonText="Crear"
             buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Tipo de envío:</Form.Label>
@@ -129,41 +182,62 @@ const ShippingQuote = () => {
                   </option>
                 ))}
               </Form.Select>
-
             </Form.Group>
 
-            <Form.Group className="inputs-group mb-3 fw-bold">
+            <Form.Group className="inputs-group mb-3 fw-bold position-relative">
               <Form.Label>Origen:</Form.Label>
               <Form.Control
                 ref={originRef}
-                className={`custom-input ${errors.origin}`}
+                className={`custom-input ${errors.origin ? 'is-invalid' : ''}`}
                 type="text"
                 placeholder="Ej: Rosario"
                 value={origin}
                 onChange={handleOriginChange}
+                autoComplete="off"
               />
               {errors.origin && (
-                  <p className="text-danger mt-1">
-                    Debe ingresar un origen
-                  </p>
-                )}
+                <p className="text-danger mt-1">Debe ingresar un origen</p>
+              )}
+
+              {originSuggestions.length > 0 && (
+                <div className="w-100">
+                  <ul className="overflow-auto ocultar-scroll">
+                    {originSuggestions.map((suggestion) => (
+                      <li
+                        key={`${suggestion.nombre}-${suggestion.provincia}`}
+                        onClick={() => handleSuggestionSelect(suggestion, "origin")}>
+                        {suggestion.nombre}, {suggestion.provincia}, Argentina
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Destino:</Form.Label>
               <Form.Control
                 ref={destinationRef}
-                className="custom-input"
+                className={`custom-input ${errors.destination ? 'is-invalid' : ''}`}
                 type="text"
                 placeholder="Ej: Buenos Aires"
                 value={destination}
                 onChange={handleDestinationChange}
               />
-              {errors.destination && (
-                  <p className="text-danger mt-1">
-                    Debe ingresar un destino
-                  </p>
-                )}
+              {errors.destination && <p className="text-danger mt-1">Debe ingresar un destino</p>}
+              {destinationSuggestions.length > 0 && (
+                <div className="w-100">
+                  <ul className="overflow-auto ocultar-scroll">
+                    {destinationSuggestions.map((suggestion) => (
+                      <li
+                        key={suggestion.nombre}
+                        onClick={() => handleSuggestionSelect(suggestion, "destination")}>
+                        {suggestion.nombre}, {suggestion.provincia}, Argentina
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Form.Group>
           </CustomCard>
         </Form>

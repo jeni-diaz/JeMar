@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
-
+import Footer from "../footer/Footer";
 import Background from "../background/Background";
 import CardOne from "./cards/CardOne";
 import CardTwo from "./cards/CardTwo";
@@ -56,7 +56,7 @@ const HomePage = () => {
               <h2 className="text-light mb-4">
                 Bienvenido, {user?.name || "Usuario"}
               </h2>
-              <Container className="button-bar mt-auto mb-2">
+              <Container className="button-bar mt-auto mb-3">
                 <Row className="justify-content-center">
                   {buttons
                     .filter((btn) =>
@@ -100,6 +100,7 @@ const HomePage = () => {
             <Col><CardSix /></Col>
           </Row>
         </div>
+        <Footer />
       </Background>
     </>
   );

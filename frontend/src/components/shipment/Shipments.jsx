@@ -11,9 +11,9 @@ const Shipments = () => {
   const [activeComponent, setActiveComponent] = useState("");
 
   const buttons = [
-    { key: "quote", label: "Cotizar" },
-    { key: "delete", label: "Eliminar" },
-    { key: "track", label: "Consultar" },
+    { key: "quote", label: "Crear envío" },
+    { key: "delete", label: "Eliminar envío" },
+    { key: "track", label: "Consultar envío" },
   ];
 
   return (

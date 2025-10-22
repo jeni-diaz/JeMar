@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import ContactForm from "./components/contact/ContactForm";
 import ErrorNotFound from "./components/error/errorNotFound/ErrorNotFound";
 import ErrorNotAllowed from "./components/error/errorNotAllowed/errorNotAllowed";
-import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import HomePage from "./components/home/HomePage";
 import Login from "./components/login/Login";
@@ -21,7 +20,6 @@ const MainLayout = () => (
   <>
     <Header />
     <Outlet />
-    <Footer />
   </>
 );
 

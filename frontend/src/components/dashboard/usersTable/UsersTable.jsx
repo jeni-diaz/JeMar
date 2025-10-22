@@ -51,7 +51,8 @@ const UsersTable = () => {
   }, []);
 
   return (
-    <Container className="small-container-table d-flex justify-content-start w-100">
+    <>
+    <h1 className="title-card text-center">Lista de Usuarios</h1>
       {loading && <p>Cargando usuarios...</p>}
 
       {alertData.show && (
@@ -61,15 +62,16 @@ const UsersTable = () => {
       )}
 
       {!loading && users.length > 0 && (
-        <table className="table-container text-center caption-top">
-          <caption className="text-center">Lista de Usuarios</caption>
-          <thead>
+        <div className="table-responsive ocultar-scroll text-center" style={{ maxHeight: '400px' }}>
+          <table className="table-container text-center caption-top">
+            <thead>
             <tr className="p-1">
               <th className="p-1">ID Usuario</th>
               <th className="p-1">Nombre</th>
               <th className="p-1">Apellido</th>
               <th className="p-1">Email</th>
               <th className="p-1">Rol</th>
+              <th className="p-1">Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -80,17 +82,19 @@ const UsersTable = () => {
                 <td className="p-1">{user.lastName}</td>
                 <td className="p-1">{user.email}</td>
                 <td className="p-1">{user.role}</td>
+                <td className="p-1"><i class="cross-icon bi bi-x-square-fill"></i></td>
               </tr>
             ))}
           </tbody>
-          <tfoot className="text-center"> -- </tfoot>
         </table>
+        </div>
       )}
 
       {!loading && users.length === 0 && !alertData.show && (
         <p className="title-card">No hay usuarios disponibles.</p>
       )}
-    </Container>
+    
+    </>
   );
 };
 

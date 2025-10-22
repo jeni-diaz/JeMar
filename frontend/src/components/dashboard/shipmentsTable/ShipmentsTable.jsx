@@ -56,18 +56,20 @@ const ShipmentsTable = () => {
 
   return (
     <>
-      <Container className="small-container-table d-flex justify-content-start w-100">
-        {loading && <p>Cargando envíos...</p>}
+     <h1 className="title-card text-center">Lista de Envíos</h1>
 
-        {alertData.show && (
-          <div className={`alert alert-${alertData.type}`} role="alert">
-            {alertData.message}
-          </div>
-        )}
+      {loading && <p>Cargando envíos...</p>}
 
-        {!loading && shipments.length > 0 && (
-          <table className="table-container text-center caption-top">
-            <caption className="text-center">Lista de Envíos</caption>
+      {alertData.show && (
+        <div className={`alert alert-${alertData.type}`} role="alert">
+          {alertData.message}
+        </div>
+      )}
+
+      {!loading && shipments.length > 0 && (
+        
+        <div className="table-responsive ocultar-scroll text-center" style={{ maxHeight: '400px' }}>
+          <table className="table-container text-center table-striped table-bordered">
             <thead>
               <tr>
                 <th className="p-1">Usuario</th>
@@ -88,26 +90,21 @@ const ShipmentsTable = () => {
                   <td className="p-1">{envio.ShipmentType?.name}</td>
                   <td className="p-1">{envio.origin}</td>
                   <td className="p-1">{envio.destination}</td>
-                  <td className="p-1">
+                  <td >
                     ${envio.price.toLocaleString("es-AR")}
                   </td>
                 </tr>
               ))}
             </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="7" className="text-center">
-                  --
-                </td>
-              </tr>
-            </tfoot>
           </table>
-        )}
+        </div>
 
-        {!loading && shipments.length === 0 && !alertData.show && (
-          <p className="title-card">No hay envíos disponibles.</p>
-        )}
-      </Container>
+      )}
+
+      {!loading && shipments.length === 0 && !alertData.show && (
+        <p className="title-card">No hay envíos disponibles.</p>
+      )}
+
     </>
   );
 };

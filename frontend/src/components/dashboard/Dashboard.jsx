@@ -9,9 +9,9 @@ import UsersTable from "./usersTable/UsersTable";
 function Dashboard() {
   const [activeComponent, setActiveComponent] = useState("");
 
-  const buttons = [
-    { key: "shipments", label: "Envíos" },
-    { key: "users", label: "Usuarios" },
+   const buttons = [
+    { key: "shipments", label: "Lista de envíos" },
+    { key: "users", label: "Lista de usuarios" },
   ];
 
 
@@ -33,7 +33,7 @@ function Dashboard() {
           {buttons.map((btn) => (
             <Col xs="auto" key={btn.key}>
               <Button
-                className={`border-0 fs-4 mx-4 Button-acction ${activeComponent === btn.key ? "active" : ""
+                className={`border-0 fs-5 mx-4 Button-acction ${activeComponent === btn.key ? "active" : ""
                   }`}
                 onClick={() => setActiveComponent(btn.key)}
               >
