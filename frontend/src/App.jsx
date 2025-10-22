@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
-import ContactForm from "./Components/contact/ContactForm";
-import ErrorNotFound from "./Components/error/ErrorNotFound";
-import Footer from "./Components/footer/Footer";
-import Header from "./Components/header/Header";
-import HomePage from "./Components/home/HomePage";
-import Login from "./Components/login/Login.jsx";
-import UserRegister from "./Components/register/UserRegister";
-import Shipments from "./Components/shipment/Shipments.jsx";
-import Modify from "./Components/modify/Modify.jsx";
-import Dashboard from "./Components/dashboard/Dashboard.jsx";
+import ContactForm from "./components/contact/ContactForm";
+import ErrorNotFound from "./components/error/errorNotFound/ErrorNotFound";
+import ErrorNotAllowed from "./components/error/errorNotAllowed/errorNotAllowed";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+import HomePage from "./components/home/HomePage";
+import Login from "./components/login/Login";
+import UserRegister from "./components/register/UserRegister";
+import Shipments from "./components/shipment/Shipments";
+import Modify from "./components/modify/Modify";
+import Dashboard from "./components/dashboard/Dashboard";
 
-import Protected from "./Components/protected/Protected";
-import RoleProtected from "./Components/protected/RoleProtected";
+import Protected from "./components/protected/Protected";
+import RoleProtected from "./components/protected/RoleProtected";
 
-import "./Components/style/Styles.css";
+import "./components/style/Styles.css";
 
 const MainLayout = () => (
   <>
@@ -38,9 +39,7 @@ function App() {
             <Route path="/shipment" element={<Shipments />} />
 
             <Route
-              element={
-                <RoleProtected allowedRoles={["empleado", "superAdmin"]} />
-              }
+              element={<RoleProtected allowedRoles={["empleado", "superAdmin"]} />}
             >
               <Route path="/modify" element={<Modify />} />
             </Route>
@@ -50,15 +49,10 @@ function App() {
             >
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
-
-            <Route
-              element={
-                <RoleProtected allowedRoles={["empleado", "superAdmin"]} />
-              }
-            >
-            </Route>
           </Route>
         </Route>
+
+        <Route path="/notallowed" element={<ErrorNotAllowed />} />
         <Route path="*" element={<ErrorNotFound />} />
       </Routes>
     </BrowserRouter>
@@ -66,3 +60,4 @@ function App() {
 }
 
 export default App;
+

@@ -5,11 +5,11 @@ import { AuthContext } from "../authContext/AuthContext";
 const RoleProtected = ({ allowedRoles }) => {
   const { role } = useContext(AuthContext);
 
-  if (!allowedRoles.includes(role)) {
-    return <Navigate to="/login" replace />;
+  if (allowedRoles.includes(role)) {
+    return <Outlet />;
   }
 
-  return <Outlet />;
+  return <Navigate to="/notallowed" replace />;
 };
 
 export default RoleProtected;

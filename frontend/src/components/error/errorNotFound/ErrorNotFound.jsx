@@ -1,7 +1,7 @@
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import Background from "../background/Background";
+import Background from "../../background/Background";
 
 const ErrorNotFound = () => {
   const navigate = useNavigate();
