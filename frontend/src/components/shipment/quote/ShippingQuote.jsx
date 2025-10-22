@@ -90,16 +90,6 @@ const ShippingQuote = () => {
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/shipment_type")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Tipos cargados:", data);
-        setShipmentTypes(data);
-      })
-      .catch((err) => console.error("Error cargando tipos de envío:", err));
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");

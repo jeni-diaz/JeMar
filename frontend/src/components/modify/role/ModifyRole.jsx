@@ -106,7 +106,6 @@ const ModifyRole = () => {
             title="¡Rol modificado con éxito!"
             body={
               <div>
-                <p><strong>{modalData.message}</strong></p>
                 <p><strong>Email:</strong> {modalData.email}</p>
                 <p><strong>Nuevo Rol:</strong> {modalData.role}</p>
               </div>

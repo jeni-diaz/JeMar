@@ -83,7 +83,7 @@ const ShipmentsTable = () => {
             </thead>
             <tbody>
               {shipments.map((envio) => (
-                <tr className="p-3" key={envio.id}>
+                <tr className="p-1" key={envio.id}>
                   <td className="p-1">{envio.User?.email}</td>
                   <td className="p-1">{envio.id}</td>
                   <td className="p-1">{envio.status}</td>
@@ -102,7 +102,7 @@ const ShipmentsTable = () => {
       )}
 
       {!loading && shipments.length === 0 && !alertData.show && (
-        <p className="title-card">No hay envíos disponibles.</p>
+        <h2 className="text-center">No hay envíos disponibles.</h2>
       )}
 
     </>

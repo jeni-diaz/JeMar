@@ -65,7 +65,7 @@ const UsersTable = () => {
         <div className="table-responsive ocultar-scroll text-center" style={{ maxHeight: '400px' }}>
           <table className="table-container text-center caption-top">
             <thead>
-            <tr className="p-1">
+            <tr>
               <th className="p-1">ID Usuario</th>
               <th className="p-1">Nombre</th>
               <th className="p-1">Apellido</th>
@@ -82,7 +82,7 @@ const UsersTable = () => {
                 <td className="p-1">{user.lastName}</td>
                 <td className="p-1">{user.email}</td>
                 <td className="p-1">{user.role}</td>
-                <td className="p-1"><i class="cross-icon bi bi-x-square-fill"></i></td>
+                <td className="p-1"><i className="cross-icon bi bi-x-square-fill"></i></td>
               </tr>
             ))}
           </tbody>

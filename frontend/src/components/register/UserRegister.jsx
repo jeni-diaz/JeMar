@@ -231,7 +231,9 @@ const UserRegister = () => {
                   )}
                 </span>
                 {errors.password && (
-                  <p className="text-danger mt-1">{errors.password}</p>
+                  <p className="text-danger mt-1">
+                    8 caracteres - Solo números y letras
+                  </p>
                 )}
               </Form.Group>
 
