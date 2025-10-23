@@ -24,7 +24,8 @@ function ShippingTrack() {
     setErrors((prevErrors) => ({ ...prevErrors, trackingNumber: false }));
   };
 
-  const validateTrackingNumber = (num) => /^\d+$/.test(num);
+ const validateTrackingNumber = (num) => /^-?\d+$/.test(num);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();

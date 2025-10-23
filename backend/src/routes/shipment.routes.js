@@ -24,45 +24,56 @@ router.get("/", verifyToken, isEmpleado, async (req, res) => {
 
 router.get("/:id", verifyToken, async (req, res) => {
   try {
-    const { id } = req.params;
+    const idNumber = Number(req.params.id);
     const userId = req.user.id;
     const userRole = req.user.role;
-    let shipment;
 
-    if (userRole === "superAdmin" || userRole === "empleado") {
-      shipment = await Shipment.findByPk(id, {
-        include: [
-          { model: ShipmentType, attributes: ["name", "description"] },
-          { model: User, attributes: ["email"] },
-        ],
-      });
-    } else {
-      shipment = await Shipment.findOne({
-        where: { id, userId },
-        include: [
-          { model: ShipmentType, attributes: ["name", "description"] },
-          { model: User, attributes: ["email"] },
-        ],
-      });
+    if (isNaN(idNumber) || idNumber <= 0) {
+      return res
+        .status(400)
+        .json({ error: "El ID es incorrecto, no puede ser negativo o cero" });
     }
 
+    const shipment = await Shipment.findByPk(idNumber, {
+      include: [
+        { model: ShipmentType, attributes: ["name", "description"] },
+        { model: User, attributes: ["email"] },
+      ],
+    });
+
     if (!shipment) {
-      return res.status(404).json({ error: "No tenes permiso para ver este envío" });
+      return res.status(404).json({ error: "El envío no existe en la base de datos" });
+    }
+
+    if (userRole === "usuario" && shipment.userId !== userId) {
+      return res.status(403).json({ error: "No tenés permiso para ver este envío" });
+    }
+
+    if (shipment.status === "cancelado") {
+      if (userRole !== "superAdmin" && userRole !== "empleado") {
+        return res
+          .status(403)
+          .json({ error: "No podés consultar este envío porque ha sido cancelado" });
+      }
     }
 
     return res.json({
       id: shipment.id,
       status: shipment.status,
       type: shipment.ShipmentType?.name,
+      description: shipment.ShipmentType?.description,
       destination: shipment.destination,
       origin: shipment.origin,
       price: shipment.price,
+      userEmail: shipment.User?.email,
     });
   } catch (error) {
     console.error("Error consultando envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
+
 
 router.post("/", verifyToken, async (req, res) => {
   try {
@@ -112,15 +123,40 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!status) {
+    if (isNaN(id) || id <= 0) {
       return res
         .status(400)
-        .json({ error: "El campo 'status' es obligatorio" });
+        .json({ error: "El ID es incorrecto, no puede ser negativo o cero" });
     }
 
     const shipment = await Shipment.findByPk(id);
+
     if (!shipment) {
-      return res.status(404).json({ error: "Envío no encontrado" });
+      return res.status(404).json({ error: "El envío no existe en la base de datos" });
+    }
+
+    if (shipment.status === "cancelado") {
+      return res
+        .status(400)
+        .json({ error: "El envío no se puede modificar, ya fue cancelado" });
+    }
+
+  
+    const possibleStatuses = ["pendiente", "en camino", "entregado", "cancelado"].filter(
+      (s) => s !== shipment.status
+    );
+
+    if (!status) {
+      return res.json({
+        message: `El envío ${id} está actualmente en estado '${shipment.status}'`,
+        posiblesEstados: possibleStatuses,
+      });
+    }
+
+    if (!possibleStatuses.includes(status)) {
+      return res.status(400).json({
+        error: `Estado inválido. Los estados posibles son: ${possibleStatuses.join(", ")}`,
+      });
     }
 
     shipment.status = status;
@@ -136,30 +172,46 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
   }
 });
 
+
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (isNaN(id) || id <= 0) {
+      return res
+        .status(400)
+        .json({ error: "El ID es incorrecto, no puede ser negativo o cero" });
+    }
+
     const shipment = await Shipment.findByPk(id);
 
     if (!shipment) {
-      return res.status(404).json({ error: "Envío no encontrado" });
-    }
-    if (
-      shipment.userId !== req.user.id &&
-      req.user.role !== "superAdmin" &&
-      req.user.role !== "empleado"
-    ) {
-      return res
-        .status(403)
-        .json({ error: "No tienes permiso para eliminar este envío" });
+      return res.status(404).json({ error: "El envío no existe en la base de datos" });
     }
 
-    await shipment.destroy();
-    return res.json({ message: `Envío ${id} eliminado correctamente` });
+    if (
+      req.user.role === "usuario" &&
+      shipment.userId !== req.user.id
+    ) {
+      return res.status(403).json({ error: "No tenés permisos para cancelar este envío" });
+    }
+
+    if (shipment.status === "cancelado") {
+      return res.json({ message: `El envío ${id} ya se encuentra cancelado` });
+    }
+
+    shipment.status = "cancelado";
+    await shipment.save();
+
+    return res.json({
+      message: `El envío ${id} fue cancelado correctamente`,
+      shipment,
+    });
   } catch (error) {
-    console.error("Error eliminando envío:", error);
+    console.error("Error al cancelar envío:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
 
 export default router;
