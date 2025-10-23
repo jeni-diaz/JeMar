@@ -8,6 +8,7 @@ import shipmentRoutes from "./routes/shipment.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import shipmentTypeRoutes from "./routes/shipment_type.routes.js";
 import authenticationRoutes from "./routes/authentication.routes.js";
+import consultRoutes from "./routes/consult.routes.js"; 
 import { ShipmentType } from "./models/shipment_type.js";
 
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/shipment", shipmentRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/shipment_type", shipmentTypeRoutes);
 app.use("/api/auth", authenticationRoutes);
+app.use("/api/consult", consultRoutes);
 
 try {
   await sequelize.sync();
@@ -33,9 +35,9 @@ try {
   const existingTypes = await ShipmentType.count();
   if (existingTypes === 0) {
     await ShipmentType.bulkCreate([
-      { name: "estandar", description: "Envío estándar" },
-      { name: "express", description: "Envío rápido" },
-      { name: "fragil", description: "Frágil" },
+      { name: "Estandar", description: "Envío estándar" },
+      { name: "Express", description: "Envío rápido" },
+      { name: "Frágil", description: "Frágil" },
     ]);
     console.log("Tipos de envío iniciales creados");
   } else {
