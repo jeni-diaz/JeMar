@@ -56,6 +56,7 @@ const ShipmentsTable = () => {
 
   return (
     <>
+    
      <h1 className="title-card text-center">Lista de Envíos</h1>
 
       {loading && <p>Cargando envíos...</p>}
@@ -68,28 +69,28 @@ const ShipmentsTable = () => {
 
       {!loading && shipments.length > 0 && (
         
-        <div className="table-responsive ocultar-scroll text-center" style={{ maxHeight: '400px' }}>
-          <table className="table-container text-center table-striped table-bordered">
+        <Container className="back-table ocultar-scroll text-center p-3">
+          <table className="table-container">
             <thead>
               <tr>
-                <th className="p-1">Usuario</th>
-                <th className="p-1">Número de envío</th>
-                <th className="p-1">Estado</th>
-                <th className="p-1">Tipo</th>
-                <th className="p-1">Origen</th>
-                <th className="p-1">Destino</th>
-                <th className="p-1">Precio</th>
+                <th>Usuario</th>
+                <th>Número de envío</th>
+                <th>Estado</th>
+                <th>Tipo</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Precio</th>
               </tr>
             </thead>
             <tbody>
               {shipments.map((envio) => (
-                <tr className="p-1" key={envio.id}>
-                  <td className="p-1">{envio.User?.email}</td>
-                  <td className="p-1">{envio.id}</td>
-                  <td className="p-1">{envio.status}</td>
-                  <td className="p-1">{envio.ShipmentType?.name}</td>
-                  <td className="p-1">{envio.origin}</td>
-                  <td className="p-1">{envio.destination}</td>
+                <tr key={envio.id}>
+                  <td>{envio.User?.email}</td>
+                  <td>{envio.id}</td>
+                  <td>{envio.status}</td>
+                  <td>{envio.ShipmentType?.name}</td>
+                  <td>{envio.origin}</td>
+                  <td>{envio.destination}</td>
                   <td >
                     ${envio.price.toLocaleString("es-AR")}
                   </td>
@@ -97,7 +98,7 @@ const ShipmentsTable = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </Container>
 
       )}
 

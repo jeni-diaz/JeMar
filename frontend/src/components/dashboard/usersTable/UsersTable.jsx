@@ -62,32 +62,32 @@ const UsersTable = () => {
       )}
 
       {!loading && users.length > 0 && (
-        <div className="table-responsive ocultar-scroll text-center" style={{ maxHeight: '400px' }}>
-          <table className="table-container text-center caption-top">
+        <Container className="back-table ocultar-scroll text-center p-3">
+          <table className="table-container">
             <thead>
             <tr>
-              <th className="p-1">ID Usuario</th>
-              <th className="p-1">Nombre</th>
-              <th className="p-1">Apellido</th>
-              <th className="p-1">Email</th>
-              <th className="p-1">Rol</th>
-              <th className="p-1">Eliminar</th>
+              <th>ID Usuario</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td className="p-1">{user.id}</td>
-                <td className="p-1">{user.firstName}</td>
-                <td className="p-1">{user.lastName}</td>
-                <td className="p-1">{user.email}</td>
-                <td className="p-1">{user.role}</td>
-                <td className="p-1"><i className="cross-icon bi bi-x-square-fill"></i></td>
+                <td>{user.id}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>Habilitado</td>
               </tr>
             ))}
           </tbody>
         </table>
-        </div>
+        </Container>
       )}
 
       {!loading && users.length === 0 && !alertData.show && (

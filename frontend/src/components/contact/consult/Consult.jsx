@@ -152,7 +152,7 @@ const Consult = () => {
                 ref={messageRef}
                 className={`custom-input ${errors.message}`}
                 as="textarea"
-                rows={5}
+                rows={2}
                 placeholder="Escribe tu consulta aquí..."
                 value={message}
                 onChange={handleMessageChange}

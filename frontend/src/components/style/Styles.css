@@ -64,6 +64,10 @@ body {
   color: #ffffff;
 }
 
+.custom-link-outlog{
+ color: #C0392B
+}
+
 /*Inputs*/
 form .custom-input,
 .shipping-select .form-select {
@@ -186,22 +190,22 @@ label,
 
 /*SmallContainer*/
 .small-container {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.75);
   border-radius: 10px;
   height: 68vh;
   width: 25vw;
 }
 
-/*SmallContainerTable*/
-.small-container-table{
+.back-table{
   background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
-  height: 50vh;
+  height: 62vh;
+  border-radius: 20px;
 }
-
 
 /*TableContainer*/
 .table-container{
+  table-layout: fixed;
+  width: 100%;
   border-collapse: separate;
   border-radius: 10px;
   color: #B07F11;
@@ -210,7 +214,7 @@ label,
 
 .table-container tr {
   box-shadow: 0 4px 8px rgba(126, 126, 126, 0.75);
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .table-container th, 
@@ -234,6 +238,41 @@ label,
 .table-container tbody tr:hover {
   background-color: #B07F11;
   cursor: pointer; 
+}
+
+.table-container th:nth-child(1),
+.table-container td:nth-child(1) {
+  width: 20%;
+}
+
+.table-container th:nth-child(2),
+.table-container td:nth-child(2) {
+  width: 15%;
+}
+
+.table-container th:nth-child(3),
+.table-container td:nth-child(3) {
+  width: 10%;
+}
+
+.table-container th:nth-child(4),
+.table-container td:nth-child(4) {
+  width: 10%;
+}
+
+.table-container th:nth-child(5),
+.table-container td:nth-child(5) {
+  width: 25%;
+}
+
+.table-container th:nth-child(6),
+.table-container td:nth-child(6) {
+  width: 25%; 
+}
+
+.table-container th:nth-child(7),
+.table-container td:nth-child(7) {
+  width: 10%;
 }
 
 .cross-icon{

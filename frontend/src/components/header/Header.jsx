@@ -53,19 +53,19 @@ const Header = () => {
               {isLoggedIn ? (
                 <Link
                   onClick={handleLogout}
-                  className="text-decoration-none custom-link fs-3 me-4"
+                  className="text-decoration-none fs-3 me-4"
 
                 >
-                  <i className="bi bi-box-arrow-right"></i>{" "}
-                  <span className="custom-link-text fs-3">Cerrar sesión</span>
+                  <i className="custom-link-outlog bi bi-box-arrow-right"></i>{" "}
+                  <span className="custom-link-outlog fs-3">Cerrar sesión</span>
                 </Link>
               ) : (
                 <Link
                   to="/login"
                   className="text-decoration-none custom-link fs-3 me-2"
                 >
-                  <i className="bi bi-person-circle"></i>{" "}
-                  <span className="custom-link-text fs-3">Ingresar</span>
+                  <i className="custom-link bi bi-person-circle"></i>{" "}
+                  <span className="custom-link fs-3">Ingresar</span>
                 </Link>
               )}
             </div>
