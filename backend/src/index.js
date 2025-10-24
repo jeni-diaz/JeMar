@@ -12,9 +12,6 @@ import consultRoutes from "./routes/consult.routes.js";
 import { ShipmentType } from "./models/shipment_type.js";
 
 const app = express();
-
-app.use(express.json());
-
 app.use(
   cors({
     origin: "http://localhost:5174",
@@ -22,6 +19,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(express.json());
+
+
 
 app.use("/api/shipment", shipmentRoutes);
 app.use("/api/user", userRoutes);

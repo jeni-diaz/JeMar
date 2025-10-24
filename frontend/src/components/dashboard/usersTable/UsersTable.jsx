@@ -82,7 +82,8 @@ const UsersTable = () => {
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-                <td>Habilitado</td>
+                <td>{user.isActive ? "Habilitado" : "Deshabilitado"}</td>
+
               </tr>
             ))}
           </tbody>

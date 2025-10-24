@@ -76,7 +76,12 @@ const LowUser = () => {
       } else {
         setAlertData({ show: true, message: data.message, type: "success" });
         setEmail("");
-      }
+
+        setTimeout(() => {
+    window.location.reload(); 
+  }, 1000);
+}
+
 
       setTimeout(() => setShowModal(false), 150);
 
@@ -124,7 +129,7 @@ const LowUser = () => {
         onHide={() => setShowModal(false)}
         title="Confirmar baja"
         body={`¿Estás seguro que deseas eliminar al usuario con email ${email}?`}
-        onConfirm={Delete}
+        onContinue={Delete}
         confirmText="Confirmar"
         cancelText="Cancelar"
       />

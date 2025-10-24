@@ -107,25 +107,30 @@ router.put("/activate/:id", async (req, res) => {
 router.delete("/", verifyToken, async (req, res) => {
   try {
     const { email } = req.body; 
+    console.log("🟡 DELETE solicitado para:", email);
 
     if (req.user.role !== "superAdmin") {
+       console.log("⛔ Acceso denegado, rol:", req.user.role);
       return res
         .status(403)
         .json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
     }
 
     const user = await User.findOne({ where: { email } });
+     console.log("🔍 Usuario encontrado:", user ? user.email : "No existe");
 
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     if (!user.isActive) {
+        console.log("⚠️ Usuario ya estaba deshabilitado");
       return res.status(400).json({ error: "El usuario ya fue eliminado previamente" });
     }
 
     user.isActive = false;
     await user.save();
+     console.log("✅ Usuario actualizado correctamente en la BD");
 
     res.json({ message: `El usuario ${email} fue dado de baja correctamente.` });
   } catch (error) {

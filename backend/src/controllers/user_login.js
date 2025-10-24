@@ -17,7 +17,11 @@ export const userLogin = async (req, res) => {
     const existingUser = await User.findOne({ where: { email } });
     if (!existingUser) {
       return res.status(401).json({ message: "Usuario no existente" });
-    }
+    } 
+    if (!existingUser.isActive) {
+  return res.status(403).json({ message: "El usuario está inactivo. Contacte al administrador." });
+}
+
 
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
     if (!passwordMatch) {
