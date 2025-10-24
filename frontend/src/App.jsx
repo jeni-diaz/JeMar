@@ -10,6 +10,7 @@ import UserRegister from "./components/register/UserRegister";
 import Shipments from "./components/shipment/Shipments";
 import Modify from "./components/modify/Modify";
 import Dashboard from "./components/dashboard/Dashboard";
+import LowUser from "./components/modify/low/LowUser";
 
 import Protected from "./components/protected/Protected";
 import RoleProtected from "./components/protected/RoleProtected";
@@ -52,6 +53,7 @@ function App() {
 
         <Route path="/notallowed" element={<ErrorNotAllowed />} />
         <Route path="*" element={<ErrorNotFound />} />
+        <Route path="/prueba" element={ <LowUser /> }></Route>
       </Routes>
     </BrowserRouter>
   );

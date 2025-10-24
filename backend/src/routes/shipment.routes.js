@@ -3,11 +3,11 @@ import { Shipment } from "../models/shipment.js";
 import { User } from "../models/user.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
-import { isEmpleado } from "../middlewares/verifyRol.js";
+import { isEmpleado, isSuperAdmin } from "../middlewares/verifyRol.js";
 
 const router = Router();
 
-router.get("/", verifyToken, isEmpleado, async (req, res) => {
+router.get("/", verifyToken, isSuperAdmin, async (req, res) => {
   try {
     const shipments = await Shipment.findAll({
       include: [

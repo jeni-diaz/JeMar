@@ -89,8 +89,8 @@ const DeleteShipping = () => {
        
           <Form onSubmit={handleSubmit}>
             <CustomCard
-            title="ELIMINAR ENVÍO"
-            buttonText="Eliminar"
+            title="CANCELAR ENVÍO"
+            buttonText="Cancelar"
             buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Número de envío:</Form.Label>
@@ -115,10 +115,10 @@ const DeleteShipping = () => {
           <CustomModal
             show={showModal}
             onHide={() => setShowModal(false)}
-            title="Envío eliminado"
+            title="Envío cancelado"
             body={
               <div>
-                El envío fue eliminado correctamente.
+                El envío fue cancelado correctamente.
               </div>
             }
             buttons={[

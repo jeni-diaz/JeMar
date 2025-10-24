@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import { AuthContext } from "../../authContext/AuthContext";
 
@@ -59,7 +59,7 @@ const ModifyRole = () => {
 
   return (
     <>
-      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+      <div className="d-flex justify-content-center align-items-center flex-column">
         <CustomAlert
           show={alertData.show}
           message={alertData.message}

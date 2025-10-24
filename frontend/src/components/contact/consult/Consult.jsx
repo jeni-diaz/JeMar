@@ -7,140 +7,165 @@ import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 
 const Consult = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [errors, setErrors] = useState(initialErrors);
-    const [alertData, setAlertData] = useState({
-        show: false,
-        message: "",
-        type: "info",
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState(initialErrors);
+  const [alertData, setAlertData] = useState({
+    show: false,
+    message: "",
+    type: "info",
+  });
+
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const messageRef = useRef(null);
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateMessage = (msg) => msg.trim() !== "";
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+    setErrors((prev) => ({ ...prev, firstName: false }));
+  };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+    setErrors((prev) => ({ ...prev, lastName: false }));
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    setErrors((prev) => ({ ...prev, email: false }));
+  };
+
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+    setErrors((prev) => ({ ...prev, message: false }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!firstName.trim()) {
+      setErrors((prev) => ({ ...prev, firstName: true }));
+      firstNameRef.current.focus();
+      return;
+    }
+    if (!lastName.trim()) {
+      setErrors((prev) => ({ ...prev, lastName: true }));
+      lastNameRef.current.focus();
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrors((prev) => ({ ...prev, email: true }));
+      emailRef.current.focus();
+      return;
+    }
+
+    if (!validateMessage(message)) {
+      setErrors((prev) => ({ ...prev, message: true }));
+      messageRef.current.focus();
+      return;
+    }
+
+    setAlertData({
+      show: true,
+      message: "Consulta enviada",
+      type: "success",
     });
 
-    const nameRef = useRef(null);
-    const emailRef = useRef(null);
-    const messageRef = useRef(null);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setMessage("");
+    setErrors(initialErrors);
+  };
 
-    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const validateMessage = (msg) => msg.trim() !== "";
+  return (
+    <>
+      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+        <CustomAlert
+          show={alertData.show}
+          message={alertData.message}
+          type={alertData.type}
+          onClose={() => setAlertData({ ...alertData, show: false })}
+        />
+        <Form onSubmit={handleSubmit}>
+          <CustomCard
+            title="HACE TU CONSULTA"
+            buttonText="Enviar"
+            buttonType="submit"
+          >
+            <Form.Group className="inputs-group mb-3 w-bold">
+              <Form.Label>Nombre:</Form.Label>
+              <Form.Control
+                ref={firstNameRef}
+                className={`custom-input ${errors.firstName}`}
+                type="text"
+                placeholder="Ingrese su nombre"
+                value={firstName}
+                onChange={handleFirstNameChange}
+              />
+              {errors.firstName && (
+                <p className="text-danger mt-1">Debe ingresar un nombre</p>
+              )}
+            </Form.Group>
 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-        setErrors((prev) => ({ ...prev, name: false }));
-    };
+            <Form.Group className="inputs-group mb-3 w-bold">
+              <Form.Label>Apellido:</Form.Label>
+              <Form.Control
+                ref={lastNameRef}
+                className={`custom-input ${errors.lastName}`}
+                type="text"
+                placeholder="Ingrese su apellido"
+                value={lastName}
+                onChange={handleLastNameChange}
+              />
+              {errors.lastName && (
+                <p className="text-danger mt-1">Debe ingresar un apellido</p>
+              )}
+            </Form.Group>
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-        setErrors((prev) => ({ ...prev, email: false }));
-    };
+            <Form.Group className="inputs-group mb-3 w-bold">
+              <Form.Label>Correo Electrónico:</Form.Label>
+              <Form.Control
+                ref={emailRef}
+                className={`custom-input ${errors.email}`}
+                type="email"
+                placeholder="abc@ejemplo.com"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              {errors.email && (
+                <p className="text-danger mt-1">
+                  Debe ingresar un correo electrónico válido
+                </p>
+              )}
+            </Form.Group>
 
-    const handleMessageChange = (event) => {
-        setMessage(event.target.value);
-        setErrors((prev) => ({ ...prev, message: false }));
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        if (!name.trim()) {
-            setErrors((prev) => ({ ...prev, name: true }));
-            nameRef.current.focus();
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            setErrors((prev) => ({ ...prev, email: true }));
-            emailRef.current.focus();
-            return;
-        }
-
-        if (!validateMessage(message)) {
-            setErrors((prev) => ({ ...prev, message: true }));
-            messageRef.current.focus();
-            return;
-        }
-
-        setAlertData({
-            show: true,
-            message: "Consulta enviada",
-            type: "success",
-        });
-
-        setName("");
-        setEmail("");
-        setMessage("");
-        setErrors(initialErrors);
-    };
-
-    return (
-        <>
-            <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
-                <CustomAlert
-                    show={alertData.show}
-                    message={alertData.message}
-                    type={alertData.type}
-                    onClose={() => setAlertData({ ...alertData, show: false })}
-                />
-                <Form onSubmit={handleSubmit}>
-                    <CustomCard
-                        title="HACE TU CONSULTA"
-                        buttonText="Enviar"
-                        buttonType="submit">
-                        <Form.Group className="inputs-group mb-3 w-bold">
-                            <Form.Label>Nombre y Apellido:</Form.Label>
-                            <Form.Control
-                                ref={nameRef}
-                                className={`custom-input ${errors.name}`}
-                                type="text"
-                                placeholder="Ingrese su nombre completo"
-                                value={name}
-                                onChange={handleNameChange}
-                            />
-                            {errors.name && (
-                                <p className="text-danger mt-1">
-                                    Debe ingresar un nombre y apellido
-                                </p>
-                            )}
-                        </Form.Group>
-
-                        <Form.Group className="inputs-group mb-3 w-bold">
-                            <Form.Label>Correo Electrónico:</Form.Label>
-                            <Form.Control
-                                ref={emailRef}
-                                className={`custom-input ${errors.email}`}
-                                type="email"
-                                placeholder="abc@ejemplo.com"
-                                value={email}
-                                onChange={handleEmailChange}
-                            />
-                            {errors.email && (
-                                <p className="text-danger mt-1">
-                                    Debe ingresar un correo electrónico válido
-                                </p>
-                            )}
-                        </Form.Group>
-
-                        <Form.Group className="inputs-group mb-3 w-bold">
-                            <Form.Label>Consulta:</Form.Label>
-                            <Form.Control
-                                ref={messageRef}
-                                className={`custom-input ${errors.message}`}
-                                as="textarea"
-                                rows={5}
-                                placeholder="Escribe tu consulta aquí..."
-                                value={message}
-                                onChange={handleMessageChange}
-                            />
-                            {errors.message && (
-                                <p className="text-danger mt-1">Debe ingresar un mensaje</p>
-                            )}
-                        </Form.Group>
-                    </CustomCard>
-                </Form>
-            </div>
-        </>
-    );
+            <Form.Group className="inputs-group mb-3 w-bold">
+              <Form.Label>Consulta:</Form.Label>
+              <Form.Control
+                ref={messageRef}
+                className={`custom-input ${errors.message}`}
+                as="textarea"
+                rows={5}
+                placeholder="Escribe tu consulta aquí..."
+                value={message}
+                onChange={handleMessageChange}
+              />
+              {errors.message && (
+                <p className="text-danger mt-1">Debe ingresar un mensaje</p>
+              )}
+            </Form.Group>
+          </CustomCard>
+        </Form>
+      </div>
+    </>
+  );
 };
 
 export default Consult;
-

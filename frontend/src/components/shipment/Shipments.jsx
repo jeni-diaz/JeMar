@@ -12,7 +12,7 @@ const Shipments = () => {
 
   const buttons = [
     { key: "quote", label: "Crear envío" },
-    { key: "delete", label: "Eliminar envío" },
+    { key: "delete", label: "Cancelar envío" },
     { key: "track", label: "Consultar envío" },
   ];
 
