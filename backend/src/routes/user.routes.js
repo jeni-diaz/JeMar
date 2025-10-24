@@ -104,9 +104,9 @@ router.put("/activate/:id", async (req, res) => {
   }
 });
 
-router.delete("/:email", verifyToken, async (req, res) => {
+router.delete("/", verifyToken, async (req, res) => {
   try {
-    const { email } = req.params;
+    const { email } = req.body; 
 
     if (req.user.role !== "superAdmin") {
       return res
@@ -133,5 +133,6 @@ router.delete("/:email", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Error al eliminar usuario" });
   }
 });
+
 
 export default router;
