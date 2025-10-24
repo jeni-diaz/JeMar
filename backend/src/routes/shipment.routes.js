@@ -173,45 +173,34 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
 });
 
 
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:email", verifyToken, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { email } = req.params;
 
-    if (isNaN(id) || id <= 0) {
-      return res
-        .status(400)
-        .json({ error: "El ID es incorrecto, no puede ser negativo o cero" });
+    if (req.user.role !== "superAdmin") {
+      return res.status(403).json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
     }
 
-    const shipment = await Shipment.findByPk(id);
+    const user = await User.findOne({ where: { email } });
 
-    if (!shipment) {
-      return res.status(404).json({ error: "El envío no existe en la base de datos" });
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    if (
-      req.user.role === "usuario" &&
-      shipment.userId !== req.user.id
-    ) {
-      return res.status(403).json({ error: "No tenés permisos para cancelar este envío" });
+    if (!user.isActive) {
+      return res.status(400).json({ error: "El usuario ya fue eliminado previamente" });
     }
 
-    if (shipment.status === "cancelado") {
-      return res.json({ message: `El envío ${id} ya se encuentra cancelado` });
-    }
+    user.isActive = false;
+    await user.save();
 
-    shipment.status = "cancelado";
-    await shipment.save();
-
-    return res.json({
-      message: `El envío ${id} fue cancelado correctamente`,
-      shipment,
-    });
+    res.json({ message: "Usuario deshabilitado correctamente" });
   } catch (error) {
-    console.error("Error al cancelar envío:", error);
-    return res.status(500).json({ error: "Error interno del servidor" });
+    console.error("Error al deshabilitar usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
 
 
 export default router;

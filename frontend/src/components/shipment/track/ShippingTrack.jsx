@@ -26,7 +26,6 @@ function ShippingTrack() {
 
  const validateTrackingNumber = (num) => /^-?\d+$/.test(num);
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
