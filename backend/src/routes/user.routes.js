@@ -132,7 +132,7 @@ router.delete("/", verifyToken, async (req, res) => {
     await user.save();
      console.log("Usuario actualizado correctamente en la BD");
 
-    res.json({ message: `El usuario ${email} se inhactivo correctamente.` });
+    res.json({ message: `Usuario deshabilitado con éxito.` });
   } catch (error) {
     console.error("Error eliminando usuario:", error);
     res.status(500).json({ error: "Error al eliminar usuario" });
