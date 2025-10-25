@@ -105,7 +105,7 @@ const ModifyState = () => {
             buttonType="submit"
           >
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número envío:</Form.Label>
+              <Form.Label>Número envío: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 className="custom-input"
                 type="text"
@@ -116,13 +116,13 @@ const ModifyState = () => {
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Nuevo Estado:</Form.Label>
+              <Form.Label>Nuevo Estado: <span className="text-danger">*</span></Form.Label>
               <Form.Select
                 className="custom-input"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="">Seleccione un Estado</option>
+                <option value="" disabled hidden>Seleccione un Estado</option>
                 <option value="Pendiente">Pendiente</option>
                 <option value="En camino">En camino</option>
                 <option value="Entregado">Entregado</option>

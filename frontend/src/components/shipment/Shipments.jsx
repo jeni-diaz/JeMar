@@ -3,16 +3,16 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
-import ShippingQuote from "./quote/ShippingQuote";
-import DeleteShipping from "./delete/DeleteShipping";
-import ShippingTrack from "./track/ShippingTrack";
+import CreateShipment from "./create/CreateShipment";
+import CancelShipment from "./cancel/CancelShipment";
+import TrackShipment from "./track/TrackShipment";
 
 const Shipments = () => {
   const [activeComponent, setActiveComponent] = useState("");
 
   const buttons = [
-    { key: "quote", label: "Crear envío" },
-    { key: "delete", label: "Cancelar envío" },
+    { key: "create", label: "Crear envío" },
+    { key: "cancel", label: "Cancelar envío" },
     { key: "track", label: "Consultar envío" },
   ];
 
@@ -25,9 +25,9 @@ const Shipments = () => {
           <div className="screen d-flex justify-content-start w-100">
             <Row>
               <Col>
-                {activeComponent === "quote" && <ShippingQuote />}
-                {activeComponent === "delete" && <DeleteShipping />}
-                {activeComponent === "track" && <ShippingTrack />}
+                {activeComponent === "create" && <CreateShipment />}
+                {activeComponent === "cancel" && <CancelShipment />}
+                {activeComponent === "track" && <TrackShipment />}
               </Col>
             </Row>
           </div>

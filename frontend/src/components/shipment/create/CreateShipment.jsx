@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Form } from "react-bootstrap";
 
-import { initialErrors } from "./ShippingQuote.data";
+import { initialErrors } from "./CreateShipment.data";
 
 import CustomModal from "../../modal/CustomModal";
 import CustomCard from "../../card/CustomCard";

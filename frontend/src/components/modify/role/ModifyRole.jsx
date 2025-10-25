@@ -89,7 +89,7 @@ const ModifyRole = () => {
                 value={newRole}
                 onChange={(e) => setNewRole(e.target.value)}
               >
-                <option value="">Seleccione un Rol</option>
+                <option value="" disabled hidden>Seleccione un Rol</option>
                 <option value="Usuario">Usuario</option>
                 <option value="Empleado">Empleado</option>
                 <option value="SuperAdmin">Super Admin</option>

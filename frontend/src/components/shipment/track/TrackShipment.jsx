@@ -21,16 +21,17 @@ function ShippingTrack() {
 
   const handleTrackingNumberChange = (event) => {
     setTrackingNumber(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, trackingNumber: false }));
   };
-
- const validateTrackingNumber = (num) => /^-?\d+$/.test(num);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateTrackingNumber(trackingNumber)) {
-      setErrors((prevErrors) => ({ ...prevErrors, trackingNumber: true }));
+    if (!trackingNumber.trim()) {
+      setAlertData({
+        show: true,
+        message: "Debes ingresar un número de envío.",
+        type: "error",
+      });
       trackingNumberRef.current.focus();
       return;
     }
@@ -40,7 +41,7 @@ function ShippingTrack() {
     if (!token) {
       setAlertData({
         show: true,
-        message: "Debes iniciar sesión para consultar tu envío.",
+        message: "No tienes permisos para consultar envíos.",
         type: "error",
       });
       return;
@@ -66,85 +67,80 @@ function ShippingTrack() {
 
       setModalData(data);
       setShowModal(true);
+
       setTrackingNumber("");
     } catch (error) {
       console.error("Error consultando envío:", error);
       setAlertData({
         show: true,
-        message: error.message || "Error consultando el envío.",
+        message: error.message || "Ocurrió un error al consultar el envío.",
         type: "error",
       });
     }
   };
 
-  const handleDelete = () => {
-    console.log("Eliminar envío", modalData?.id);
-    setShowModal(false);
-  };
-
   return (
     <>
-    <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
-      <CustomAlert
-        show={alertData.show}
-        message={alertData.message}
-        type={alertData.type}
-        onClose={() => setAlertData({ ...alertData, show: false })}
-      />
+      <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+        <CustomAlert
+          show={alertData.show}
+          message={alertData.message}
+          type={alertData.type}
+          onClose={() => setAlertData({ ...alertData, show: false })}
+        />
         <Form onSubmit={handleSubmit}>
           <CustomCard
             title="CONSULTAR ESTADO"
             buttonText="Consultar"
-            buttonType="submit">
-          <Form.Group className="inputs-group mb-3 fw-bold">
-            <Form.Label>Número de envío:</Form.Label>
-            <Form.Control
-              ref={trackingNumberRef}
-              className={`custom-input ${
-                errors.trackingNumber ? "is-invalid" : ""
-              }`}
-              type="text"
-              placeholder="Ej: 1"
-              value={trackingNumber}
-              onChange={handleTrackingNumberChange}
-            />
-            {errors.trackingNumber && (
-              <p className="text-danger mt-1">
-                Debe ingresar un número
-              </p>
-            )}
-          </Form.Group>
-            </CustomCard>
+            buttonType="submit"
+          >
+            <Form.Group className="inputs-group mb-3 fw-bold">
+              <Form.Label>
+                Número de envío: <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control
+                ref={trackingNumberRef}
+                className={`custom-input ${
+                  errors.trackingNumber ? "is-invalid" : ""
+                }`}
+                type="text"
+                placeholder="Ej: 1"
+                value={trackingNumber}
+                onChange={handleTrackingNumberChange}
+              />
+              {errors.trackingNumber && (
+                <p className="text-danger mt-1">Debe ingresar un número</p>
+              )}
+            </Form.Group>
+          </CustomCard>
         </Form>
 
-
-      {modalData && (
-        <CustomModal
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          title="Seguimiento de envío"
-          body={
-            <div>
-              {[
-                { label: "Envío N°: ", value: modalData.id },
-                { label: "Estado: ", value: modalData.status },
-                { label: "Tipo: ", value: modalData.type },
-                { label: "Origen: ", value: modalData.origin },
-                { label: "Destino: ", value: modalData.destination },
-                {
-                  label: "Precio: ",
-                  value: `$${modalData.price.toLocaleString("es-AR")}`,
-                },
-              ].map((item, index) => (
-                <div key={index}>
-                  {item.label} {item.value}
-                </div>
-              ))}
-            </div>
-          }
-         
-        />
-      )}
+        {modalData && (
+          <CustomModal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            title="Seguimiento de envío"
+            body={
+              <div>
+                {[
+                  { label: "Envío N°: ", value: modalData.id },
+                  { label: "Estado: ", value: modalData.status },
+                  { label: "Tipo: ", value: modalData.type },
+                  { label: "Origen: ", value: modalData.origin },
+                  { label: "Destino: ", value: modalData.destination },
+                  {
+                    label: "Precio: ",
+                    value: `$${modalData.price.toLocaleString("es-AR")}`,
+                  },
+                ].map((item, index) => (
+                  <div key={index}>
+                    {item.label} {item.value}
+                  </div>
+                ))}
+              </div>
+            }
+          />
+        )}
       </div>
     </>
   );
