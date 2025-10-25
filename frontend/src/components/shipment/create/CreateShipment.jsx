@@ -69,23 +69,33 @@ const ShippingQuote = () => {
     }, 500);
   };
 
+  const shipmentPrices = {
+    Estándar: 25000,
+    Express: 40000,
+    Frágil: 60000,
+  };
+
   const handleShipmentType = (event) => {
     const value = event.target.value;
     setShipmentTypeId(value);
-    setErrors((prev) => ({ ...prev, shipmentType: "Debe seleccionar un tipo" }));
+    setErrors((prev) => ({ ...prev, shipmentType: false }));
   };
 
   const handleOriginChange = (event) => {
     const value = event.target.value;
     setOrigin(value);
-    setErrors((prev) => ({ ...prev, origin: "Debe ingresar el orgien" }));
+    if (value.trim()) {
+      setErrors((prev) => ({ ...prev, origin: false }));
+    }
     fetchLocalities(value, "origin");
   };
 
   const handleDestinationChange = (event) => {
     const value = event.target.value;
     setDestination(value);
-    setErrors((prev) => ({ ...prev, destination: "Debe ingresar el destino" }));
+    if (value.trim()) {
+      setErrors((prev) => ({ ...prev, destination: false }));
+    }
     fetchLocalities(value, "destination");
   };
 
@@ -141,7 +151,8 @@ const ShippingQuote = () => {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Error al generar la cotización");
+      if (!response.ok)
+        throw new Error(data.error || "Error al generar la cotización");
 
       setModalData(data.shipment);
       setShowModal(true);
@@ -169,13 +180,19 @@ const ShippingQuote = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
         <Form onSubmit={handleSubmit}>
-          <CustomCard title="CREAR ENVÍO" buttonText="Crear" buttonType="submit">
+          <CustomCard
+            title="CREAR ENVÍO"
+            buttonText="Crear"
+            buttonType="submit"
+          >
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>
                 Tipo de envío: <span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
-                className={`custom-input ${errors.shipmentType ? "is-invalid" : ""}`}
+                className={`custom-input ${
+                  errors.shipmentType ? "is-invalid" : ""
+                }`}
                 value={shipmentTypeId}
                 onChange={handleShipmentType}
               >
@@ -189,7 +206,20 @@ const ShippingQuote = () => {
                 ))}
               </Form.Select>
               {errors.shipmentType && (
-                <p className="text-danger mt-1">Debe seleccionar un tipo de envío</p>
+                <p className="text-danger mt-1">
+                  Debe seleccionar un tipo de envío
+                </p>
+              )}
+              {shipmentTypeId && (
+                <p className="text-warning mt-2 fw-semibold">
+                  {
+                    {
+                      Estandar: "El precio del envío estándar es de $25.000",
+                      Express: "El precio del envío express es de $40.000",
+                      Fragil: "El precio del envío frágil es de $60.000",
+                    }[shipmentTypes.find((t) => t.id == shipmentTypeId)?.name]
+                  }
+                </p>
               )}
             </Form.Group>
 
@@ -206,7 +236,9 @@ const ShippingQuote = () => {
                 onChange={handleOriginChange}
                 autoComplete="off"
               />
-              {errors.origin && <p className="text-danger mt-1">Debe ingresar el origen</p>}
+              {errors.origin && (
+                <p className="text-danger mt-1">Debe ingresar el origen</p>
+              )}
 
               {originSuggestions.length > 0 && (
                 <div className="w-100">
@@ -214,7 +246,9 @@ const ShippingQuote = () => {
                     {originSuggestions.map((suggestion) => (
                       <li
                         key={`${suggestion.nombre}-${suggestion.provincia}`}
-                        onClick={() => handleSuggestionSelect(suggestion, "origin")}
+                        onClick={() =>
+                          handleSuggestionSelect(suggestion, "origin")
+                        }
                       >
                         {suggestion.nombre}, {suggestion.provincia}, Argentina
                       </li>
@@ -230,7 +264,9 @@ const ShippingQuote = () => {
               </Form.Label>
               <Form.Control
                 ref={destinationRef}
-                className={`custom-input ${errors.destination ? "is-invalid" : ""}`}
+                className={`custom-input ${
+                  errors.destination ? "is-invalid" : ""
+                }`}
                 type="text"
                 placeholder="Ej: Buenos Aires"
                 value={destination}
@@ -245,7 +281,9 @@ const ShippingQuote = () => {
                     {destinationSuggestions.map((suggestion) => (
                       <li
                         key={suggestion.nombre}
-                        onClick={() => handleSuggestionSelect(suggestion, "destination")}
+                        onClick={() =>
+                          handleSuggestionSelect(suggestion, "destination")
+                        }
                       >
                         {suggestion.nombre}, {suggestion.provincia}, Argentina
                       </li>

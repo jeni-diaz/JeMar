@@ -38,7 +38,7 @@ try {
     await ShipmentType.bulkCreate([
       { name: "Estandar", description: "Envío estándar" },
       { name: "Express", description: "Envío rápido" },
-      { name: "Frágil", description: "Frágil" },
+      { name: "Fragil", description: "Frágil" },
     ]);
     console.log("Tipos de envío iniciales creados");
   } else {
