@@ -93,7 +93,7 @@ const DeleteShipping = () => {
             buttonText="Cancelar"
             buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número de envío:</Form.Label>
+              <Form.Label>Número de envío: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={shipmentRef}
                 className="custom-input"

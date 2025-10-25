@@ -1,23 +1,24 @@
 import { useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
+
+import { initialErrors } from "./Login.data";
+import { AuthContext } from "../authContext/AuthContext";
 
 import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
 import CustomAlert from "../alert/CustomAlert";
 import CustomCard from "../card/CustomCard";
 
-import { initialErrors } from "./Login.data";
-import { AuthContext } from "../authContext/AuthContext";
-
 const Login = () => {
   const navigate = useNavigate();
-  const { onLogin } = useContext(AuthContext);
 
+  const { onLogin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState(initialErrors);
+  
   const [alertData, setAlertData] = useState({
     show: false,
     message: "",
@@ -127,7 +128,7 @@ const Login = () => {
             buttonText="Iniciar"
             buttonType="submit">
                   <Form.Group className="inputs-group mb-3 fw-bold">
-                    <Form.Label>Correo Electrónico:</Form.Label>
+                    <Form.Label>Correo Electrónico: <span className="text-danger">*</span></Form.Label>
                     <Form.Control
                       ref={emailRef}
                       className={`custom-input ${errors.email}`}
@@ -145,7 +146,7 @@ const Login = () => {
                   </Form.Group>
 
                   <Form.Group className="inputs-group mb-3 fw-bold position-relative">
-                    <Form.Label>Contraseña:</Form.Label>
+                    <Form.Label>Contraseña: <span className="text-danger">*</span></Form.Label>
                     <Form.Control
                       ref={passwordRef}
                       className={`custom-input ${errors.password}`}

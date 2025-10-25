@@ -30,9 +30,9 @@ export const User = sequelize.define(
     },
 
     role: {
-      type: DataTypes.ENUM("superAdmin", "empleado", "usuario"),
+      type: DataTypes.ENUM("SuperAdmin", "Empleado", "Usuario"),
       allowNull: false,
-      defaultValue: "usuario",
+      defaultValue: "Usuario",
     },
     isActive: {
       type: DataTypes.BOOLEAN,

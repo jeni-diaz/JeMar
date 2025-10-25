@@ -23,50 +23,52 @@ const Consult = () => {
   const emailRef = useRef(null);
   const messageRef = useRef(null);
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validateMessage = (msg) => msg.trim() !== "";
-
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
     setErrors((prev) => ({ ...prev, firstName: false }));
   };
+
   const handleLastNameChange = (event) => {
     setLastName(event.target.value);
     setErrors((prev) => ({ ...prev, lastName: false }));
   };
-
+  
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setErrors((prev) => ({ ...prev, email: false }));
   };
+  
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
     setErrors((prev) => ({ ...prev, message: false }));
   };
 
+  const validateMessage = (msg) => msg.trim() !== "";
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (!firstName.trim()) {
-      setErrors((prev) => ({ ...prev, firstName: true }));
+      setErrors((prev) => ({ ...prev, firstName: "Debe ingresar un nombre" }));
       firstNameRef.current.focus();
       return;
     }
     if (!lastName.trim()) {
-      setErrors((prev) => ({ ...prev, lastName: true }));
+      setErrors((prev) => ({ ...prev, lastName: "Debe ingresar un apellido" }));
       lastNameRef.current.focus();
       return;
     }
 
     if (!validateEmail(email)) {
-      setErrors((prev) => ({ ...prev, email: true }));
+      setErrors((prev) => ({ ...prev, email: "Debe ingresar un correo electrónico válido" }));
       emailRef.current.focus();
       return;
     }
 
     if (!validateMessage(message)) {
-      setErrors((prev) => ({ ...prev, message: true }));
+      setErrors((prev) => ({ ...prev, message: "Debe ingresar una consulta" }));
       messageRef.current.focus();
       return;
     }
@@ -91,7 +93,7 @@ const Consult = () => {
           show={alertData.show}
           message={alertData.message}
           type={alertData.type}
-          onClose={() => setAlertData({ ...alertData, show: false })}
+          onClose={() => setAlertData({ show: false, message: "", type: "info" })}
         />
         <Form onSubmit={handleSubmit}>
           <CustomCard
@@ -100,57 +102,55 @@ const Consult = () => {
             buttonType="submit"
           >
             <Form.Group className="inputs-group mb-3 w-bold">
-              <Form.Label>Nombre:</Form.Label>
+              <Form.Label>Nombre: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={firstNameRef}
-                className={`custom-input ${errors.firstName}`}
+                className={`custom-input ${errors.firstName ? 'is-invalid' : ''}`}
                 type="text"
                 placeholder="Ingrese su nombre"
                 value={firstName}
                 onChange={handleFirstNameChange}
               />
               {errors.firstName && (
-                <p className="text-danger mt-1">Debe ingresar un nombre</p>
+                <p className="text-danger mt-1 text-center">{errors.firstName}</p>
               )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 w-bold">
-              <Form.Label>Apellido:</Form.Label>
+              <Form.Label>Apellido: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={lastNameRef}
-                className={`custom-input ${errors.lastName}`}
+                className={`custom-input ${errors.lastName ? 'is-invalid' : ''}`}
                 type="text"
                 placeholder="Ingrese su apellido"
                 value={lastName}
                 onChange={handleLastNameChange}
               />
               {errors.lastName && (
-                <p className="text-danger mt-1">Debe ingresar un apellido</p>
+                <p className="text-danger mt-1 text-center">{errors.lastName}</p>
               )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 w-bold">
-              <Form.Label>Correo Electrónico:</Form.Label>
+              <Form.Label>Correo Electrónico: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={emailRef}
-                className={`custom-input ${errors.email}`}
+                className={`custom-input ${errors.email ? 'is-invalid' : ''}`}
                 type="email"
                 placeholder="abc@ejemplo.com"
                 value={email}
                 onChange={handleEmailChange}
               />
               {errors.email && (
-                <p className="text-danger mt-1">
-                  Debe ingresar un correo electrónico válido
-                </p>
+                <p className="text-danger mt-1 text-center">{errors.email}</p>
               )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 w-bold">
-              <Form.Label>Consulta:</Form.Label>
+              <Form.Label>Consulta: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={messageRef}
-                className={`custom-input ${errors.message}`}
+                className={`custom-input ${errors.message ? 'is-invalid' : ''}`}
                 as="textarea"
                 rows={2}
                 placeholder="Escribe tu consulta aquí..."
@@ -158,7 +158,7 @@ const Consult = () => {
                 onChange={handleMessageChange}
               />
               {errors.message && (
-                <p className="text-danger mt-1">Debe ingresar un mensaje</p>
+                <p className="text-danger mt-1 text-center">{errors.message}</p>
               )}
             </Form.Group>
           </CustomCard>

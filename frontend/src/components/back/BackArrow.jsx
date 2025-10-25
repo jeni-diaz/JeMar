@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import '../style/Styles.css';
-
 const BackArrow = () => {
   const navigate = useNavigate();
 

@@ -158,7 +158,7 @@ const UserRegister = () => {
               buttonText="Continuar"
               buttonType="submit">
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Nombre:</Form.Label>
+                <Form.Label>Nombre: <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   ref={firstNameRef}
                   className={`custom-input ${errors.firstName ? "is-invalid" : ""
@@ -175,7 +175,7 @@ const UserRegister = () => {
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Apellido:</Form.Label>
+                <Form.Label>Apellido: <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   ref={lastNameRef}
                   className={`custom-input ${errors.lastName ? "is-invalid" : ""
@@ -192,7 +192,7 @@ const UserRegister = () => {
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Correo Electrónico:</Form.Label>
+                <Form.Label>Correo Electrónico: <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   ref={emailRef}
                   className={`custom-input ${errors.email ? "is-invalid" : ""}`}
@@ -210,7 +210,7 @@ const UserRegister = () => {
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold position-relative">
-                <Form.Label>Contraseña:</Form.Label>
+                <Form.Label>Contraseña: <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   ref={passwordRef}
                   className={`custom-input ${errors.password ? "is-invalid" : ""}`}

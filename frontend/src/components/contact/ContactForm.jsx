@@ -4,7 +4,6 @@ import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
 import Consult from "./consult/Consult";
 import Information from "./information/Information";
-import CustomAlert from "../alert/CustomAlert";
 
 const ContactForm = () => {
 

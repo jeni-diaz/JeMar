@@ -15,7 +15,7 @@ const ErrorNotAllowed = () => {
       <Container className="d-flex flex-column justify-content-end align-items-start min-vh-100">
         <div className="text-start mb-5">
           <h1 className="titulo fw-bold mb-1 text-start text-danger">
-           Acceso denegado
+           ¡ACCESO DENEGADO!
           </h1>
           <p className="fs-4 text-light mb-4">
             No tenés permisos para acceder a esta sección.
@@ -24,9 +24,7 @@ const ErrorNotAllowed = () => {
             <Button
               className="custom-button-nf mx-auto w-25 d-flex align-items-center justify-content-center gap-2"
               onClick={goBack}
-            >
-              <i className="bi bi-arrow-left-circle"></i>
-              Volver al inicio
+            >Inicio
             </Button>
           </div>
         </div>

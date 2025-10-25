@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { Form } from "react-bootstrap";
-
 import { initialErrors } from "./ShippingQuote.data";
 
 import CustomModal from "../../modal/CustomModal";
@@ -38,31 +37,41 @@ const ShippingQuote = () => {
       .catch((err) => console.error("Error cargando tipos de envío:", err));
   }, []);
 
+  let debounceTimeout;
   const fetchLocalities = (query, type) => {
-    if (!query.trim()) {
-      if (type === "origin") {
-        setOriginSuggestions([]);
-      } else {
-        setDestinationSuggestions([]);
-      }
-      return;
-    }
-
-    fetch(`https://apis.datos.gob.ar/georef/api/localidades?nombre=${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const localities = data.localidades || [];
-        const formattedLocalities = localities.map((loc) => ({
-          nombre: loc.nombre,
-          provincia: loc.provincia.nombre,
-        }));
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      if (!query.trim()) {
         if (type === "origin") {
-          setOriginSuggestions(formattedLocalities);
+          setOriginSuggestions([]);
         } else {
-          setDestinationSuggestions(formattedLocalities);
+          setDestinationSuggestions([]);
         }
-      })
-      .catch((err) => console.error("Error obteniendo localidades:", err));
+        return;
+      }
+
+      fetch(`https://apis.datos.gob.ar/georef/api/localidades?nombre=${query}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const localities = data.localidades || [];
+          const formattedLocalities = localities.map((loc) => ({
+            nombre: loc.nombre,
+            provincia: loc.provincia.nombre,
+          }));
+          if (type === "origin") {
+            setOriginSuggestions(formattedLocalities);
+          } else {
+            setDestinationSuggestions(formattedLocalities);
+          }
+        })
+        .catch((err) => console.error("Error obteniendo localidades:", err));
+    }, 500); // 500ms de retraso para evitar demasiadas solicitudes
+  };
+
+  const handleShipmentType = (event) => {
+    const value = event.target.value;
+    setShipmentTypeId(value);
+    setErrors((prev) => ({ ...prev, shipmentType: false }));
   };
 
   const handleOriginChange = (event) => {
@@ -93,6 +102,11 @@ const ShippingQuote = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+
+    if (!shipmentTypeId) {
+      setErrors((prev) => ({ ...prev, shipmentType: true }));
+      return;
+    }
 
     if (!origin.trim()) {
       setErrors((prev) => ({ ...prev, origin: true }));
@@ -138,7 +152,7 @@ const ShippingQuote = () => {
       console.error("Error creando envío:", error);
       setAlertData({
         show: true,
-        message: "No se puedo generar la cotización.",
+        message: "No se pudo generar la cotización.",
         type: "error",
       });
     }
@@ -154,40 +168,44 @@ const ShippingQuote = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
         <Form onSubmit={handleSubmit}>
-          <CustomCard
-            title="CREAR ENVÍO"
-            buttonText="Crear"
-            buttonType="submit">
+          <CustomCard title="CREAR ENVÍO" buttonText="Crear" buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Tipo de envío:</Form.Label>
+              <Form.Label>
+                Tipo de envío: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Select
-                className="custom-input"
+                className={`custom-input ${errors.shipmentType ? "is-invalid" : ""}`}
                 value={shipmentTypeId}
-                onChange={(e) => setShipmentTypeId(e.target.value)}
+                onChange={handleShipmentType}
               >
-                <option value="" disabled hidden>Seleccione un tipo</option>
+                <option value="" disabled hidden>
+                  Seleccione un tipo
+                </option>
                 {shipmentTypes.map((type) => (
                   <option key={type.id} value={type.id}>
                     {type.name}
                   </option>
                 ))}
               </Form.Select>
+              {errors.shipmentType && (
+                <p className="text-danger mt-1">Debe seleccionar un tipo de envío</p>
+              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold position-relative">
-              <Form.Label>Origen:</Form.Label>
+              <Form.Label>
+                Origen: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 ref={originRef}
-                className={`custom-input ${errors.origin ? 'is-invalid' : ''}`}
+                className={`custom-input ${errors.origin ? "is-invalid" : ""}`}
                 type="text"
                 placeholder="Ej: Rosario"
                 value={origin}
                 onChange={handleOriginChange}
                 autoComplete="off"
               />
-              {errors.origin && (
-                <p className="text-danger mt-1">Debe ingresar un origen</p>
-              )}
+              {errors.origin && <p className="text-danger mt-1">Debe ingresar el origen</p>}
 
               {originSuggestions.length > 0 && (
                 <div className="w-100">
@@ -195,7 +213,8 @@ const ShippingQuote = () => {
                     {originSuggestions.map((suggestion) => (
                       <li
                         key={`${suggestion.nombre}-${suggestion.provincia}`}
-                        onClick={() => handleSuggestionSelect(suggestion, "origin")}>
+                        onClick={() => handleSuggestionSelect(suggestion, "origin")}
+                      >
                         {suggestion.nombre}, {suggestion.provincia}, Argentina
                       </li>
                     ))}
@@ -205,23 +224,28 @@ const ShippingQuote = () => {
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Destino:</Form.Label>
+              <Form.Label>
+                Destino: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 ref={destinationRef}
-                className={`custom-input ${errors.destination ? 'is-invalid' : ''}`}
+                className={`custom-input ${errors.destination ? "is-invalid" : ""}`}
                 type="text"
                 placeholder="Ej: Buenos Aires"
                 value={destination}
                 onChange={handleDestinationChange}
               />
-              {errors.destination && <p className="text-danger mt-1">Debe ingresar un destino</p>}
+              {errors.destination && (
+                <p className="text-danger mt-1">Debe ingresar el destino</p>
+              )}
               {destinationSuggestions.length > 0 && (
                 <div className="w-100">
                   <ul className="overflow-auto ocultar-scroll">
                     {destinationSuggestions.map((suggestion) => (
                       <li
                         key={suggestion.nombre}
-                        onClick={() => handleSuggestionSelect(suggestion, "destination")}>
+                        onClick={() => handleSuggestionSelect(suggestion, "destination")}
+                      >
                         {suggestion.nombre}, {suggestion.provincia}, Argentina
                       </li>
                     ))}

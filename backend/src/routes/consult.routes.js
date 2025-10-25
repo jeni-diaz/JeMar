@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
         const { createdAt, id, firstName, lastName, email, consult } = req.body;
 
         const newConsult = await Consult.create({
-            createAt,
+            createdAt,
             firstName,
             lastName,
             email,
