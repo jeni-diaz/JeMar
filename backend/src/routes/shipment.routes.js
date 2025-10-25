@@ -163,7 +163,7 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
     await shipment.save();
 
     return res.json({
-      message: `Estado del envío #${id} actualizado correctamente a '${status}'`,
+      message: `El envío se actualizo correctamente a '${status}'`,
       shipment,
     });
   } catch (error) {

@@ -1,10 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { Form } from "react-bootstrap";
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 import CustomModal from "../../modal/CustomModal";
+import { AuthContext } from "../../authContext/AuthContext";
+import { initialErrors } from "./CancelShipment.data";
 
 const DeleteShipping = () => {
+  const { token } = useContext(AuthContext);
   const [shipmentId, setShipmentId] = useState("");
   const [errors, setErrors] = useState({ shipmentId: false });
   const [alertData, setAlertData] = useState({
@@ -14,34 +17,77 @@ const DeleteShipping = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState(null);
 
   const shipmentRef = useRef(null);
+
+const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
+
+const handleCancelNumber = (event) => {
+    const idShipment = event.target.value;
+    setShipmentId(idShipment);
+
+    if (!idShipment.trim()) {
+      setErrors({ shipmentId: "empty" });
+    } else if (!validateIdShipment(idShipment)) {
+      setErrors({ shipmentId: "invalid" });
+    } else {
+      setErrors({ shipmentId: false });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!shipmentId.trim()) {
-      setAlertData({
-        show: true,
-        message: "Debes ingresar un número de envío.",
-        type: "error",
-      });
-      shipmentRef.current.focus();
-      return;
-    }
 
-    const token = localStorage.getItem("token");
+    if (!shipmentId.trim()) {
+    setErrors({ shipmentId: "empty" });
+    shipmentRef.current.focus();
+    return;
+  }
+
+  if (!validateIdShipment(shipmentId)) {
+    setErrors({ shipmentId: "invalid" });
+    shipmentRef.current.focus();
+    return;
+  }
 
     if (!token) {
       setAlertData({
         show: true,
-        message: "No tienes permisos para cancelar envíos.",
+        message: "Debes ingresar para cancelar envíos.",
         type: "error",
       });
       return;
     }
+    try {
+      const response = await fetch(`http://localhost:3000/api/shipment/${shipmentId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        setAlertData({
+          show: true,
+          message: data.error,
+          type: "error"
+        });
+        return;
+      }
+      setShowModal(true);
+    } catch (error) {
+      setAlertData({
+        show: true,
+        message: "Error al verificar el envío.",
+        type: "error"
+      });
+    };
+  }
+
+const cancelShipment = async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
@@ -60,22 +106,33 @@ const DeleteShipping = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Error al cancelar el envío");
+        setAlertData({
+          show: true,
+          message: data.error,
+          type: "error",
+        });
+      } else {
+        setAlertData({
+          show: true,
+          message: data.message,
+          type: "success",
+        });
+        setShipmentId("");
       }
 
-      setModalData(data);
-      setShowModal(true);
+       setShowModal(false);
 
-      setShipmentId("");
     } catch (error) {
       console.error("Error al cancelar el envío:", error);
       setAlertData({
         show: true,
-        message: error.message || "Ocurrió un error al cancelar el envío.",
+        message: error.message,
         type: "error",
       });
+      setShowModal(false);
     }
-  };
+  }
+
 
   return (
     <>
@@ -87,45 +144,42 @@ const DeleteShipping = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
 
-        <Form onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit}>
           <CustomCard title="CANCELAR ENVÍO" buttonText="Cancelar" buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
               <Form.Label>Número de envío: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={shipmentRef}
-                className="custom-input"
+                className={`custom-input ${
+                  errors.shipmentId ? "is-invalid" : ""
+                }`}
                 type="text"
                 placeholder="Ej: 1"
                 value={shipmentId}
-                onChange={(e) => setShipmentId(e.target.value)}
+                onChange={handleCancelNumber}
               />
-              {errors.shipmentId && (
+              {errors.shipmentId === "empty" && (
                 <p className="text-danger mt-1">
-                  Debe ingresar un número válido de envío
+                  Debe ingresar el id de envío
+                </p>
+              )}
+              {errors.shipmentId === "invalid" && (
+                <p className="text-danger mt-1">
+                  Debe ingresar un id válido (mayor a 0)
                 </p>
               )}
             </Form.Group>
           </CustomCard>
         </Form>
-
-        {modalData && (
-          <CustomModal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            title="Envío cancelado"
-            body={
-              <div>
-                El envío {modalData.shipment.id} ha sido cancelado correctamente.
-              </div>
-            }
-            buttons={[
-              {
-                label: "Cerrar",
-                onClick: () => setShowModal(false),
-              },
-            ]}
-          />
-        )}
+        <CustomModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          title="Confirmar cancelación"
+          body={`¿Estás seguro que deseas cancelar el envío con ID ${shipmentId}?`}
+          onContinue={cancelShipment}
+          confirmText="Confirmar"
+          cancelText="Cancelar"
+        />
       </div>
     </>
   );

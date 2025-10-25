@@ -72,8 +72,6 @@ function ShippingTrack() {
       }
 
       setModalData(data);
-
-
       setShowModal(true);
 
       setTrackingNumber("");
