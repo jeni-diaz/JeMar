@@ -16,7 +16,7 @@ router.get("/", verifyToken, async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        const { createdAt, id, firstName, lastName, email, consult } = req.body;
+        const { firstName, lastName, email, consult } = req.body;
 
         const newConsult = await Consult.create({
             createdAt,

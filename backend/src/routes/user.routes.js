@@ -130,7 +130,7 @@ router.delete("/", verifyToken, async (req, res) => {
 
     user.isActive = false;
     await user.save();
-     console.log("Usuario actualizado correctamente");
+     console.log("Usuario actualizado correctamente en la BD");
 
     res.json({ message: "El usuario ${email} fue dado de baja." });
   } catch (error) {
