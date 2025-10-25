@@ -14,17 +14,19 @@ const ErrorNotFound = () => {
     <>
       <Background image="/images/ImageErrorNotFound.png">
         <Container className="d-flex flex-column justify-content-end align-items-start min-vh-100">
-          <div className="text-start mb-5">
-            <h1 className="titulo fw-bold mb-1 text-start">
-              ¡Ups! Página no encontrada
-            </h1>
-            <div className="d-flex justify-content-center w-100">
-              <Button className="custom-button-nf mx-auto w-25 d-flex justify-content-center"
-                onClick={goBack}
-              >INICIO</Button>
-            </div>
+        <div className="text-start mb-5">
+          <h1 className="titulo fw-bold mb-1 text-start text-danger">
+           ¡UPS! PAGINA NO ENCONTRADA
+          </h1>
+          <div className="d-flex justify-content-center w-100">
+            <Button
+              className="custom-button-nf mx-auto w-25 d-flex align-items-center justify-content-center gap-2"
+              onClick={goBack}
+            >Inicio
+            </Button>
           </div>
-        </Container>
+        </div>
+      </Container>
       </Background>
     </>
   );

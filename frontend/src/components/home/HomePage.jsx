@@ -20,9 +20,9 @@ const HomePage = () => {
   const { role, token, user } = useContext(AuthContext);
 
   const buttonsByRole = {
-    superAdmin: ["shipment", "modify", "dashboard"],
-    empleado: ["shipment", "modify"],
-    usuario: ["shipment"],
+    SuperAdmin: ["shipment", "modify", "dashboard"],
+    Empleado: ["shipment", "modify"],
+    Usuario: ["shipment"],
   };
 
   const allowedButtons = token ? buttonsByRole[role] || [] : [];

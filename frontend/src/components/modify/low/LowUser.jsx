@@ -1,26 +1,40 @@
 import { useState, useContext, useRef } from "react";
 import { Form } from "react-bootstrap";
+
+import { initialErrors } from "./LowUser.data";
+import { AuthContext } from "../../authContext/AuthContext";
+
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 import CustomModal from "../../modal/CustomModal";
-import { AuthContext } from "../../authContext/AuthContext";
 
 const LowUser = () => {
   const { token, role } = useContext(AuthContext);
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState({ email: "" });
-  const [alertData, setAlertData] = useState({ show: false, message: "", type: "info" });
+  const [errors, setErrors] = useState(initialErrors);
+
+  const [alertData, setAlertData] = useState({
+    show: false,
+    message: "",
+    type: "info"
+  });
+  
   const [showModal, setShowModal] = useState(false);
+
   const emailRef = useRef(null);
 
-  if (role !== "superAdmin") {
+  if (role !== "SuperAdmin") {
     return <h3 className="text-center mt-5">No tenés permiso para acceder a esta sección.</h3>;
   }
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setErrors({ email: "" });
-    setAlertData({ show: false, message: "", type: "info" });
+    setAlertData({
+      show: false,
+      message: "",
+      type: "info" });
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -30,13 +44,13 @@ const LowUser = () => {
     e.preventDefault();
 
     if (!email.trim()) {
-      setErrors({ email: "Debe ingresar un correo electrónico" });
+      setErrors({ ...initialErrors, email: "Debe ingresar un correo electrónico" });
       emailRef.current.focus();
       return;
     }
 
     if (!validateEmail(email)) {
-      setErrors({ email: "Debe ingresar un email válido" });
+      setErrors({ ...initialErrors, email: "Debe ingresar un correo válido" });
       emailRef.current.focus();
       return;
     }
@@ -50,13 +64,21 @@ const LowUser = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setAlertData({ show: true, message: data.error, type: "error" });
+        setAlertData({
+          show: true,
+          message: data.error,
+          type: "error"
+        });
         return;
       }
 
       setShowModal(true);
     } catch (error) {
-      setAlertData({ show: true, message: "Error al verificar el usuario.", type: "error" });
+      setAlertData({
+        show: true,
+        message: "Error al verificar el usuario.",
+        type: "error"
+      });
     }
   };
 
@@ -74,12 +96,21 @@ const LowUser = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setAlertData({ show: true, message: data.error, type: "error" });
+        setAlertData({
+          show: true,
+          message: data.error,
+          type: "error"
+        });
       } else {
-        setAlertData({ show: true, message: data.message, type: "success" });
+        setAlertData({
+          show: true,
+          message: data.message,
+          type: "success"
+        });
         setEmail("");
       }
-        setShowModal(false);
+
+      setShowModal(false);
 
     } catch (error) {
       setAlertData({
@@ -98,11 +129,15 @@ const LowUser = () => {
           show={alertData.show}
           message={alertData.message}
           type={alertData.type}
-          onClose={() => setAlertData({ show: false, message: "", type: "info" })}
+          onClose={() => setAlertData({
+            show: false,
+            message: "",
+            type: "info"
+          })}
         />
       )}
       <form noValidate onSubmit={handleSubmit}>
-        <CustomCard title="DESHABILITAR USUARIO" buttonText="Eliminar" buttonType="submit">
+        <CustomCard title="ELIMINAR USUARIO" buttonText="Eliminar" buttonType="submit">
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Email del usuario:</Form.Label>
             <Form.Control
@@ -111,7 +146,7 @@ const LowUser = () => {
               type="email"
               value={email}
               onChange={handleEmailChange}
-              placeholder="usuario@ejemplo.com"
+              placeholder="abc@ejemplo.com"
             />
             {errors.email && (
               <p className="text-danger mt-1 text-center">{errors.email}</p>
@@ -124,7 +159,7 @@ const LowUser = () => {
         show={showModal}
         onHide={() => setShowModal(false)}
         title="Confirmar baja"
-        body={`¿Estás seguro que deseas eliminar al usuario con email ${email}?`}
+        body={`¿Estás seguro que deseas dar de baja al usuario con email ${email}?`}
         onContinue={Delete}
         confirmText="Confirmar"
         cancelText="Cancelar"

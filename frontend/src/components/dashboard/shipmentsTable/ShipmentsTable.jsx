@@ -4,21 +4,12 @@ import { Container } from "react-bootstrap";
 const ShipmentsTable = () => {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [alertData, setAlertData] = useState({
-    show: false,
-    message: "",
-    type: "",
-  });
 
   const fetchShipments = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      setAlertData({
-        show: true,
-        message: "Debes iniciar sesión para ver los envíos.",
-        type: "error",
-      });
+      alert("Debes iniciar sesión para ver los envíos.");
       return;
     }
 
@@ -33,18 +24,14 @@ const ShipmentsTable = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Error al obtener envíos.");
+        alert(data.error || "Error al obtener los envíos.");
+        return;
       }
 
       setShipments(data);
-      setAlertData({ show: false, message: "", type: "" });
     } catch (error) {
       console.error("Error:", error);
-      setAlertData({
-        show: true,
-        message: error.message || "Error al consultar los envíos.",
-        type: "error",
-      });
+      alert("Error al consultar los envíos.");
     } finally {
       setLoading(false);
     }
@@ -56,19 +43,11 @@ const ShipmentsTable = () => {
 
   return (
     <>
-    
-     <h1 className="title-card text-center">Lista de Envíos</h1>
+      <h1 className="title-card text-center">Lista de Envíos</h1>
 
       {loading && <p>Cargando envíos...</p>}
 
-      {alertData.show && (
-        <div className={`alert alert-${alertData.type}`} role="alert">
-          {alertData.message}
-        </div>
-      )}
-
       {!loading && shipments.length > 0 && (
-        
         <Container className="back-table ocultar-scroll text-center p-3">
           <table className="table-container">
             <thead>
@@ -91,21 +70,17 @@ const ShipmentsTable = () => {
                   <td>{envio.ShipmentType?.name}</td>
                   <td>{envio.origin}</td>
                   <td>{envio.destination}</td>
-                  <td >
-                    ${envio.price.toLocaleString("es-AR")}
-                  </td>
+                  <td>${envio.price.toLocaleString("es-AR")}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </Container>
-
       )}
 
-      {!loading && shipments.length === 0 && !alertData.show && (
+      {!loading && shipments.length === 0 && (
         <h2 className="text-center">No hay envíos disponibles.</h2>
       )}
-
     </>
   );
 };

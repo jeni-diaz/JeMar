@@ -45,12 +45,12 @@ router.get("/:id", verifyToken, async (req, res) => {
       return res.status(404).json({ error: "El envío no existe en la base de datos" });
     }
 
-    if (userRole === "usuario" && shipment.userId !== userId) {
+    if (userRole === "Usuario" && shipment.userId !== userId) {
       return res.status(403).json({ error: "No tenés permiso para ver este envío" });
     }
 
-    if (shipment.status === "cancelado") {
-      if (userRole !== "superAdmin" && userRole !== "empleado") {
+    if (shipment.status === "Cancelado") {
+      if (userRole !== "SuperAdmin" && userRole !== "Empleado") {
         return res
           .status(403)
           .json({ error: "No podés consultar este envío porque ha sido cancelado" });
@@ -93,9 +93,9 @@ router.post("/", verifyToken, async (req, res) => {
     }
 
     const priceMap = {
-      estandar: 25000,
-      express: 40000,
-      fragil: 60000,
+      Estandar: 25000,
+      Express: 40000,
+      Fragil: 60000,
     };
 
     const price = priceMap[shipmentType.name] || 0;
@@ -135,14 +135,14 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
       return res.status(404).json({ error: "El envío no existe en la base de datos" });
     }
 
-    if (shipment.status === "cancelado") {
+    if (shipment.status === "Cancelado") {
       return res
         .status(400)
         .json({ error: "El envío no se puede modificar, ya fue cancelado" });
     }
 
   
-    const possibleStatuses = ["pendiente", "en camino", "entregado", "cancelado"].filter(
+    const possibleStatuses = ["Pendiente", "En camino", "Entregado", "Cancelado"].filter(
       (s) => s !== shipment.status
     );
 
@@ -177,7 +177,7 @@ router.delete("/:email", verifyToken, async (req, res) => {
   try {
     const { email } = req.params;
 
-    if (req.user.role !== "superAdmin") {
+    if (req.user.role !== "SuperAdmin") {
       return res.status(403).json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
     }
 

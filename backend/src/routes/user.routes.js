@@ -18,7 +18,7 @@ router.get("/", verifyToken, async (req, res) => {
 
 router.get("/verify/:email", verifyToken, async (req, res) => {
   try {
-    if (req.user.role !== "superAdmin") {
+    if (req.user.role !== "SuperAdmin") {
       return res
         .status(403)
         .json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
@@ -64,7 +64,7 @@ router.put("/changeRole", verifyToken, async (req, res) => {
   try {
     const { email, newRole } = req.body;
 
-    if (req.user.role !== "superAdmin") {
+    if (req.user.role !== "SuperAdmin") {
       return res.status(403).json({ error: "Acceso denegado" });
     }
 
@@ -109,7 +109,7 @@ router.delete("/", verifyToken, async (req, res) => {
     const { email } = req.body; 
     console.log("DELETE solicitado para:", email);
 
-    if (req.user.role !== "superAdmin") {
+    if (req.user.role !== "SuperAdmin") {
        console.log("Acceso denegado, rol:", req.user.role);
       return res
         .status(403)

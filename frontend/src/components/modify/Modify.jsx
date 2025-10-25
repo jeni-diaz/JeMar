@@ -16,8 +16,8 @@ const Modify = () => {
   const [activeComponent, setActiveComponent] = useState("");
 
   const buttonsByRole = {
-    superAdmin: ["status", "roles", "low"],
-    empleado: ["status"],
+    SuperAdmin: ["status", "roles", "low"],
+    Empleado: ["status"],
   };
 
     const allowedButtons = token ? buttonsByRole[role] || [] : [];
@@ -25,7 +25,7 @@ const Modify = () => {
   const buttons = [
     { key: "status", label: "Modificar Estado" },
     { key: "roles", label: "Modificar Rol" },
-    { key: "low", label: "Eliminar Usuario" },
+    { key: "low", label: "Elimiar Usuario" },
   ];
 
 const visibleButtons = buttons.filter((btn) =>

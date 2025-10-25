@@ -17,7 +17,7 @@ const ModifyRole = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
-  if (role !== "superAdmin") {
+  if (role !== "SuperAdmin") {
     return <h3 className="text-center mt-5">Solo los super administradores pueden acceder al panel.</h3>;
   }
 
@@ -89,10 +89,10 @@ const ModifyRole = () => {
                 value={newRole}
                 onChange={(e) => setNewRole(e.target.value)}
               >
-                <option value="">Seleccione un Rol</option>
-                <option value="usuario">Usuario</option>
-                <option value="empleado">Empleado</option>
-                <option value="superAdmin">Super Admin</option>
+                <option value="" disabled hidden>Seleccione un Rol</option>
+                <option value="Usuario">Usuario</option>
+                <option value="Empleado">Empleado</option>
+                <option value="SuperAdmin">Super Admin</option>
               </Form.Select>
             </Form.Group>
 

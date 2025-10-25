@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Form } from "react-bootstrap";
-
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 import CustomModal from "../../modal/CustomModal";
@@ -16,7 +15,6 @@ const DeleteShipping = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-
 
   const shipmentRef = useRef(null);
 
@@ -38,7 +36,7 @@ const DeleteShipping = () => {
     if (!token) {
       setAlertData({
         show: true,
-        message: "No tienes permisos para eliminar envíos.",
+        message: "No tienes permisos para cancelar envíos.",
         type: "error",
       });
       return;
@@ -48,18 +46,21 @@ const DeleteShipping = () => {
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
-          method: "DELETE",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({
+            status: "Cancelado",
+          }),
         }
       );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Error al eliminar el envío");
+        throw new Error(data.error || "Error al cancelar el envío");
       }
 
       setModalData(data);
@@ -67,10 +68,10 @@ const DeleteShipping = () => {
 
       setShipmentId("");
     } catch (error) {
-      console.error("Error eliminando envío:", error);
+      console.error("Error al cancelar el envío:", error);
       setAlertData({
         show: true,
-        message: error.message || "Ocurrió un error al eliminar el envío.",
+        message: error.message || "Ocurrió un error al cancelar el envío.",
         type: "error",
       });
     }
@@ -86,14 +87,10 @@ const DeleteShipping = () => {
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
 
-       
-          <Form onSubmit={handleSubmit}>
-            <CustomCard
-            title="CANCELAR ENVÍO"
-            buttonText="Cancelar"
-            buttonType="submit">
+        <Form onSubmit={handleSubmit}>
+          <CustomCard title="CANCELAR ENVÍO" buttonText="Cancelar" buttonType="submit">
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número de envío:</Form.Label>
+              <Form.Label>Número de envío: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 ref={shipmentRef}
                 className="custom-input"
@@ -104,12 +101,12 @@ const DeleteShipping = () => {
               />
               {errors.shipmentId && (
                 <p className="text-danger mt-1">
-                  Debe ingresar un número
+                  Debe ingresar un número válido de envío
                 </p>
               )}
             </Form.Group>
-             </CustomCard>
-          </Form>
+          </CustomCard>
+        </Form>
 
         {modalData && (
           <CustomModal
@@ -118,7 +115,7 @@ const DeleteShipping = () => {
             title="Envío cancelado"
             body={
               <div>
-                El envío fue cancelado correctamente.
+                El envío {modalData.shipment.id} ha sido cancelado correctamente.
               </div>
             }
             buttons={[

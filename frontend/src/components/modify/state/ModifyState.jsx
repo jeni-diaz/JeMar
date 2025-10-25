@@ -19,7 +19,7 @@ const ModifyState = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
-  if (role !== "empleado" && role !== "superAdmin") {
+  if (role !== "Empleado" && role !== "SuperAdmin") {
     return (
       <h3 className="text-center mt-5">
         No tenés permiso para acceder a esta sección.
@@ -65,11 +65,9 @@ const ModifyState = () => {
       if (!getResponse.ok)
         throw new Error(updatedData.error || "Error al obtener datos actualizados");
 
-      // Mostrar en el modal
       setModalData(updatedData);
       setShowModal(true);
 
-      // Limpiar campos
       setShipmentId("");
       setStatus("");
     } catch (error) {
@@ -107,7 +105,7 @@ const ModifyState = () => {
             buttonType="submit"
           >
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número envío:</Form.Label>
+              <Form.Label>Número envío: <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 className="custom-input"
                 type="text"
@@ -118,17 +116,17 @@ const ModifyState = () => {
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Nuevo Estado:</Form.Label>
+              <Form.Label>Nuevo Estado: <span className="text-danger">*</span></Form.Label>
               <Form.Select
                 className="custom-input"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="">Seleccione un Estado</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="en camino">En camino</option>
-                <option value="entregado">Entregado</option>
-                <option value="cancelado">Cancelado</option>
+                <option value="" disabled hidden>Seleccione un Estado</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="En camino">En camino</option>
+                <option value="Entregado">Entregado</option>
+                <option value="Cancelado">Cancelado</option>
               </Form.Select>
             </Form.Group>
           </CustomCard>

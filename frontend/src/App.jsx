@@ -38,13 +38,13 @@ function App() {
             <Route path="/shipment" element={<Shipments />} />
 
             <Route
-              element={<RoleProtected allowedRoles={["empleado", "superAdmin"]} />}
+              element={<RoleProtected allowedRoles={["Empleado", "SuperAdmin"]} />}
             >
               <Route path="/modify" element={<Modify />} />
             </Route>
 
             <Route
-              element={<RoleProtected allowedRoles={["superAdmin"]} />}
+              element={<RoleProtected allowedRoles={["SuperAdmin"]} />}
             >
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>

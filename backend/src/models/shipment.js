@@ -26,8 +26,8 @@ export const Shipment = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("pendiente", "en camino", "entregado", "cancelado"),
-      defaultValue: "pendiente",
+      type: DataTypes.ENUM("Pendiente", "En camino", "Entregado", "Cancelado"),
+      defaultValue: "Pendiente",
     },
     price: {
       type: DataTypes.FLOAT,
