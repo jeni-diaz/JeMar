@@ -43,6 +43,8 @@ const Consult = () => {
     setErrors((prev) => ({ ...prev, consult: false }));
   };
 
+  const validateName = (name) =>
+    /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(name.trim());
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validateConsult = (msg) => msg.trim() !== "";
 
@@ -50,18 +52,36 @@ const Consult = () => {
     event.preventDefault();
 
     if (!firstName.trim()) {
-      setErrors((prev) => ({ ...prev, firstName: "Debe ingresar un nombre" }));
+      setErrors((prev) => ({ ...prev, firstName: "empty" }));
+      firstNameRef.current.focus();
+      return;
+    }
+
+    if (!validateName(firstName)) {
+      setErrors((prev) => ({ ...prev, firstName: "invalid" }));
       firstNameRef.current.focus();
       return;
     }
     if (!lastName.trim()) {
-      setErrors((prev) => ({ ...prev, lastName: "Debe ingresar un apellido" }));
+      setErrors((prev) => ({ ...prev, lastName: "empty" }));
       lastNameRef.current.focus();
       return;
     }
 
+    if (!validateName(lastName)) {
+      setErrors((prev) => ({ ...prev, lastName: "invalid" }));
+      lastNameRef.current.focus();
+      return;
+    }
+
+    if (!email.trim()) {
+      setErrors((prev) => ({ ...prev, email: "empty" }));
+      emailRef.current.focus();
+      return;
+    }
+
     if (!validateEmail(email)) {
-      setErrors((prev) => ({ ...prev, email: "Debe ingresar un correo electrónico válido" }));
+      setErrors((prev) => ({ ...prev, email: "invalid" }));
       emailRef.current.focus();
       return;
     }
@@ -103,7 +123,6 @@ const Consult = () => {
       setEmail("");
       setConsult("");
       setErrors(initialErrors);
-
     } catch (error) {
       console.error("Error cargando consulta:", error);
       setAlertData({
@@ -122,62 +141,87 @@ const Consult = () => {
         type={alertData.type}
         onClose={() => setAlertData({ show: false, message: "", type: "info" })}
       />
-      <Form onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit}>
         <CustomCard
           title="HACE TU CONSULTA"
           buttonText="Enviar"
           buttonType="submit"
         >
           <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Nombre: <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Nombre: <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               ref={firstNameRef}
-              className={`custom-input ${errors.firstName ? 'is-invalid' : ''}`}
+              className={`custom-input ${errors.firstName ? "is-invalid" : ""}`}
               type="text"
               placeholder="Ingrese su nombre"
               value={firstName}
               onChange={handleFirstNameChange}
             />
-            {errors.firstName && (
-              <p className="text-danger mt-1 text-center">{errors.firstName}</p>
-            )}
+            {errors.firstName === "empty" && (
+                  <p className="text-danger mt-1">Debe ingresar un nombre</p>
+                )}
+                {errors.firstName === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un nombre válido (Solo letras, al menos 3)
+                  </p>
+                )}
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Apellido: <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Apellido: <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               ref={lastNameRef}
-              className={`custom-input ${errors.lastName ? 'is-invalid' : ''}`}
+              className={`custom-input ${errors.lastName ? "is-invalid" : ""}`}
               type="text"
               placeholder="Ingrese su apellido"
               value={lastName}
               onChange={handleLastNameChange}
             />
-            {errors.lastName && (
-              <p className="text-danger mt-1 text-center">{errors.lastName}</p>
-            )}
+            {errors.lastName === "empty" && (
+                  <p className="text-danger mt-1">Debe ingresar un apellido</p>
+                )}
+                {errors.lastName === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un apellido válido (Solo letras, al menos 3)
+                  </p>
+                )}
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Correo Electrónico: <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Correo Electrónico: <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               ref={emailRef}
-              className={`custom-input ${errors.email ? 'is-invalid' : ''}`}
+              className={`custom-input ${errors.email ? "is-invalid" : ""}`}
               type="email"
               placeholder="abc@ejemplo.com"
               value={email}
               onChange={handleEmailChange}
             />
-            {errors.email && (
-              <p className="text-danger mt-1 text-center">{errors.email}</p>
-            )}
+            {errors.email === "empty" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un correo electrónico
+                  </p>
+                )}
+                {errors.email === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un email válido, ejemplo: juan@jemar.com
+                  </p>
+                )}
           </Form.Group>
 
           <Form.Group className="inputs-group mb-3 w-bold">
-            <Form.Label>Consulta: <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Consulta: <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               ref={consultRef}
-              className={`custom-input ${errors.consult ? 'is-invalid' : ''}`}
+              className={`custom-input ${errors.consult ? "is-invalid" : ""}`}
               as="textarea"
               rows={2}
               placeholder="Escribe tu consulta aquí..."
