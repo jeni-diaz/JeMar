@@ -9,7 +9,7 @@ import BackArrow from "../back/BackArrow";
 import CustomCard from "../card/CustomCard";
 import CustomAlert from "../alert/CustomAlert";
 
-import '../style/Styles.css';
+import "../style/Styles.css";
 
 const UserRegister = () => {
   const [firstName, setFirstName] = useState("");
@@ -52,49 +52,61 @@ const UserRegister = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => {
-    if (!password.trim()) {
-      return "Debe ingresar una contraseña";
-    }
-
-    const regex = /^[A-Za-z\d]{8,}$/;
-    if (!regex.test(password)) {
-      return "Debe tener al menos 8 caracteres - Solo letras y números";
-    }
-
-    return "";
-  };
-
+  const validateName = (name) =>
+    /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(name.trim());
+  const validatePassword = (password) =>
+    /^[A-Za-z\d]{8,}$/.test(password.trim());
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!firstName.trim()) {
-      setErrors((prev) => ({ ...prev, firstName: true }));
+      setErrors((prev) => ({ ...prev, firstName: "empty" }));
+      firstNameRef.current.focus();
+      return;
+    }
+
+    if (!validateName(firstName)) {
+      setErrors((prev) => ({ ...prev, firstName: "invalid" }));
       firstNameRef.current.focus();
       return;
     }
 
     if (!lastName.trim()) {
-      setErrors((prev) => ({ ...prev, lastName: true }));
+      setErrors((prev) => ({ ...prev, lastName: "empty" }));
       lastNameRef.current.focus();
       return;
     }
 
-    if (!validateEmail(email)) {
-      setErrors((prev) => ({ ...prev, email: true }));
+    if (!validateName(lastName)) {
+      setErrors((prev) => ({ ...prev, lastName: "invalid" }));
+      lastNameRef.current.focus();
+      return;
+    }
+
+    if (!email.trim()) {
+      setErrors((prev) => ({ ...prev, email: "empty" }));
       emailRef.current.focus();
       return;
     }
 
-    const errorMsg = validatePassword(password);
+    if (!validateEmail(email)) {
+      setErrors((prev) => ({ ...prev, email: "invalid" }));
+      emailRef.current.focus();
+      return;
+    }
 
-    if (errorMsg) {
-      setErrors((prev) => ({ ...prev, password: errorMsg }));
+    if (!password.trim()) {
+      setErrors((prev) => ({ ...prev, password: "empty" }));
       passwordRef.current.focus();
       return;
     }
-    console.log("Contraseña válida!");
+
+    if (!validatePassword(password)) {
+      setErrors((prev) => ({ ...prev, password: "invalid" }));
+      passwordRef.current.focus();
+      return;
+    }
 
     const user = { firstName, lastName, email, password };
 
@@ -130,7 +142,6 @@ const UserRegister = () => {
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-
     } catch (error) {
       console.error("Error registrando usuario:", error);
       setAlertData({
@@ -152,47 +163,66 @@ const UserRegister = () => {
             type={alertData.type}
             onClose={() => setAlertData({ ...alertData, show: false })}
           />
-          <Form onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <CustomCard
               title="REGISTRATE"
               buttonText="Continuar"
-              buttonType="submit">
+              buttonType="submit"
+            >
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Nombre: <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Nombre: <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   ref={firstNameRef}
-                  className={`custom-input ${errors.firstName ? "is-invalid" : ""
-                    }`}
+                  className={`custom-input ${
+                    errors.firstName ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder="Ingrese su Nombre"
                   value={firstName}
                   onChange={handleFirstNameChange}
                   autoComplete="given-name"
                 />
-                {errors.firstName && (
+                {errors.firstName === "empty" && (
                   <p className="text-danger mt-1">Debe ingresar un nombre</p>
+                )}
+                {errors.firstName === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un nombre válido (Solo letras, al menos 3)
+                  </p>
                 )}
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Apellido: <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Apellido: <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   ref={lastNameRef}
-                  className={`custom-input ${errors.lastName ? "is-invalid" : ""
-                    }`}
+                  className={`custom-input ${
+                    errors.lastName ? "is-invalid" : ""
+                  }`}
                   type="text"
                   placeholder="Ingrese su Apellido"
                   value={lastName}
                   onChange={handleLastNameChange}
                   autoComplete="family-name"
                 />
-                {errors.lastName && (
+                {errors.lastName === "empty" && (
                   <p className="text-danger mt-1">Debe ingresar un apellido</p>
+                )}
+                {errors.lastName === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un apellido válido (Solo letras, al menos 3)
+                  </p>
                 )}
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold">
-                <Form.Label>Correo Electrónico: <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Correo Electrónico: <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   ref={emailRef}
                   className={`custom-input ${errors.email ? "is-invalid" : ""}`}
@@ -202,18 +232,27 @@ const UserRegister = () => {
                   onChange={handleEmailChange}
                   autoComplete="email"
                 />
-                {errors.email && (
+                {errors.email === "empty" && (
                   <p className="text-danger mt-1">
                     Debe ingresar un correo electrónico
+                  </p>
+                )}
+                {errors.email === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un email válido, ejemplo: juan@jemar.com
                   </p>
                 )}
               </Form.Group>
 
               <Form.Group className="inputs-group mb-3 fw-bold position-relative">
-                <Form.Label>Contraseña: <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Contraseña: <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   ref={passwordRef}
-                  className={`custom-input ${errors.password ? "is-invalid" : ""}`}
+                  className={`custom-input ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
                   type={showPassword ? "text" : "password"}
                   placeholder="********"
                   value={password}
@@ -230,13 +269,17 @@ const UserRegister = () => {
                     <i className="bi bi-eye-fill" />
                   )}
                 </span>
-                {errors.password && (
+                {errors.password === "empty" && (
                   <p className="text-danger mt-1">
-                    8 caracteres - Solo números y letras
+                    Debe ingresar una contraseña
+                  </p>
+                )}
+                {errors.password === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar al menos 8 caracteres, 1 número y 1 letra
                   </p>
                 )}
               </Form.Group>
-
             </CustomCard>
           </Form>
         </div>
