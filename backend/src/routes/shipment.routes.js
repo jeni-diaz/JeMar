@@ -42,7 +42,7 @@ router.get("/:id", verifyToken, async (req, res) => {
     });
 
     if (!shipment) {
-      return res.status(404).json({ error: "El envío no existe en la base de datos" });
+      return res.status(404).json({ error: "El envío no existe" });
     }
 
     if (userRole === "Usuario" && shipment.userId !== userId) {

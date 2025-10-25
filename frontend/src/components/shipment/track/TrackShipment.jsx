@@ -19,22 +19,28 @@ function ShippingTrack() {
 
   const trackingNumberRef = useRef(null);
 
+  const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
+
   const handleTrackingNumberChange = (event) => {
-    setTrackingNumber(event.target.value);
+    const idShipment = event.target.value;
+    setTrackingNumber(idShipment);
+
+    if (!idShipment.trim()) {
+      setErrors({ trackingNumber: "empty" });
+    } else if (!validateIdShipment(idShipment)) {
+      setErrors({ trackingNumber: "invalid" });
+    } else {
+      setErrors({ trackingNumber: false });
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!trackingNumber.trim()) {
-      setAlertData({
-        show: true,
-        message: "Debes ingresar un número de envío.",
-        type: "error",
-      });
-      trackingNumberRef.current.focus();
-      return;
-    }
+    if (errors.trackingNumber) {
+    trackingNumberRef.current.focus();
+    return;
+  }
 
     const token = localStorage.getItem("token");
 
@@ -66,6 +72,8 @@ function ShippingTrack() {
       }
 
       setModalData(data);
+
+
       setShowModal(true);
 
       setTrackingNumber("");
@@ -88,7 +96,7 @@ function ShippingTrack() {
           type={alertData.type}
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
-        <Form onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit}>
           <CustomCard
             title="CONSULTAR ESTADO"
             buttonText="Consultar"
@@ -108,8 +116,15 @@ function ShippingTrack() {
                 value={trackingNumber}
                 onChange={handleTrackingNumberChange}
               />
-              {errors.trackingNumber && (
-                <p className="text-danger mt-1">Debe ingresar un número</p>
+              {errors.trackingNumber === "empty" && (
+                <p className="text-danger mt-1">
+                  Debe ingresar el id de envío
+                </p>
+              )}
+              {errors.trackingNumber === "invalid" && (
+                <p className="text-danger mt-1">
+                  Debe ingresar un id válido (mayor a 0)
+                </p>
               )}
             </Form.Group>
           </CustomCard>
