@@ -24,6 +24,7 @@ const LowUser = () => {
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  console.log(validateEmail);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

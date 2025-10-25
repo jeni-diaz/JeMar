@@ -45,7 +45,7 @@ const Consult = () => {
     setErrors((prev) => ({ ...prev, message: false }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!firstName.trim()) {
@@ -70,18 +70,45 @@ const Consult = () => {
       messageRef.current.focus();
       return;
     }
+const consult = { firstName, lastName, email, consult };
 
-    setAlertData({
-      show: true,
-      message: "Consulta enviada",
-      type: "success",
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/consult", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"}, 
+        body: JSON.stringify(consult),
+      });
 
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setMessage("");
-    setErrors(initialErrors);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setAlertData({
+          show: true,
+          message: data.message || "Error cargando la consulta",
+          type: "error",
+        });
+        return;
+      }
+      setAlertData({
+        show: true,
+        message: "Consulta registrada con exito",
+        type: "success",
+      });
+
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setMessage("");
+      setErrors(initialErrors);
+
+    } catch (error) {
+      console.error("Error cargando consulta:", error);
+      setAlertData({
+        show: true,
+        message: "Ocurrio un error cargando su consulta",
+        type: "error",
+      });
+    }
   };
 
   return (
