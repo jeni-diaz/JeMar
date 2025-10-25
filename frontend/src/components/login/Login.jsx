@@ -50,14 +50,26 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateEmail(email)) {
-      setErrors((prevErrors) => ({ ...prevErrors, email: true }));
+    if (!email.trim()) {
+      setErrors((prev) => ({ ...prev, email: "empty" }));
       emailRef.current.focus();
       return;
     }
 
+    if (!validateEmail(email)) {
+      setErrors((prev) => ({ ...prev, email: "invalid" }));
+      emailRef.current.focus();
+      return;
+    }
+
+    if (!password.trim()) {
+      setErrors((prev) => ({ ...prev, password: "empty" }));
+      passwordRef.current.focus();
+      return;
+    }
+
     if (!validatePassword(password)) {
-      setErrors((prevErrors) => ({ ...prevErrors, password: true }));
+      setErrors((prev) => ({ ...prev, password: "invalid" }));
       passwordRef.current.focus();
       return;
     }
@@ -122,7 +134,7 @@ const Login = () => {
           />
           <Row>
             <Col>
-            <Form onSubmit={handleSubmit}>
+            <Form noValidate onSubmit={handleSubmit}>
               <CustomCard
             title="INICIAR SESIÓN"
             buttonText="Iniciar"
@@ -138,11 +150,16 @@ const Login = () => {
                       onChange={handleEmailChange}
                       autoComplete="email"
                     />
-                    {errors.email && (
-                      <p className="text-danger mt-1">
-                        Debe ingresar un correo electrónico válido
-                      </p>
-                    )}
+                    {errors.email === "empty" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un correo electrónico
+                  </p>
+                )}
+                {errors.email === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar un email válido, ejemplo: juan@jemar.com
+                  </p>
+                )}
                   </Form.Group>
 
                   <Form.Group className="inputs-group mb-3 fw-bold position-relative">
@@ -166,11 +183,16 @@ const Login = () => {
                         <i className="bi bi-eye-fill" />
                       )}
                     </span>
-                    {errors.password && (
-                      <p className="text-danger mt-1">
-                        La contraseña debe tener al menos 8 caracteres
-                      </p>
-                    )}
+                    {errors.password === "empty" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar una contraseña
+                  </p>
+                )}
+                {errors.password === "invalid" && (
+                  <p className="text-danger mt-1">
+                    Debe ingresar al menos 8 caracteres, 1 número y 1 letra
+                  </p>
+                )}
                   </Form.Group>
 
                   <div className="inputs-group mt-3 text-center">
