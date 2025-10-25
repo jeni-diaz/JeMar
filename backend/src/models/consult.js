@@ -4,11 +4,11 @@ import { sequelize } from "../db.js";
 export const Consult = sequelize.define(
     "Consult",
     {
-         createdAt: {
+        createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
         },
-        
+
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

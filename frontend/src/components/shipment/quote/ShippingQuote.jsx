@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Form } from "react-bootstrap";
+
 import { initialErrors } from "./ShippingQuote.data";
 
 import CustomModal from "../../modal/CustomModal";
@@ -65,26 +66,26 @@ const ShippingQuote = () => {
           }
         })
         .catch((err) => console.error("Error obteniendo localidades:", err));
-    }, 500); // 500ms de retraso para evitar demasiadas solicitudes
+    }, 500);
   };
 
   const handleShipmentType = (event) => {
     const value = event.target.value;
     setShipmentTypeId(value);
-    setErrors((prev) => ({ ...prev, shipmentType: false }));
+    setErrors((prev) => ({ ...prev, shipmentType: "Debe seleccionar un tipo" }));
   };
 
   const handleOriginChange = (event) => {
     const value = event.target.value;
     setOrigin(value);
-    setErrors((prev) => ({ ...prev, origin: false }));
+    setErrors((prev) => ({ ...prev, origin: "Debe ingresar el orgien" }));
     fetchLocalities(value, "origin");
   };
 
   const handleDestinationChange = (event) => {
     const value = event.target.value;
     setDestination(value);
-    setErrors((prev) => ({ ...prev, destination: false }));
+    setErrors((prev) => ({ ...prev, destination: "Debe ingresar el destino" }));
     fetchLocalities(value, "destination");
   };
 

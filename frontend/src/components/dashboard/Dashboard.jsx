@@ -5,6 +5,7 @@ import Background from "../background/Background";
 import BackArrow from "../back/BackArrow";
 import ShipmentsTable from "./shipmentsTable/ShipmentsTable";
 import UsersTable from "./usersTable/UsersTable";
+import ConsultsTable from "./consultTable/ConsultsTable";
 
 function Dashboard() {
   const [activeComponent, setActiveComponent] = useState("");
@@ -12,6 +13,7 @@ function Dashboard() {
    const buttons = [
     { key: "shipments", label: "Lista de envíos" },
     { key: "users", label: "Lista de usuarios" },
+    { key: "consults", label: "Lista de consultas" },
   ];
 
 
@@ -25,6 +27,7 @@ function Dashboard() {
             <Col>
               {activeComponent === "shipments" && <ShipmentsTable />}
               {activeComponent === "users" && <UsersTable />}
+              {activeComponent === "consults" && <ConsultsTable />}
             </Col>
           </Row>
         </div>
