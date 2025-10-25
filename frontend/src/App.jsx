@@ -47,7 +47,6 @@ function App() {
               element={<RoleProtected allowedRoles={["superAdmin"]} />}
             >
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/low" element={ <LowUser /> }></Route>
             </Route>
           </Route>
         </Route>

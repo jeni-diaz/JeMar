@@ -40,6 +40,7 @@ const LowUser = () => {
       emailRef.current.focus();
       return;
     }
+  
 
     try {
       const response = await fetch(`http://localhost:3000/api/user/verify/${email}`, {
@@ -77,14 +78,8 @@ const LowUser = () => {
       } else {
         setAlertData({ show: true, message: data.message, type: "success" });
         setEmail("");
-
-        setTimeout(() => {
-    window.location.reload(); 
-  }, 1000);
-}
-
-
-      setTimeout(() => setShowModal(false), 150);
+      }
+        setShowModal(false);
 
     } catch (error) {
       setAlertData({
