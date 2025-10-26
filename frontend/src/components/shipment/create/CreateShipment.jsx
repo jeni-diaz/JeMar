@@ -220,7 +220,7 @@ const ShippingQuote = () => {
                 </p>
               )}
               {shipmentTypeId && (
-              <div className="titulo fw-bold fs-5 mt-2">
+              <div className="titulo fw-bold mt-2">
                 {
                   {
                     Estandar: "El precio del envío estándar es de $25.000",

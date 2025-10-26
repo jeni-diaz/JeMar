@@ -130,6 +130,9 @@ router.put("/:id", verifyToken, async (req, res) => {
     }
 
     const shipment = await Shipment.findByPk(id);
+    if (!shipment) {
+      return res.status(404).json({ error: "El envío no existe" });
+    }
 
     if (shipment.status === "Entregado") {
       return res
@@ -137,10 +140,6 @@ router.put("/:id", verifyToken, async (req, res) => {
         .json({
           error: "El envío no se puede cancelar porque ya fue entregado",
         });
-    }
-
-    if (!shipment) {
-      return res.status(404).json({ error: "Envío no encontrado" });
     }
 
     if (shipment.status === "Cancelado") {
@@ -179,18 +178,16 @@ router.put("/:id", verifyToken, async (req, res) => {
 
     if (!status) {
       return res.json({
-        message: `El envío ${id} está actualmente en estado '${shipment.status}'`,
+        message: `El envío ${id} está actualmente en estado '${shipment.status}`,
         posiblesEstados: possibleStatuses,
       });
     }
 
     if (!possibleStatuses.includes(status)) {
       return res.status(400).json({
-        error: `Estado inválido. Los estados posibles son: ${possibleStatuses.join(
-          ", "
-        )}`,
+        error: `El estado ya se encuentra en "${shipment.status}"`,
       });
-    }
+  }
 
     shipment.status = status;
     await shipment.save();

@@ -86,7 +86,7 @@ router.put("/changeRole", verifyToken, async (req, res) => {
 
     if (currentRole === targetRole) {
       return res.status(400).json({
-        error: `El usuario no se puede modificar porque ya tiene el rol ${user.role}`,
+        error: `El usuario ya tiene el rol ${user.role}`,
       });
     }
 
@@ -153,7 +153,7 @@ router.delete("/", verifyToken, async (req, res) => {
     await user.save();
     console.log("Usuario actualizado correctamente");
 
-    res.json({ message: `Usuario deshabilitado con éxito.` });
+    res.json({ message: `Usuario eliminado con éxito.` });
   } catch (error) {
     console.error("Error eliminando usuario:", error);
     res.status(500).json({ error: "Error al eliminar usuario" });

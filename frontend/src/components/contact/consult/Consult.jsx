@@ -43,8 +43,7 @@ const Consult = () => {
     setErrors((prev) => ({ ...prev, consult: false }));
   };
 
-  const validateName = (name) =>
-    /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(name.trim());
+  const validateName = (name) => /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(name.trim());
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validateConsult = (msg) => msg.trim() !== "";
 
@@ -210,7 +209,7 @@ const Consult = () => {
                 )}
                 {errors.email === "invalid" && (
                   <p className="text-danger mt-1">
-                    Debe ingresar un email válido, ejemplo: juan@jemar.com
+                    Debe ingresar un correo válido
                   </p>
                 )}
           </Form.Group>
@@ -223,7 +222,7 @@ const Consult = () => {
               ref={consultRef}
               className={`custom-input ${errors.consult ? "is-invalid" : ""}`}
               as="textarea"
-              rows={1}
+              rows={2}
               placeholder="Escribe tu consulta aquí..."
               value={consult}
               onChange={handleConsultChange}

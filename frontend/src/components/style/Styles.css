@@ -199,7 +199,7 @@ label,
 .small-container {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 10px;
-  height: 68vh;
+  height: 60vh;
   width: 25vw;
 }
 
@@ -282,7 +282,7 @@ label,
 /*MapContainer*/
 .map-container {
   width: 345px;
-  height: 285px;
+  height: 305px;
 }
 
 /*CustomAlert */

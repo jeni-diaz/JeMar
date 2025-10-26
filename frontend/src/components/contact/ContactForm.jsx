@@ -14,7 +14,7 @@ const ContactForm = () => {
         <Container className="d-flex align-items-center min-vh-100 flex-column pt-3">
           <div className="screen d-flex justify-content-center w-100">
           <Row>
-            <Col>
+            <Col className="me-5">
               <Consult />
             </Col>
             <Col>

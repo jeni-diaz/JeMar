@@ -174,7 +174,7 @@ const LowUser = () => {
         show={showModal}
         onHide={() => setShowModal(false)}
         title="Confirmar baja"
-        body={`¿Estás seguro que deseas dar de baja al usuario con email ${email}?`}
+        body={`¿Estás seguro que deseas eliminar al usuario con email ${email}?`}
         onContinue={Delete}
         confirmText="Confirmar"
         cancelText="Cancelar"

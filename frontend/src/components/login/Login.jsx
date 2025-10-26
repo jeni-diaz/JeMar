@@ -110,7 +110,7 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/shipment");
-      }, 2500);
+      }, 1500);
     } catch (error) {
       console.error("Login error:", error);
       setAlertData({

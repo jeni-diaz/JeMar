@@ -15,7 +15,7 @@ const ErrorNotLogged = () => {
       <Container className="d-flex flex-column justify-content-end align-items-start min-vh-100">
         <div className="text-start mb-5">
           <h1 className="titulo fw-bold mb-1 text-start text-danger">
-           ¡OPS NO INGRESASTE!
+           ¡UPS¡ NO INGRESASTE
           </h1>
           <p className="fs-4 text-light mb-4">
             Debes iniciar sesión para acceder a esta sección.
