@@ -53,7 +53,7 @@ router.get("/:id", verifyToken, async (req, res) => {
       if (userRole !== "SuperAdmin" && userRole !== "Empleado") {
         return res
           .status(403)
-          .json({ error: "No podés consultar este envío porque ha sido cancelado" });
+          .json({ error: "No podés consultar/eliminar este envío porque ha sido cancelado" });
       }
     }
 
