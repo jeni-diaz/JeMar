@@ -19,9 +19,9 @@ router.get("/", verifyToken, async (req, res) => {
 router.get("/verify/:email", verifyToken, async (req, res) => {
   try {
     if (req.user.role !== "SuperAdmin") {
-      return res
-        .status(403)
-        .json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
+      return res.status(403).json({
+        error: "Acceso denegado: solo SuperAdmin puede realizar esta acción",
+      });
     }
 
     const { email } = req.params;
@@ -32,7 +32,9 @@ router.get("/verify/:email", verifyToken, async (req, res) => {
     }
 
     if (!user.isActive) {
-      return res.status(400).json({ error: "El usuario ya fue eliminado previamente" });
+      return res
+        .status(400)
+        .json({ error: "El usuario ya fue eliminado previamente" });
     }
 
     res.json({ message: "Usuario encontrado y activo." });
@@ -65,11 +67,28 @@ router.put("/changeRole", verifyToken, async (req, res) => {
     const { email, newRole } = req.body;
 
     if (req.user.role !== "SuperAdmin") {
-      return res.status(403).json({ error: "Acceso denegado" });
+      return res.status(403).json({
+        error: "Acceso denegado, solo super admin puede realizar esta acción",
+      });
     }
 
     const user = await User.findOne({ where: { email } });
     if (!user) return res.status(404).json({ error: "El usuario no existe" });
+
+    if (!user.isActive) {
+      return res.status(400).json({
+        error: "No se puede modificar el rol de un usuario inactivo",
+      });
+    }
+
+    const currentRole = user.role.toLowerCase();
+    const targetRole = newRole.toLowerCase();
+
+    if (currentRole === targetRole) {
+      return res.status(400).json({
+        error: `El usuario no se puede modificar porque ya tiene el rol ${user.role}`,
+      });
+    }
 
     user.role = newRole;
     await user.save();
@@ -106,31 +125,33 @@ router.put("/activate/:id", async (req, res) => {
 
 router.delete("/", verifyToken, async (req, res) => {
   try {
-    const { email } = req.body; 
+    const { email } = req.body;
     console.log("DELETE solicitado para:", email);
 
     if (req.user.role !== "SuperAdmin") {
-       console.log("Acceso denegado, rol:", req.user.role);
-      return res
-        .status(403)
-        .json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
+      console.log("Acceso denegado, rol:", req.user.role);
+      return res.status(403).json({
+        error: "Acceso denegado: solo SuperAdmin puede realizar esta acción",
+      });
     }
 
     const user = await User.findOne({ where: { email } });
-     console.log("Usuario encontrado:", user ? user.email : "No existe");
+    console.log("Usuario encontrado:", user ? user.email : "No existe");
 
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     if (!user.isActive) {
-        console.log("Usuario ya estaba deshabilitado");
-      return res.status(400).json({ error: "El usuario ya fue eliminado previamente" });
+      console.log("Usuario ya estaba deshabilitado");
+      return res
+        .status(400)
+        .json({ error: "El usuario ya fue eliminado previamente" });
     }
 
     user.isActive = false;
     await user.save();
-     console.log("Usuario actualizado correctamente");
+    console.log("Usuario actualizado correctamente");
 
     res.json({ message: `Usuario deshabilitado con éxito.` });
   } catch (error) {
@@ -138,6 +159,5 @@ router.delete("/", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Error al eliminar usuario" });
   }
 });
-
 
 export default router;

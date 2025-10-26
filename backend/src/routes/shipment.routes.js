@@ -46,14 +46,14 @@ router.get("/:id", verifyToken, async (req, res) => {
     }
 
     if (userRole === "Usuario" && shipment.userId !== userId) {
-      return res.status(403).json({ error: "No tenés permiso para ver este envío" });
+      return res
+        .status(403)
+        .json({ error: "No tenés permiso para ver este envío" });
     }
 
     if (shipment.status === "Cancelado") {
       if (userRole !== "SuperAdmin" && userRole !== "Empleado") {
-        return res
-          .status(403)
-          .json({ error: "El envío ya ha sido cancelado" });
+        return res.status(403).json({ error: "El envío ya ha sido cancelado" });
       }
     }
 
@@ -72,8 +72,6 @@ router.get("/:id", verifyToken, async (req, res) => {
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
-
 
 router.post("/", verifyToken, async (req, res) => {
   try {
@@ -133,10 +131,16 @@ router.put("/:id", verifyToken, async (req, res) => {
 
     const shipment = await Shipment.findByPk(id);
 
-    if (!shipment) {
+    if (shipment.status === "Entregado") {
       return res
-        .status(404)
-        .json({ error: "Envío no encontrado" });
+        .status(400)
+        .json({
+          error: "El envío no se puede cancelar porque ya fue entregado",
+        });
+    }
+
+    if (!shipment) {
+      return res.status(404).json({ error: "Envío no encontrado" });
     }
 
     if (shipment.status === "Cancelado") {
@@ -148,7 +152,8 @@ router.put("/:id", verifyToken, async (req, res) => {
     if (status === "Cancelado") {
       if (userRole !== "SuperAdmin" && shipment.userId !== userId) {
         return res.status(403).json({
-          error: "Solo el SuperAdmin o el propietario pueden cancelar este envío.",
+          error:
+            "Solo el SuperAdmin o el propietario pueden cancelar este envío.",
         });
       }
 
@@ -165,9 +170,12 @@ router.put("/:id", verifyToken, async (req, res) => {
       });
     }
 
-    const possibleStatuses = ["Pendiente", "En camino", "Entregado", "Cancelado"].filter(
-      (s) => s !== shipment.status
-    );
+    const possibleStatuses = [
+      "Pendiente",
+      "En camino",
+      "Entregado",
+      "Cancelado",
+    ].filter((s) => s !== shipment.status);
 
     if (!status) {
       return res.json({
@@ -178,7 +186,9 @@ router.put("/:id", verifyToken, async (req, res) => {
 
     if (!possibleStatuses.includes(status)) {
       return res.status(400).json({
-        error: `Estado inválido. Los estados posibles son: ${possibleStatuses.join(", ")}`,
+        error: `Estado inválido. Los estados posibles son: ${possibleStatuses.join(
+          ", "
+        )}`,
       });
     }
 
@@ -186,34 +196,35 @@ router.put("/:id", verifyToken, async (req, res) => {
     await shipment.save();
 
     return res.json({
-  message: status === 'Cancelado' 
-           ? 'El envío fue cancelado correctamente' 
-           : `El envío se actualizó correctamente a ${status}`,
-  shipment,
-});
+      message:
+        status === "Cancelado"
+          ? "El envío fue cancelado correctamente"
+          : `El envío se actualizó correctamente a ${status}`,
+      shipment,
+    });
   } catch (error) {
     console.error("Error actualizando envío:", error);
-    return res
-      .status(500)
-      .json({ error: "Error interno del servidor" });
+    return res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
-
 
 router.delete("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const user = req.user;
 
   if (isNaN(id) || id <= 0) {
-    return res.status(400).json({ error: "El id es incorrecto, no puede ser negativo o cero" });
+    return res
+      .status(400)
+      .json({ error: "El id es incorrecto, no puede ser negativo o cero" });
   }
 
   const shipment = await Shipment.findByPk(id);
   if (!shipment) return res.status(404).json({ error: "Envío no encontrado" });
 
   if (user.role !== "SuperAdmin" && shipment.userId !== user.id) {
-    return res.status(403).json({ error: "No tenés permiso para cancelar este envío" });
+    return res
+      .status(403)
+      .json({ error: "No tenés permiso para cancelar este envío" });
   }
 
   if (shipment.status === "Cancelado") {
@@ -221,7 +232,9 @@ router.delete("/:id", verifyToken, async (req, res) => {
   }
 
   if (shipment.status === "Entregado") {
-    return res.status(400).json({ error: "No podés cancelar un envío ya entregado" });
+    return res
+      .status(400)
+      .json({ error: "No podés cancelar un envío ya entregado" });
   }
 
   shipment.status = "Cancelado";
@@ -230,6 +243,5 @@ router.delete("/:id", verifyToken, async (req, res) => {
 
   res.json({ message: "Envío cancelado correctamente" });
 });
-
 
 export default router;
