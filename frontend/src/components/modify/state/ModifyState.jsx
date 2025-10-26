@@ -1,7 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { Form } from "react-bootstrap";
 
+import { initialErrors } from "./ModifyState.data";
 import { AuthContext } from "../../authContext/AuthContext";
+
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 import CustomModal from "../../modal/CustomModal";
@@ -10,6 +12,7 @@ const ModifyState = () => {
   const { role, token } = useContext(AuthContext);
   const [shipmentId, setShipmentId] = useState("");
   const [status, setStatus] = useState("");
+  const [errors, setErrors] = useState(initialErrors);
   const [alertData, setAlertData] = useState({
     show: false,
     message: "",
@@ -18,20 +21,59 @@ const ModifyState = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [confirmCancel, setConfirmCancel] = useState(false);
 
-  if (role !== "Empleado" && role !== "SuperAdmin") {
-    return (
-      <h3 className="text-center mt-5">
-        No tenés permiso para acceder a esta sección.
-      </h3>
-    );
-  }
+  const shipmentIdRef = useRef(null);
+  const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
+
+  const handleModifyState = (event) => {
+    const idShipment = event.target.value;
+    setShipmentId(idShipment);
+
+    if (!idShipment.trim()) {
+      setErrors({ shipmentId: "empty" });
+    } else if (!validateIdShipment(idShipment)) {
+      setErrors({ shipmentId: "invalid" });
+    } else {
+      setErrors({ shipmentId: false });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const cleanId = shipmentId.replace(":", "").trim();
+
+    if (!cleanId) {
+      setErrors({ shipmentId: "empty" });
+      shipmentIdRef.current.focus();
+      return;
+    }
+
+    if (!validateIdShipment(cleanId)) {
+      setErrors({ shipmentId: "invalid" });
+      shipmentIdRef.current.focus();
+      return;
+    }
+
+    if (role !== "Empleado" && role !== "SuperAdmin") {
+      setAlertData({
+        show: true,
+        message: "No tienes permisos para modificar este envío.",
+        type: "error",
+      });
+      return;
+    }
+    if (status === "Cancelado") {
+      setConfirmCancel(true);
+      return;
+    }
+
+    await updateShipment(cleanId, status);
+  };
+
+  const updateShipment = async (id, newStatus) => {
     try {
-      // Actualizar estado con PUT
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
@@ -49,7 +91,6 @@ const ModifyState = () => {
       if (!response.ok)
         throw new Error(data.error || "Error al actualizar estado");
 
-      // Obtener datos actualizados con GET
       const getResponse = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
@@ -63,13 +104,16 @@ const ModifyState = () => {
       const updatedData = await getResponse.json();
 
       if (!getResponse.ok)
-        throw new Error(updatedData.error || "Error al obtener datos actualizados");
+        throw new Error(
+          updatedData.error || "Error al obtener datos actualizados"
+        );
 
       setModalData(updatedData);
       setShowModal(true);
 
       setShipmentId("");
       setStatus("");
+      setErrors(initialErrors);
     } catch (error) {
       console.error("Error actualizando envío:", error);
       setAlertData({
@@ -77,7 +121,12 @@ const ModifyState = () => {
         message: error.message || "Error desconocido al actualizar el envío.",
         type: "error",
       });
+    } finally {
+      setConfirmCancel(false);
     }
+  };
+  const handleConfirmCancel = async () => {
+    await updateShipment(shipmentId, "Cancelado");
   };
 
   const modalButtons = [
@@ -105,24 +154,41 @@ const ModifyState = () => {
             buttonType="submit"
           >
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número envío: <span className="text-danger">*</span></Form.Label>
+              <Form.Label>
+                Número envío: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
-                className="custom-input"
+                ref={shipmentIdRef}
+                className={`custom-input ${
+                  errors.shipmentId ? "is-invalid" : ""
+                }`}
                 type="text"
+                placeholder="Ej: 1"
                 value={shipmentId}
-                onChange={(e) => setShipmentId(e.target.value)}
-                placeholder="Ej: 3"
+                onChange={handleModifyState}
               />
+              {errors.shipmentId === "empty" && (
+                <p className="text-danger mt-1">Debe ingresar el id de envío</p>
+              )}
+              {errors.shipmentId === "invalid" && (
+                <p className="text-danger mt-1">
+                  Debe ingresar un id válido (mayor a 0)
+                </p>
+              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Nuevo Estado: <span className="text-danger">*</span></Form.Label>
+              <Form.Label>
+                Nuevo Estado: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Select
                 className="custom-input"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="" disabled hidden>Seleccione un Estado</option>
+                <option value="" disabled hidden>
+                  Seleccione un Estado
+                </option>
                 <option value="Pendiente">Pendiente</option>
                 <option value="En camino">En camino</option>
                 <option value="Entregado">Entregado</option>
@@ -159,6 +225,17 @@ const ModifyState = () => {
               </div>
             }
             buttons={modalButtons}
+          />
+        )}
+        {confirmCancel && (
+          <CustomModal
+            show={confirmCancel}
+            onHide={() => setConfirmCancel(false)}
+            title="Confirmar cancelación"
+            body={`¿Estás seguro que deseas cancelar el envío con ID ${shipmentId}?`}
+            onContinue={handleConfirmCancel}
+            confirmText="Confirmar"
+            cancelText="Cancelar"
           />
         )}
       </div>

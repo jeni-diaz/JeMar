@@ -1,13 +1,16 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { Form } from "react-bootstrap";
 
 import { initialErrors } from "./CreateShipment.data";
+import { AuthContext } from "../../authContext/AuthContext";
 
 import CustomModal from "../../modal/CustomModal";
 import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 
 const ShippingQuote = () => {
+  const { token } = useContext(AuthContext);
+
   const [shipmentTypes, setShipmentTypes] = useState([]);
   const [shipmentTypeId, setShipmentTypeId] = useState("");
   const [origin, setOrigin] = useState("");
@@ -28,6 +31,18 @@ const ShippingQuote = () => {
   const originRef = useRef(null);
   const destinationRef = useRef(null);
 
+  if (!token) {
+    return (
+      <div className="text-center mt-5">
+        <CustomAlert
+          show={true}
+          message="Debes iniciar sesión para acceder a esta sección."
+          type="error"
+        />
+      </div>
+    );
+  }
+  
   useEffect(() => {
     fetch("http://localhost:3000/api/shipment_type")
       .then((res) => res.json())
@@ -67,12 +82,6 @@ const ShippingQuote = () => {
         })
         .catch((err) => console.error("Error obteniendo localidades:", err));
     }, 500);
-  };
-
-  const shipmentPrices = {
-    Estándar: 25000,
-    Express: 40000,
-    Frágil: 60000,
   };
 
   const handleShipmentType = (event) => {

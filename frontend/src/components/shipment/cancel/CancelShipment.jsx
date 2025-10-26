@@ -4,7 +4,6 @@ import CustomCard from "../../card/CustomCard";
 import CustomAlert from "../../alert/CustomAlert";
 import CustomModal from "../../modal/CustomModal";
 import { AuthContext } from "../../authContext/AuthContext";
-import { initialErrors } from "./CancelShipment.data";
 
 const DeleteShipping = () => {
   const { token } = useContext(AuthContext);

@@ -45,13 +45,7 @@ function ShippingTrack() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      setAlertData({
-        show: true,
-        message: "No tienes permisos para consultar envíos.",
-        type: "error",
-      });
-      return;
-    }
+      
 
     try {
       const response = await fetch(
@@ -84,7 +78,8 @@ function ShippingTrack() {
       });
     }
   };
-
+  };
+  
   return (
     <>
       <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
