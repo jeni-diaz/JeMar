@@ -209,7 +209,7 @@ const Consult = () => {
                 )}
                 {errors.email === "invalid" && (
                   <p className="text-danger mt-1">
-                    Debe ingresar un correo válido
+                    Debe ingresar un email válido, ejemplo: juan@jemar.com
                   </p>
                 )}
           </Form.Group>

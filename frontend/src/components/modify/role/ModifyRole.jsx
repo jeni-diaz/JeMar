@@ -141,7 +141,7 @@ const ModifyRole = () => {
               <p className="text-danger mt-1">Debe ingresar un email</p>
             )}
             {errors.email === "invalid" && (
-              <p className="text-danger mt-1">Debe ingresar un email válido</p>
+              <p className="text-danger mt-1">Debe ingresar un email válido, ejemplo: juan@jemar.com</p>
             )}
           </Form.Group>
 
