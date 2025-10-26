@@ -45,6 +45,13 @@ function ShippingTrack() {
     const token = localStorage.getItem("token");
 
     if (!token) {
+    setAlertData({
+      show: true,
+      message: "Debes iniciar sesión para consultar un envío.",
+      type: "error",
+    });
+    return;
+  }
       
 
     try {
@@ -77,7 +84,6 @@ function ShippingTrack() {
         type: "error",
       });
     }
-  };
   };
   
   return (
