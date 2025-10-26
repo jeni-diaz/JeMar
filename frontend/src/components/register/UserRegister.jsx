@@ -227,7 +227,7 @@ const UserRegister = () => {
                   ref={emailRef}
                   className={`custom-input ${errors.email ? "is-invalid" : ""}`}
                   type="email"
-                  placeholder="abc@ejemplo.com"
+                  placeholder="usuario@ejemplo.com"
                   value={email}
                   onChange={handleEmailChange}
                   autoComplete="email"

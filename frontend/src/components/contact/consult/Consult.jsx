@@ -134,7 +134,7 @@ const Consult = () => {
   };
 
   return (
-    <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+    <div className="d-flex justify-content-center align-items-center flex-column">
       <CustomAlert
         show={alertData.show}
         message={alertData.message}
@@ -147,7 +147,7 @@ const Consult = () => {
           buttonText="Enviar"
           buttonType="submit"
         >
-          <Form.Group className="inputs-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>
               Nombre: <span className="text-danger">*</span>
             </Form.Label>
@@ -169,7 +169,7 @@ const Consult = () => {
                 )}
           </Form.Group>
 
-          <Form.Group className="inputs-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>
               Apellido: <span className="text-danger">*</span>
             </Form.Label>
@@ -191,7 +191,7 @@ const Consult = () => {
                 )}
           </Form.Group>
 
-          <Form.Group className="inputs-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>
               Correo Electrónico: <span className="text-danger">*</span>
             </Form.Label>
@@ -199,7 +199,7 @@ const Consult = () => {
               ref={emailRef}
               className={`custom-input ${errors.email ? "is-invalid" : ""}`}
               type="email"
-              placeholder="abc@ejemplo.com"
+              placeholder="usuario@ejemplo.com"
               value={email}
               onChange={handleEmailChange}
             />
@@ -215,7 +215,7 @@ const Consult = () => {
                 )}
           </Form.Group>
 
-          <Form.Group className="inputs-group mb-3 w-bold">
+          <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>
               Consulta: <span className="text-danger">*</span>
             </Form.Label>
@@ -223,7 +223,7 @@ const Consult = () => {
               ref={consultRef}
               className={`custom-input ${errors.consult ? "is-invalid" : ""}`}
               as="textarea"
-              rows={2}
+              rows={1}
               placeholder="Escribe tu consulta aquí..."
               value={consult}
               onChange={handleConsultChange}

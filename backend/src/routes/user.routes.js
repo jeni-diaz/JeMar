@@ -69,7 +69,7 @@ router.put("/changeRole", verifyToken, async (req, res) => {
     }
 
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+    if (!user) return res.status(404).json({ error: "El usuario no existe" });
 
     user.role = newRole;
     await user.save();
@@ -130,7 +130,7 @@ router.delete("/", verifyToken, async (req, res) => {
 
     user.isActive = false;
     await user.save();
-     console.log("Usuario actualizado correctamente en la BD");
+     console.log("Usuario actualizado correctamente");
 
     res.json({ message: `Usuario deshabilitado con éxito.` });
   } catch (error) {

@@ -45,38 +45,41 @@ const ConsultsTable = () => {
     <>
       <h1 className="title-card text-center">Lista de Consultas</h1>
 
-      {loading && <p>Cargando consultas...</p>}
+      {!loading && (
+  <Container className="back-table ocultar-scroll text-center p-3">
+    {consults.length > 0 ? (
+      <table className="table-container">
+        <thead>
+          <tr>
+            <th style={{ width: '15%' }}>Fecha</th>
+            <th style={{ width: '15%' }}>Número de consulta</th>
+            <th style={{ width: '15%' }}>Nombre</th>
+            <th style={{ width: '15%' }}>Apellido</th>
+            <th style={{ width: '25%' }}>Correo Electrónico</th>
+            <th style={{ width: '30%' }}>Consulta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {consults.map((consult) => (
+            <tr key={consult.id}> 
+              <td>{consult.createdAt}</td>
+              <td>{consult.id}</td>
+              <td>{consult.firstName}</td> 
+              <td>{consult.lastName}</td>
+              <td>{consult.email}</td>
+              <td>{consult.consult}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <h2 className="table-container text-center">
+        No hay consultas disponibles.
+      </h2>
+    )}
+  </Container>
+)}
 
-      {!loading && consults.length > 0 && (
-        <Container className="back-table ocultar-scroll text-center p-3">
-          <table className="table-container">
-            <thead>
-              <tr>
-                <th>Número de consulta</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>Consulta</th>
-              </tr>
-            </thead>
-            <tbody>
-              {consults.map((consult) => (
-                <tr key={consult.id}> 
-                  <td>{consult.id}</td>
-                  <td>{consult.firstName}</td> 
-                  <td>{consult.lastName}</td>
-                  <td>{consult.email}</td>
-                  <td>{consult.consult}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Container>
-      )}
-
-      {!loading && consults.length === 0 && (
-        <h2 className="text-center">No hay consultas disponibles.</h2>
-      )}
     </>
   );
 };

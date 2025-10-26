@@ -1,6 +1,6 @@
 import { useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Container } from "react-bootstrap";
 
 import { initialErrors } from "./Login.data";
 import { AuthContext } from "../authContext/AuthContext";
@@ -101,7 +101,7 @@ const Login = () => {
 
       setAlertData({
         show: true,
-        message: "¡Login exitoso!",
+        message: "¡Inicio de sesión exitoso!",
         type: "success",
       });
 
@@ -110,7 +110,7 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/shipment");
-      }, 1000);
+      }, 2500);
     } catch (error) {
       console.error("Login error:", error);
       setAlertData({
@@ -125,7 +125,8 @@ const Login = () => {
     <>
       <Background image="/images/ImageLogin.png">
         <BackArrow />
-        <div className="screen d-flex justify-content-center align-items-center min-vh-100 flex-column">
+        <Container className="d-flex align-items-center min-vh-100 flex-column pt-3">
+          <div className="screen d-flex justify-content-center w-100">
           <CustomAlert
             show={alertData.show}
             message={alertData.message}
@@ -145,7 +146,7 @@ const Login = () => {
                       ref={emailRef}
                       className={`custom-input ${errors.email}`}
                       type="email"
-                      placeholder="abc@ejemplo.com"
+                      placeholder="usuario@ejemplo.com"
                       value={email}
                       onChange={handleEmailChange}
                       autoComplete="email"
@@ -211,7 +212,8 @@ const Login = () => {
               </Form>
             </Col>
           </Row>
-        </div>
+          </div>
+        </Container>
       </Background>
     </>
   );

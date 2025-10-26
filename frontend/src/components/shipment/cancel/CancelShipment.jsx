@@ -164,11 +164,11 @@ const DeleteShipping = () => {
                 onChange={handleCancelNumber}
               />
               {errors.shipmentId === "empty" && (
-                <p className="text-danger mt-1">Debe ingresar el id de envío</p>
+                <p className="text-danger mt-1">Debe ingresar el número de envío</p>
               )}
               {errors.shipmentId === "invalid" && (
                 <p className="text-danger mt-1">
-                  Debe ingresar un id válido (mayor a 0)
+                  Debe ingresar un número válido (mayor a 0)
                 </p>
               )}
             </Form.Group>
@@ -176,9 +176,16 @@ const DeleteShipping = () => {
         </Form>
         <CustomModal
           show={showModal}
-          onHide={() => setShowModal(false)}
+          onHide={() => {
+              setShowModal(false);
+              setAlertData({
+                show: true,
+                message: "¡Envío cancelado con éxito!",
+                type: "success",
+              });
+            }}
           title="Confirmar cancelación"
-          body={`¿Estás seguro que deseas cancelar el envío con ID ${shipmentId}?`}
+          body={`¿Estás seguro que deseas cancelar el envío número ${shipmentId}?`}
           onContinue={cancelShipment}
           confirmText="Confirmar"
           cancelText="Cancelar"

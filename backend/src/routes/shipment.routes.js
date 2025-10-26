@@ -3,7 +3,7 @@ import { Shipment } from "../models/shipment.js";
 import { User } from "../models/user.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
-import { isEmpleado, isSuperAdmin, isUsuario } from "../middlewares/verifyRol.js";
+import { isSuperAdmin } from "../middlewares/verifyRol.js";
 
 const router = Router();
 
@@ -53,7 +53,7 @@ router.get("/:id", verifyToken, async (req, res) => {
       if (userRole !== "SuperAdmin" && userRole !== "Empleado") {
         return res
           .status(403)
-          .json({ error: "No podés consultar/eliminar este envío porque ha sido cancelado" });
+          .json({ error: "El envío ya ha sido cancelado" });
       }
     }
 
@@ -128,7 +128,7 @@ router.put("/:id", verifyToken, async (req, res) => {
     if (isNaN(id) || id <= 0) {
       return res
         .status(400)
-        .json({ error: "El ID es incorrecto, no puede ser negativo o cero" });
+        .json({ error: "El número es incorrecto, no puede ser negativo o cero" });
     }
 
     const shipment = await Shipment.findByPk(id);
@@ -186,9 +186,11 @@ router.put("/:id", verifyToken, async (req, res) => {
     await shipment.save();
 
     return res.json({
-      message: `El envío se actualizó correctamente a '${status}'`,
-      shipment,
-    });
+  message: status === 'Cancelado' 
+           ? 'El envío fue cancelado correctamente' 
+           : `El envío se actualizó correctamente a ${status}`,
+  shipment,
+});
   } catch (error) {
     console.error("Error actualizando envío:", error);
     return res

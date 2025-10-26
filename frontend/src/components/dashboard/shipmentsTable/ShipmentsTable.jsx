@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 const ShipmentsTable = () => {
   const [shipments, setShipments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filterStatus, setFilterStatus] = useState("");
 
   const fetchShipments = async () => {
     const token = localStorage.getItem("token");
@@ -41,32 +42,62 @@ const ShipmentsTable = () => {
     fetchShipments();
   }, []);
 
+  const filteredShipments = filterStatus
+    ? shipments.filter((envio) => envio.status === filterStatus)
+    : shipments;
+
   return (
     <>
       <h1 className="title-card text-center">Lista de Envíos</h1>
 
-      {loading && <p>Cargando envíos...</p>}
+      <Container className="back-table ocultar-scroll text-center p-3">
+        <div className="text-end">
+          <label className="inputs-group me-3 fw-bold">
+            Filtrar envíos por Estado:{" "}
+          </label>
+          <select
+            className="filter-select"
+            id="statusFilter"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">Todos</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="En tránsito">En tránsito</option>
+            <option value="Entregado">Entregado</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
 
-      {!loading && shipments.length > 0 && (
-        <Container className="back-table ocultar-scroll text-center p-3">
+        {filteredShipments.length > 0 ? (
           <table className="table-container">
             <thead>
               <tr>
-                <th>Usuario</th>
-                <th>Número de envío</th>
-                <th>Estado</th>
-                <th>Tipo</th>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Precio</th>
+                <th style={{ width: "25%" }}>Usuario</th>
+                <th style={{ width: "15%" }}>Número de envío</th>
+                <th style={{ width: "10%" }}>Estado</th>
+                <th style={{ width: "8%" }}>Tipo</th>
+                <th style={{ width: "30%" }}>Origen</th>
+                <th style={{ width: "30%" }}>Destino</th>
+                <th style={{ width: "8%" }}>Precio</th>
               </tr>
             </thead>
             <tbody>
-              {shipments.map((envio) => (
+              {filteredShipments.map((envio) => (
                 <tr key={envio.id}>
                   <td>{envio.User?.email}</td>
                   <td>{envio.id}</td>
-                  <td>{envio.status}</td>
+                  <td
+                    className={
+                      envio.status === "Cancelado"
+                        ? "cancelado"
+                        : envio.status === "Entregado"
+                        ? "entregado"
+                        : ""
+                    }
+                  >
+                    {envio.status}
+                  </td>
                   <td>{envio.ShipmentType?.name}</td>
                   <td>{envio.origin}</td>
                   <td>{envio.destination}</td>
@@ -75,12 +106,12 @@ const ShipmentsTable = () => {
               ))}
             </tbody>
           </table>
-        </Container>
-      )}
-
-      {!loading && shipments.length === 0 && (
-        <h2 className="text-center">No hay envíos disponibles.</h2>
-      )}
+        ) : (
+          <h2 className="table-container text-center">
+            No hay envíos disponibles.
+          </h2>
+        )}
+      </Container>
     </>
   );
 };

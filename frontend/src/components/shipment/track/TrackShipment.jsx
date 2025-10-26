@@ -1,11 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Form } from "react-bootstrap";
-
 import CustomAlert from "../../alert/CustomAlert";
 import CustomCard from "../../card/CustomCard";
 import CustomModal from "../../modal/CustomModal";
+import { AuthContext } from "../../authContext/AuthContext";
 
 function ShippingTrack() {
+  const { token } = useContext(AuthContext);
+
   const [trackingNumber, setTrackingNumber] = useState("");
   const [errors, setErrors] = useState({ trackingNumber: false });
   const [alertData, setAlertData] = useState({
@@ -37,22 +39,26 @@ function ShippingTrack() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (errors.trackingNumber) {
-    trackingNumberRef.current.focus();
-    return;
-  }
+    if (!trackingNumber.trim()) {
+      setErrors({ trackingNumber: "empty" });
+      trackingNumberRef.current.focus();
+      return;
+    }
 
-    const token = localStorage.getItem("token");
+    if (!validateIdShipment(trackingNumber)) {
+      setErrors({ trackingNumber: "invalid" });
+      trackingNumberRef.current.focus();
+      return;
+    }
 
     if (!token) {
-    setAlertData({
-      show: true,
-      message: "Debes iniciar sesión para consultar un envío.",
-      type: "error",
-    });
-    return;
-  }
-      
+      setAlertData({
+        show: true,
+        message: "Debes iniciar sesión para consultar un envío.",
+        type: "error",
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -69,12 +75,16 @@ function ShippingTrack() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "No se encontró el envío");
+        setAlertData({
+          show: true,
+          message: data.error || "No se encontró el envío.",
+          type: "error",
+        });
+        return;
       }
 
       setModalData(data);
       setShowModal(true);
-
       setTrackingNumber("");
     } catch (error) {
       console.error("Error consultando envío:", error);
@@ -85,7 +95,7 @@ function ShippingTrack() {
       });
     }
   };
-  
+
   return (
     <>
       <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
@@ -95,6 +105,7 @@ function ShippingTrack() {
           type={alertData.type}
           onClose={() => setAlertData({ ...alertData, show: false })}
         />
+
         <Form noValidate onSubmit={handleSubmit}>
           <CustomCard
             title="CONSULTAR ESTADO"
@@ -117,12 +128,12 @@ function ShippingTrack() {
               />
               {errors.trackingNumber === "empty" && (
                 <p className="text-danger mt-1">
-                  Debe ingresar el id de envío
+                  Debe ingresar el número de envío
                 </p>
               )}
               {errors.trackingNumber === "invalid" && (
                 <p className="text-danger mt-1">
-                  Debe ingresar un id válido (mayor a 0)
+                  Debe ingresar un número válido (mayor a 0)
                 </p>
               )}
             </Form.Group>

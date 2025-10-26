@@ -214,8 +214,15 @@ const ModifyState = () => {
         {showModal && modalData && (
           <CustomModal
             show={showModal}
-            onHide={() => setShowModal(false)}
-            title="¡Estado modificado con éxito!"
+            onHide={() => {
+              setShowModal(false);
+              setAlertData({
+                show: true,
+                message: "¡Estado modificado con éxito!",
+                type: "success",
+              });
+            }}
+            title="¡Confirmar cambio de estado!"
             body={
               <div>
                 {[
@@ -238,17 +245,6 @@ const ModifyState = () => {
               </div>
             }
             buttons={modalButtons}
-          />
-        )}
-        {confirmCancel && (
-          <CustomModal
-            show={confirmCancel}
-            onHide={() => setConfirmCancel(false)}
-            title="Confirmar cancelación"
-            body={`¿Estás seguro que deseas cancelar el envío con ID ${shipmentId}?`}
-            onContinue={handleConfirmCancel}
-            confirmText="Confirmar"
-            cancelText="Cancelar"
           />
         )}
       </div>

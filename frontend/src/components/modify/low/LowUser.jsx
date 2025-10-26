@@ -16,49 +16,58 @@ const LowUser = () => {
   const [alertData, setAlertData] = useState({
     show: false,
     message: "",
-    type: "info"
+    type: "info",
   });
-  
+
   const [showModal, setShowModal] = useState(false);
 
   const emailRef = useRef(null);
 
   if (role !== "SuperAdmin") {
-    return <h3 className="text-center mt-5">No tenés permiso para acceder a esta sección.</h3>;
+    return (
+      <h3 className="text-center mt-5">
+        No tenés permiso para acceder a esta sección.
+      </h3>
+    );
   }
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setErrors({ email: "" });
-    setAlertData({
-      show: false,
-      message: "",
-      type: "info" });
-  };
+    const value = e.target.value;
+    setEmail(value);
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!value.trim()) {
+      setErrors((prev) => ({ ...prev, email: "empty" }));
+    } else if (!validateEmail(value)) {
+      setErrors((prev) => ({ ...prev, email: "invalid" }));
+    } else {
+      setErrors((prev) => ({ ...prev, email: false }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email.trim()) {
-      setErrors({ ...initialErrors, email: "Debe ingresar un correo electrónico" });
+      setErrors({ email: "empty", newRole: errors.newRole });
       emailRef.current.focus();
       return;
     }
 
     if (!validateEmail(email)) {
-      setErrors({ ...initialErrors, email: "Debe ingresar un correo válido" });
+      setErrors({ email: "invalid", newRole: errors.newRole });
       emailRef.current.focus();
       return;
     }
-  
 
     try {
-      const response = await fetch(`http://localhost:3000/api/user/verify/${email}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/user/verify/${email}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const data = await response.json();
 
@@ -66,7 +75,7 @@ const LowUser = () => {
         setAlertData({
           show: true,
           message: data.error,
-          type: "error"
+          type: "error",
         });
         return;
       }
@@ -76,7 +85,7 @@ const LowUser = () => {
       setAlertData({
         show: true,
         message: "Error al verificar el usuario.",
-        type: "error"
+        type: "error",
       });
     }
   };
@@ -98,19 +107,18 @@ const LowUser = () => {
         setAlertData({
           show: true,
           message: data.error,
-          type: "error"
+          type: "error",
         });
       } else {
         setAlertData({
           show: true,
           message: data.message,
-          type: "success"
+          type: "success",
         });
         setEmail("");
       }
 
       setShowModal(false);
-
     } catch (error) {
       setAlertData({
         show: true,
@@ -128,15 +136,20 @@ const LowUser = () => {
           show={alertData.show}
           message={alertData.message}
           type={alertData.type}
-          onClose={() => setAlertData({
-            show: false,
-            message: "",
-            type: "info"
-          })}
+          onClose={() =>
+            setAlertData({
+              show: false,
+              message: "",
+              type: "info",
+            })
+          }
         />
       )}
       <form noValidate onSubmit={handleSubmit}>
-        <CustomCard title="ELIMINAR USUARIO" buttonText="Eliminar" buttonType="submit">
+        <CustomCard
+          title="ELIMINAR USUARIO"
+          buttonText="Eliminar"
+          buttonType="submit">
           <Form.Group className="inputs-group mb-3 fw-bold">
             <Form.Label>Email del usuario:</Form.Label>
             <Form.Control
@@ -145,10 +158,13 @@ const LowUser = () => {
               type="email"
               value={email}
               onChange={handleEmailChange}
-              placeholder="abc@ejemplo.com"
+              placeholder="usuario@ejemplo.com"
             />
-            {errors.email && (
-              <p className="text-danger mt-1 text-center">{errors.email}</p>
+            {errors.email === "empty" && (
+              <p className="text-danger mt-1">Debe ingresar un email</p>
+            )}
+            {errors.email === "invalid" && (
+              <p className="text-danger mt-1">Debe ingresar un email válido</p>
             )}
           </Form.Group>
         </CustomCard>

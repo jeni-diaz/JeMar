@@ -3,7 +3,7 @@ import CustomCard from "../../card/CustomCard";
 const Information = () => {
     return (
         <>
-            <div className="color-bacground d-flex justify-content-center align-items-center flex-column">
+            <div className="d-flex justify-content-center align-items-center flex-column fw-bold">
                 <CustomCard title="CONTACTO">
                     <label>
                         <div>Dirección: Dorrego 453, Rosario, Santa Fe.</div>

@@ -65,7 +65,14 @@ body {
 }
 
 .custom-link-outlog{
- color: #C0392B
+ color: #b01b17;
+}
+
+.filter-select{
+background-color: #000000;
+  color: #B07F11;
+  box-shadow: 0 0 10px #B07F11;
+  border-color: #ffffff;
 }
 
 /*Inputs*/
@@ -129,7 +136,7 @@ form .password-toggle-icon {
 .titulo,
 label,
 .tracking-container,
-.container-modal .titulo {
+.container-modal .titulo, .filter-select {
   color: #B07F11;
 }
 
@@ -240,43 +247,12 @@ label,
   cursor: pointer; 
 }
 
-.table-container th:nth-child(1),
-.table-container td:nth-child(1) {
-  width: 20%;
+.habilitado, .entregado {
+  color: #3f7f07;
 }
 
-.table-container th:nth-child(2),
-.table-container td:nth-child(2) {
-  width: 15%;
-}
-
-.table-container th:nth-child(3),
-.table-container td:nth-child(3) {
-  width: 10%;
-}
-
-.table-container th:nth-child(4),
-.table-container td:nth-child(4) {
-  width: 10%;
-}
-
-.table-container th:nth-child(5),
-.table-container td:nth-child(5) {
-  width: 25%;
-}
-
-.table-container th:nth-child(6),
-.table-container td:nth-child(6) {
-  width: 25%; 
-}
-
-.table-container th:nth-child(7),
-.table-container td:nth-child(7) {
-  width: 10%;
-}
-
-.cross-icon{
-  color:#C0392B
+.deshabilitado, .cancelado {
+  color: #b01b17;
 }
 
 /*ButtonBar*/
@@ -305,8 +281,8 @@ label,
 
 /*MapContainer*/
 .map-container {
-  width: 320px;
-  height: 300px;
+  width: 345px;
+  height: 285px;
 }
 
 /*CustomAlert */

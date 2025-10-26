@@ -42,7 +42,7 @@ const ShippingQuote = () => {
       </div>
     );
   }
-  
+
   useEffect(() => {
     fetch("http://localhost:3000/api/shipment_type")
       .then((res) => res.json())
@@ -219,17 +219,6 @@ const ShippingQuote = () => {
                   Debe seleccionar un tipo de envío
                 </p>
               )}
-              {shipmentTypeId && (
-                <p className="text-warning mt-2 fw-semibold">
-                  {
-                    {
-                      Estandar: "El precio del envío estándar es de $25.000",
-                      Express: "El precio del envío express es de $40.000",
-                      Fragil: "El precio del envío frágil es de $60.000",
-                    }[shipmentTypes.find((t) => t.id == shipmentTypeId)?.name]
-                  }
-                </p>
-              )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold position-relative">
@@ -301,14 +290,33 @@ const ShippingQuote = () => {
                 </div>
               )}
             </Form.Group>
+
+            {shipmentTypeId && (
+              <div className="titulo fw-bold fs-5">
+                {
+                  {
+                    Estandar: "Envío Estándar - $25.000",
+                    Express: "Envío Express - $40.000",
+                    Fragil: "Envío Frágil - $60.000",
+                  }[shipmentTypes.find((t) => t.id == shipmentTypeId)?.name]
+                }
+              </div>
+            )}
           </CustomCard>
         </Form>
 
         {modalData && (
           <CustomModal
             show={showModal}
-            onHide={() => setShowModal(false)}
-            title="¡Pedido realizado con éxito!"
+            onHide={() => {
+              setShowModal(false);
+              setAlertData({
+                show: true,
+                message: "¡Envío realizado con éxito!",
+                type: "success",
+              });
+            }}
+            title="¡Guarde su número de envío!"
             body={
               <div>
                 {[
