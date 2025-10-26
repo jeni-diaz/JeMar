@@ -56,6 +56,13 @@ const ModifyState = () => {
       return;
     }
 
+    if (!status) {
+      setErrors((prev) => ({ ...prev, status: "empty" }));
+      return;
+    } else {
+      setErrors((prev) => ({ ...prev, status: false }));
+    }
+
     if (role !== "Empleado" && role !== "SuperAdmin") {
       setAlertData({
         show: true,
@@ -182,9 +189,12 @@ const ModifyState = () => {
                 Nuevo Estado: <span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
-                className="custom-input"
+                className={`custom-input ${errors.status ? "is-invalid" : ""}`}
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                  setErrors((prev) => ({ ...prev, status: false }));
+                }}
               >
                 <option value="" disabled hidden>
                   Seleccione un Estado
@@ -194,6 +204,9 @@ const ModifyState = () => {
                 <option value="Entregado">Entregado</option>
                 <option value="Cancelado">Cancelado</option>
               </Form.Select>
+              {errors.status === "empty" && (
+                <p className="text-danger mt-1">Debe seleccionar un estado</p>
+              )}
             </Form.Group>
           </CustomCard>
         </form>

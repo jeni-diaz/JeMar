@@ -1,4 +1,1 @@
-export const initialErrors = {
-    email: false,
-    newStatus: false,
-}
+export const initialErrors = { shipmentId: false, status: false };

@@ -122,6 +122,7 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+    const userRole = req.user.role;
 
     if (isNaN(id) || id <= 0) {
       return res
@@ -140,7 +141,11 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
         .status(400)
         .json({ error: "El envío no se puede modificar, ya fue cancelado" });
     }
-
+if (status === "Cancelado" && userRole !== "SuperAdmin") {
+      return res.status(403).json({
+        error: "Solo el SuperAdmin puede cancelar envíos.",
+      });
+    }
   
     const possibleStatuses = ["Pendiente", "En camino", "Entregado", "Cancelado"].filter(
       (s) => s !== shipment.status
