@@ -19,9 +19,9 @@ const DeleteShipping = () => {
 
   const shipmentRef = useRef(null);
 
-const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
+  const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
 
-const handleCancelNumber = (event) => {
+  const handleCancelNumber = (event) => {
     const idShipment = event.target.value;
     setShipmentId(idShipment);
 
@@ -37,18 +37,17 @@ const handleCancelNumber = (event) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     if (!shipmentId.trim()) {
-    setErrors({ shipmentId: "empty" });
-    shipmentRef.current.focus();
-    return;
-  }
+      setErrors({ shipmentId: "empty" });
+      shipmentRef.current.focus();
+      return;
+    }
 
-  if (!validateIdShipment(shipmentId)) {
-    setErrors({ shipmentId: "invalid" });
-    shipmentRef.current.focus();
-    return;
-  }
+    if (!validateIdShipment(shipmentId)) {
+      setErrors({ shipmentId: "invalid" });
+      shipmentRef.current.focus();
+      return;
+    }
 
     if (!token) {
       setAlertData({
@@ -59,12 +58,15 @@ const handleCancelNumber = (event) => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:3000/api/shipment/${shipmentId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/shipment/${shipmentId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await response.json();
 
@@ -72,7 +74,7 @@ const handleCancelNumber = (event) => {
         setAlertData({
           show: true,
           message: data.error,
-          type: "error"
+          type: "error",
         });
         return;
       }
@@ -81,12 +83,12 @@ const handleCancelNumber = (event) => {
       setAlertData({
         show: true,
         message: "Error al verificar el envío.",
-        type: "error"
+        type: "error",
       });
-    };
-  }
+    }
+  };
 
-const cancelShipment = async () => {
+  const cancelShipment = async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
@@ -119,8 +121,7 @@ const cancelShipment = async () => {
         setShipmentId("");
       }
 
-       setShowModal(false);
-
+      setShowModal(false);
     } catch (error) {
       console.error("Error al cancelar el envío:", error);
       setAlertData({
@@ -130,8 +131,7 @@ const cancelShipment = async () => {
       });
       setShowModal(false);
     }
-  }
-
+  };
 
   return (
     <>
@@ -144,9 +144,15 @@ const cancelShipment = async () => {
         />
 
         <Form noValidate onSubmit={handleSubmit}>
-          <CustomCard title="CANCELAR ENVÍO" buttonText="Cancelar" buttonType="submit">
+          <CustomCard
+            title="CANCELAR ENVÍO"
+            buttonText="Cancelar"
+            buttonType="submit"
+          >
             <Form.Group className="inputs-group mb-3 fw-bold">
-              <Form.Label>Número de envío: <span className="text-danger">*</span></Form.Label>
+              <Form.Label>
+                Número de envío: <span className="text-danger">*</span>
+              </Form.Label>
               <Form.Control
                 ref={shipmentRef}
                 className={`custom-input ${
@@ -158,9 +164,7 @@ const cancelShipment = async () => {
                 onChange={handleCancelNumber}
               />
               {errors.shipmentId === "empty" && (
-                <p className="text-danger mt-1">
-                  Debe ingresar el id de envío
-                </p>
+                <p className="text-danger mt-1">Debe ingresar el id de envío</p>
               )}
               {errors.shipmentId === "invalid" && (
                 <p className="text-danger mt-1">

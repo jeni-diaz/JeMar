@@ -3,7 +3,7 @@ import { Shipment } from "../models/shipment.js";
 import { User } from "../models/user.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { ShipmentType } from "../models/shipment_type.js";
-import { isEmpleado, isSuperAdmin } from "../middlewares/verifyRol.js";
+import { isEmpleado, isSuperAdmin, isUsuario } from "../middlewares/verifyRol.js";
 
 const router = Router();
 
@@ -118,11 +118,12 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
     const userRole = req.user.role;
+    const userId = req.user.id;
 
     if (isNaN(id) || id <= 0) {
       return res
@@ -133,7 +134,9 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
     const shipment = await Shipment.findByPk(id);
 
     if (!shipment) {
-      return res.status(404).json({ error: "El envío no existe en la base de datos" });
+      return res
+        .status(404)
+        .json({ error: "El envío no existe en la base de datos" });
     }
 
     if (shipment.status === "Cancelado") {
@@ -141,12 +144,27 @@ router.put("/:id", verifyToken, isEmpleado, async (req, res) => {
         .status(400)
         .json({ error: "El envío no se puede modificar, ya fue cancelado" });
     }
-if (status === "Cancelado" && userRole !== "SuperAdmin") {
+
+    if (status === "Cancelado") {
+      if (userRole !== "SuperAdmin" && shipment.userId !== userId) {
+        return res.status(403).json({
+          error: "Solo el SuperAdmin o el propietario pueden cancelar este envío.",
+        });
+      }
+
+      if (userRole === "Empleado" && shipment.userId !== userId) {
+        return res.status(403).json({
+          error: "Solo el SuperAdmin puede cancelar envíos.",
+        });
+      }
+    }
+
+    if (userRole === "Usuario" && shipment.userId !== userId) {
       return res.status(403).json({
-        error: "Solo el SuperAdmin puede cancelar envíos.",
+        error: "No tenés permiso para modificar este envío.",
       });
     }
-  
+
     const possibleStatuses = ["Pendiente", "En camino", "Entregado", "Cancelado"].filter(
       (s) => s !== shipment.status
     );
@@ -168,14 +186,17 @@ if (status === "Cancelado" && userRole !== "SuperAdmin") {
     await shipment.save();
 
     return res.json({
-      message: `El envío se actualizo correctamente a '${status}'`,
+      message: `El envío se actualizó correctamente a '${status}'`,
       shipment,
     });
   } catch (error) {
     console.error("Error actualizando envío:", error);
-    return res.status(500).json({ error: "Error interno del servidor" });
+    return res
+      .status(500)
+      .json({ error: "Error interno del servidor" });
   }
 });
+
 
 
 router.delete("/:email", verifyToken, async (req, res) => {
