@@ -219,6 +219,17 @@ const ShippingQuote = () => {
                   Debe seleccionar un tipo de envío
                 </p>
               )}
+              {shipmentTypeId && (
+              <div className="titulo fw-bold fs-5 mt-2">
+                {
+                  {
+                    Estandar: "El precio del envío estándar es de $25.000",
+                    Express: "El precio del envío express es de $40.000",
+                    Fragil: "El precio del envío frágil es de $60.000",
+                  }[shipmentTypes.find((t) => t.id === Number(shipmentTypeId))?.name]
+                }
+              </div>
+            )}
             </Form.Group>
 
             <Form.Group className="inputs-group mb-3 fw-bold position-relative">
@@ -290,18 +301,6 @@ const ShippingQuote = () => {
                 </div>
               )}
             </Form.Group>
-
-            {shipmentTypeId && (
-              <div className="titulo fw-bold fs-5">
-                {
-                  {
-                    Estandar: "Envío Estándar - $25.000",
-                    Express: "Envío Express - $40.000",
-                    Fragil: "Envío Frágil - $60.000",
-                  }[shipmentTypes.find((t) => t.id == shipmentTypeId)?.name]
-                }
-              </div>
-            )}
           </CustomCard>
         </Form>
 

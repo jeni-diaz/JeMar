@@ -71,9 +71,13 @@ const DeleteShipping = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        let message = data.error;
+        if (data.error === "No tenés permiso para ver este envío") {
+          message = "No tenés permiso para cancelar este envío";
+        }
         setAlertData({
           show: true,
-          message: data.error,
+          message,
           type: "error",
         });
         return;
@@ -93,7 +97,7 @@ const DeleteShipping = () => {
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
         {
-          method: "PUT",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -164,7 +168,9 @@ const DeleteShipping = () => {
                 onChange={handleCancelNumber}
               />
               {errors.shipmentId === "empty" && (
-                <p className="text-danger mt-1">Debe ingresar el número de envío</p>
+                <p className="text-danger mt-1">
+                  Debe ingresar el número de envío
+                </p>
               )}
               {errors.shipmentId === "invalid" && (
                 <p className="text-danger mt-1">
@@ -177,13 +183,13 @@ const DeleteShipping = () => {
         <CustomModal
           show={showModal}
           onHide={() => {
-              setShowModal(false);
-              setAlertData({
-                show: true,
-                message: "¡Envío cancelado con éxito!",
-                type: "success",
-              });
-            }}
+            setShowModal(false);
+            setAlertData({
+              show: true,
+              message: "¡Envío cancelado con éxito!",
+              type: "success",
+            });
+          }}
           title="Confirmar cancelación"
           body={`¿Estás seguro que deseas cancelar el envío número ${shipmentId}?`}
           onContinue={cancelShipment}

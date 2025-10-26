@@ -128,7 +128,7 @@ router.put("/:id", verifyToken, async (req, res) => {
     if (isNaN(id) || id <= 0) {
       return res
         .status(400)
-        .json({ error: "El número es incorrecto, no puede ser negativo o cero" });
+        .json({ error: "El id es incorrecto, no puede ser negativo o cero" });
     }
 
     const shipment = await Shipment.findByPk(id);
@@ -136,7 +136,7 @@ router.put("/:id", verifyToken, async (req, res) => {
     if (!shipment) {
       return res
         .status(404)
-        .json({ error: "El envío no existe en la base de datos" });
+        .json({ error: "Envío no encontrado" });
     }
 
     if (shipment.status === "Cancelado") {
@@ -201,34 +201,35 @@ router.put("/:id", verifyToken, async (req, res) => {
 
 
 
-router.delete("/:email", verifyToken, async (req, res) => {
-  try {
-    const { email } = req.params;
+router.delete("/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
 
-    if (req.user.role !== "SuperAdmin") {
-      return res.status(403).json({ error: "Acceso denegado: solo SuperAdmin puede realizar esta acción" });
-    }
-
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-
-    if (!user.isActive) {
-      return res.status(400).json({ error: "El usuario ya fue eliminado previamente" });
-    }
-
-    user.isActive = false;
-    await user.save();
-
-    res.json({ message: "Usuario deshabilitado correctamente" });
-  } catch (error) {
-    console.error("Error al deshabilitar usuario:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({ error: "El id es incorrecto, no puede ser negativo o cero" });
   }
-});
 
+  const shipment = await Shipment.findByPk(id);
+  if (!shipment) return res.status(404).json({ error: "Envío no encontrado" });
+
+  if (user.role !== "SuperAdmin" && shipment.userId !== user.id) {
+    return res.status(403).json({ error: "No tenés permiso para cancelar este envío" });
+  }
+
+  if (shipment.status === "Cancelado") {
+    return res.status(400).json({ error: "El envío ya está cancelado" });
+  }
+
+  if (shipment.status === "Entregado") {
+    return res.status(400).json({ error: "No podés cancelar un envío ya entregado" });
+  }
+
+  shipment.status = "Cancelado";
+  shipment.isActive = false;
+  await shipment.save();
+
+  res.json({ message: "Envío cancelado correctamente" });
+});
 
 
 export default router;

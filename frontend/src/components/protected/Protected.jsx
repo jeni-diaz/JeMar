@@ -8,7 +8,7 @@ const Protected = () => {
     const { token } = useContext(AuthContext);
 
     if (!IsTokenValid(token)) {
-        return <Navigate to='/login' replace />
+        return <Navigate to='/notLogged' replace />
     }
     return <Outlet />;
 }
