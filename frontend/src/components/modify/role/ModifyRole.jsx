@@ -1,7 +1,7 @@
 import { useState, useContext, useRef } from "react";
 import { Form } from "react-bootstrap";
 
-import { initialErrors } from "./ModifyRole.data"; // puedes crear un archivo separado como hiciste en LowUser
+import { initialErrors } from "./ModifyRole.data";
 import { AuthContext } from "../../authContext/AuthContext";
 
 import CustomCard from "../../card/CustomCard";

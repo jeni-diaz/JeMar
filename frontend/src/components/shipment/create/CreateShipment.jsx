@@ -70,7 +70,13 @@ const ShippingQuote = () => {
         .then((res) => res.json())
         .then((data) => {
           const localities = data.localidades || [];
-          const formattedLocalities = localities.map((loc) => ({
+
+          const uniqueLocalities = Array.from(
+      new Map(localities.map((loc) => [`${loc.nombre}-${loc.provincia.nombre}`, loc])).values()
+    );
+
+          const formattedLocalities = uniqueLocalities.map((loc, index) => ({
+            id: loc.id || `${loc.nombre}-${loc.provincia.nombre}-${index}`,
             nombre: loc.nombre,
             provincia: loc.provincia.nombre,
           }));
@@ -254,7 +260,7 @@ const ShippingQuote = () => {
                   <ul className="overflow-auto ocultar-scroll">
                     {originSuggestions.map((suggestion) => (
                       <li
-                        key={`${suggestion.nombre}-${suggestion.provincia}`}
+                        key={suggestion.id}
                         onClick={() =>
                           handleSuggestionSelect(suggestion, "origin")
                         }
@@ -289,7 +295,7 @@ const ShippingQuote = () => {
                   <ul className="overflow-auto ocultar-scroll">
                     {destinationSuggestions.map((suggestion) => (
                       <li
-                        key={suggestion.nombre}
+                        key={suggestion.id}
                         onClick={() =>
                           handleSuggestionSelect(suggestion, "destination")
                         }
