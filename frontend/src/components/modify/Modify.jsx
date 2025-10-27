@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import { AuthContext } from "../authContext/AuthContext";
-import { IsTokenValid } from "../protected/Protected.helpers";
 
 import Backgrpund from "../background/Background";
 import BackArrow from "../back/BackArrow";

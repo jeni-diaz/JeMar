@@ -21,7 +21,6 @@ const ModifyState = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [confirmCancel, setConfirmCancel] = useState(false);
 
   const shipmentIdRef = useRef(null);
   const validateIdShipment = (idShipment) => /^[1-9]\d*$/.test(idShipment);
@@ -71,15 +70,11 @@ const ModifyState = () => {
       });
       return;
     }
-    if (status === "Cancelado") {
-      setConfirmCancel(true);
-      return;
-    }
 
-    await updateShipment(cleanId, status);
+    await updateShipment();
   };
 
-  const updateShipment = async (id, newStatus) => {
+  const updateShipment = async () => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/shipment/${shipmentId}`,
@@ -128,12 +123,7 @@ const ModifyState = () => {
         message: error.message || "Error desconocido al actualizar el envío.",
         type: "error",
       });
-    } finally {
-      setConfirmCancel(false);
     }
-  };
-  const handleConfirmCancel = async () => {
-    await updateShipment(shipmentId, "Cancelado");
   };
 
   const modalButtons = [

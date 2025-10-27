@@ -152,7 +152,7 @@ router.put("/:id", verifyToken, async (req, res) => {
       if (userRole !== "SuperAdmin" && shipment.userId !== userId) {
         return res.status(403).json({
           error:
-            "Solo el SuperAdmin o el propietario pueden cancelar este envío.",
+            "Solo el SuperAdmin puede cancelar este envío.",
         });
       }
 
